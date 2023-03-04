@@ -55,7 +55,4 @@ public class Lit {
                 ", type=" + type +
                 '}';
     }
-    public Lit(String s){
-
-    }
 }

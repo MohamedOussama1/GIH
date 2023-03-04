@@ -14,11 +14,13 @@ public class GetSessionFactory {
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
+
             // Create Configuration
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
             configuration.setProperty("hibernate.connection.autocommit", "true");
             configuration.addAnnotatedClass(Lit.class);
+
             // Create Session Factory
             sessionFactory = configuration.buildSessionFactory();
         }

@@ -1,16 +1,15 @@
 package ma.uiass.eia.pds.persistance;
 
+import ma.uiass.eia.pds.model.EtatLit;
 import ma.uiass.eia.pds.model.Lit;
+import ma.uiass.eia.pds.model.TypeLit;
 
 import java.util.List;
 
 public interface LitRepository {
-    List<Lit> findAllLits();
-    Lit findById(Long id);
-
-    List<Lit> findLitByType(String title);
-
-    void saveLit(Lit b);
-
-    void deleteLit(Lit b);
+    List<Lit> findAllLit();
+    void saveLit(Lit lit);
+    void updateLit(int id, EtatLit etatLit, TypeLit typeLit);
+    void deleteLit(int id);
+    List<Lit> findLitByEtat(String title);
 }

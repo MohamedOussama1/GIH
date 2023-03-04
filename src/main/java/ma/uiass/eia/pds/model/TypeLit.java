@@ -8,6 +8,7 @@ public enum TypeLit {
     TypeLit(String name){
         this.name = name;
     }
+    // Convert String coming from the Front End to Enum
     public static TypeLit fromString(String s){
         TypeLit typeLit = STANDARD;
         if (s.equalsIgnoreCase("électrique"))

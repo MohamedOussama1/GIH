@@ -1,17 +1,21 @@
 package ma.uiass.eia.pds.model;
 
 public enum EtatLit {
-    DISPONIBLE("disponible"),
-    OCCUPE("occupé"),
-    EN_STOCK("en stock"),
-    DEFECTUEUX("défectueux");
+    DISPONIBLE("Disponible"),
+    OCCUPE("Occupé"),
+    EN_STOCK("En Stock"),
+    DEFECTUEUX("Défectueux");
     String name;
     EtatLit(String name){
         this.name = name;
     }
+    // Convert String coming from the Front End to Enum
     public static EtatLit fromString(String s){
-        EtatLit etatLit = EN_STOCK;
+        EtatLit etatLit = null;
         switch (s.toLowerCase()) {
+            case "en stock":
+                etatLit = EN_STOCK;
+                break;
             case "disponible":
                 etatLit = DISPONIBLE;
                 break;
