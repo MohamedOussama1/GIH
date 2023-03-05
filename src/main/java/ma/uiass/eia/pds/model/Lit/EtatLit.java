@@ -3,7 +3,6 @@ package ma.uiass.eia.pds.model;
 public enum EtatLit {
     DISPONIBLE("Disponible"),
     OCCUPE("Occupé"),
-    EN_STOCK("En Stock"),
     DEFECTUEUX("Défectueux");
     String name;
     EtatLit(String name){
@@ -13,9 +12,6 @@ public enum EtatLit {
     public static EtatLit fromString(String s){
         EtatLit etatLit = null;
         switch (s.toLowerCase()) {
-            case "en stock":
-                etatLit = EN_STOCK;
-                break;
             case "disponible":
                 etatLit = DISPONIBLE;
                 break;
