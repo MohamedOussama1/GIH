@@ -58,21 +58,33 @@ public class Main {
         Espace chambre = new Chambre(200, cardiologie, TypeChambre.DOUBLE);
 
         // LitEquipe
-        LitEquipe litEquipe = new LitEquipe();
-        litEquipe.setType(TypeLit.ELECTRIC);
-        litEquipe.setEtat(EtatLit.DISPONIBLE);
+        LitEquipe litEquipeSalle = new LitEquipe();
+        litEquipeSalle.setType(TypeLit.ELECTRIC);
+        litEquipeSalle.setEtat(EtatLit.DISPONIBLE);
+        litEquipeSalle.setEspace(salle);
+
+        LitEquipe litEquipeChambre = new LitEquipe();
+        litEquipeChambre.setType(TypeLit.ELECTRIC);
+        litEquipeChambre.setEtat(EtatLit.DISPONIBLE);
+        litEquipeChambre.setEspace(chambre);
 
         // Dm
-        Dm dm = new Dm();
-        dm.setNom("ciseaux");
-        dm.setLit(litEquipe);
+        Dm ciseaux = new Dm();
+        ciseaux.setNom("ciseaux");
+        ciseaux.setLit(litEquipeChambre);
+        Dm scanner = new Dm();
+        scanner.setNom("scanner");
+        scanner.setLit(litEquipeSalle);
+
 
         // Save entities
         session.save(cardiologie);
         session.save(salle);
         session.save(chambre);
-        session.save(litEquipe);
-        session.save(dm);
+        session.save(litEquipeSalle);
+        session.save(litEquipeChambre);
+        session.save(ciseaux);
+        session.save(scanner);
 
         // Commit and close session
         session.getTransaction().commit();
