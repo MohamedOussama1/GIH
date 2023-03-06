@@ -3,7 +3,7 @@ package ma.uiass.eia.pds.model.Lit;
 import javax.persistence.*;
 
 @Entity(name="t_lit")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Lit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
