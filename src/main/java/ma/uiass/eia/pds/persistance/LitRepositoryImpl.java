@@ -1,8 +1,8 @@
 package ma.uiass.eia.pds.persistance;
 
-import ma.uiass.eia.pds.model.EtatLit;
-import ma.uiass.eia.pds.model.Lit;
-import ma.uiass.eia.pds.model.TypeLit;
+import ma.uiass.eia.pds.model.Lit.EtatLit;
+import ma.uiass.eia.pds.model.Lit.Lit;
+import ma.uiass.eia.pds.model.Lit.TypeLit;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -21,7 +21,7 @@ public class LitRepositoryImpl implements LitRepository{
         // Criteria Builder to build our queries
         CriteriaBuilder builder = session.getCriteriaBuilder();
 
-        // Create a query, <Lit> and Lit.class indicates that the query is of return type is Lit
+        // Create a query, <Lit> and Lit.class indicates that the query is of return type Lit
         CriteriaQuery<Lit> criteria = builder.createQuery(Lit.class);
 
         // This line is equivalent to writing "FROM t_lit" in the query, root contains columns of table t_lit

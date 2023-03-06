@@ -1,8 +1,8 @@
-package ma.uiass.eia.pds.service;
+package ma.uiass.eia.pds.metier;
 
-import ma.uiass.eia.pds.model.EtatLit;
-import ma.uiass.eia.pds.model.Lit;
-import ma.uiass.eia.pds.model.TypeLit;
+import ma.uiass.eia.pds.model.Lit.EtatLit;
+import ma.uiass.eia.pds.model.Lit.Lit;
+import ma.uiass.eia.pds.model.Lit.TypeLit;
 import ma.uiass.eia.pds.persistance.LitRepository;
 import ma.uiass.eia.pds.persistance.LitRepositoryImpl;
 
@@ -20,7 +20,7 @@ public class LitServiceImpl implements LitService{
     }
 
     @Override
-    public List<Lit> getLitsByEtat(String etatLit) {
+    public List<Lit> findByEtat(String etatLit) {
         return litRepository.findLitByEtat(etatLit);
     }
 
@@ -34,9 +34,4 @@ public class LitServiceImpl implements LitService{
         litRepository.deleteLit(id);
     }
 
-    @Override
-    public double calculateUseRate() {
-        // To implement
-        return 0;
-    }
 }

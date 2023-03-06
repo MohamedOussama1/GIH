@@ -1,12 +1,13 @@
-package ma.uiass.eia.pds.model;
+package ma.uiass.eia.pds.model.Lit;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name="t_lit")
+@Entity(name="t_lit")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Lit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="lit_id")
     int numero;
     @Enumerated(EnumType.STRING)
     EtatLit etat;

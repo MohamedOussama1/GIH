@@ -3,11 +3,11 @@ package ma.uiass.eia.pds.controller;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ma.uiass.eia.pds.model.EtatLit;
-import ma.uiass.eia.pds.model.Lit;
-import ma.uiass.eia.pds.model.TypeLit;
-import ma.uiass.eia.pds.service.LitService;
-import ma.uiass.eia.pds.service.LitServiceImpl;
+import ma.uiass.eia.pds.model.Lit.EtatLit;
+import ma.uiass.eia.pds.model.Lit.Lit;
+import ma.uiass.eia.pds.metier.LitService;
+import ma.uiass.eia.pds.metier.LitServiceImpl;
+import ma.uiass.eia.pds.model.Lit.TypeLit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +30,11 @@ public class LitController {
     }
     @GET
     @Path("/{etat}")
-    public Response getLitsByEtat(@PathParam(value = "etat") String etatLit){
+    public Response getLitsByEtat(
+            @PathParam(value = "etat") String etatLit){
         List<String> lits = new ArrayList<>();
         litService
-                .getLitsByEtat(etatLit)
+                .findByEtat(etatLit)
                 .forEach(elt -> lits.add(elt.toString()));
         return Response
                 .ok()
@@ -43,7 +44,9 @@ public class LitController {
     @Produces(MediaType.APPLICATION_JSON)
     @POST
     @Path("/{etat}/{type}")
-    public Response postLit(@PathParam(value = "etat") String etatLit,@PathParam(value = "type") String typeLit){
+    public Response postLit(
+            @PathParam(value = "etat") String etatLit,
+            @PathParam(value = "type") String typeLit){
             litService.addLit(new Lit(EtatLit.fromString(etatLit), TypeLit.fromString(typeLit)));
             return Response
                     .ok()
@@ -51,7 +54,10 @@ public class LitController {
         }
     @PUT
     @Path("/{id}/{etat}/{type}")
-    public Response modifyLit(@PathParam(value = "id") int id, @PathParam(value = "etat") String etatLit, @PathParam(value = "type") String typeLit){
+    public Response modifyLit(
+            @PathParam(value = "id") int id,
+            @PathParam(value = "etat") String etatLit,
+            @PathParam(value = "type") String typeLit){
             litService.updateLit(id, EtatLit.fromString(etatLit), TypeLit.fromString(typeLit));
             return Response
                     .ok()
@@ -59,7 +65,8 @@ public class LitController {
     }
     @DELETE
     @Path("/{id}")
-    public Response deleteLit(@PathParam(value = "id") int id){
+    public Response deleteLit(
+            @PathParam(value = "id") int id){
         litService.deleteLit(id);
         return Response
                 .ok()
