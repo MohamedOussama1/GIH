@@ -4,6 +4,7 @@ import ma.uiass.eia.pds.model.Lit.EtatLit;
 import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.Lit.LitEquipe;
 import ma.uiass.eia.pds.model.Lit.TypeLit;
+import ma.uiass.eia.pds.model.batiment.Batiment;
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.departement.NomDepartement;
 import ma.uiass.eia.pds.model.dm.Dm;
@@ -53,9 +54,19 @@ public class Main {
         cardiologie.setCapacity(200);
         cardiologie.setNomDepartement(NomDepartement.CARDIOLOGIE);
 
+        // Batiment
+        Batiment batiment1 = new Batiment();
+        batiment1.setDepartement(cardiologie);
+        batiment1.setNomBatiment("Batiment 1");
+
+        Batiment batiment2 = new Batiment();
+        batiment2.setDepartement(cardiologie);
+        batiment2.setNomBatiment("Batiment 1");
+
         // Chambre et Salle
-        Espace salle = new Salle(100, cardiologie, TypeSalle.SALLE_EXAMINATION);
-        Espace chambre = new Chambre(200, cardiologie, TypeChambre.DOUBLE);
+        Espace salle = new Salle(100, batiment2, TypeSalle.SALLE_EXAMINATION);
+        Espace chambre = new Chambre(200, batiment1, TypeChambre.DOUBLE);
+
 
         // LitEquipe
         LitEquipe litEquipeSalle = new LitEquipe();
@@ -79,6 +90,8 @@ public class Main {
 
         // Save entities
         session.save(cardiologie);
+        session.save(batiment1);
+        session.save(batiment2);
         session.save(salle);
         session.save(chambre);
         session.save(litEquipeSalle);

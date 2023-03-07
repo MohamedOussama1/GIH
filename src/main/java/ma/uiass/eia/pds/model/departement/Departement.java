@@ -1,6 +1,6 @@
 package ma.uiass.eia.pds.model.departement;
 
-import ma.uiass.eia.pds.model.espace.Espace;
+import ma.uiass.eia.pds.model.batiment.Batiment;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,12 +16,12 @@ public  class Departement {
     NomDepartement nomDepartement;
     int capacity;
     @OneToMany(mappedBy = "departement")
-    List<Espace> espaces = new ArrayList<>();
+    List<Batiment> batiment = new ArrayList<>();
     public Departement(){}
-    public Departement(NomDepartement nomDepartement, int capacity, List<Espace> espaces) {
+    public Departement(NomDepartement nomDepartement, int capacity, List<Batiment> batiment) {
         this.nomDepartement = nomDepartement;
         this.capacity = capacity;
-        this.espaces = espaces;
+        this.batiment = batiment;
     }
 
     public int getDepartment_id() {
@@ -48,12 +48,12 @@ public  class Departement {
         this.capacity = capacity;
     }
 
-    public List<Espace> getEspaces() {
-        return espaces;
+    public List<Batiment> getbatiments() {
+        return batiment;
     }
 
-    public void setEspaces(List<Espace> espaces) {
-        this.espaces = espaces;
+    public void setbatiments(List<Batiment> batiment) {
+        this.batiment = batiment;
     }
 
 

@@ -1,6 +1,6 @@
 package ma.uiass.eia.pds.model.espace.chambre;
 
-import ma.uiass.eia.pds.model.departement.Departement;
+import ma.uiass.eia.pds.model.batiment.Batiment;
 import ma.uiass.eia.pds.model.espace.Espace;
 
 import javax.persistence.*;
@@ -16,8 +16,8 @@ public class Chambre extends Espace {
     }
     public Chambre(){}
 
-    public Chambre(double superficie, Departement departement, TypeChambre typeChambre) {
-        super(superficie, departement);
+    public Chambre(double superficie, Batiment batiment, TypeChambre typeChambre) {
+        super(superficie, batiment);
         this.typeChambre = typeChambre;
     }
 

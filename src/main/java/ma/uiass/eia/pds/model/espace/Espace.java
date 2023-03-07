@@ -1,9 +1,11 @@
 package ma.uiass.eia.pds.model.espace;
 
 import ma.uiass.eia.pds.model.Lit.LitEquipe;
-import ma.uiass.eia.pds.model.departement.Departement;
+import ma.uiass.eia.pds.model.batiment.Batiment;
+import ma.uiass.eia.pds.model.batiment.Batiment;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "t_espace")
@@ -17,15 +19,15 @@ public abstract class Espace {
     int id;
 
     double superficie;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="department_id")
-    Departement departement;
+    @ManyToOne
+    @JoinColumn(name="batiment_id")
+    Batiment batiment;
     @OneToMany(mappedBy = "espace")
-    List<LitEquipe> lstLitEquipe;
+    List<LitEquipe> lstLitEquipe = new ArrayList<>();
     public Espace(){}
-    public Espace(double superficie, Departement departement) {
+    public Espace(double superficie, Batiment batiment) {
         this.superficie = superficie;
-        this.departement = departement;
+        this.batiment = batiment;
     }
 
     public int getId() {
@@ -44,11 +46,11 @@ public abstract class Espace {
         this.superficie = superficie;
     }
 
-    public Departement getDepartement() {
-        return departement;
+    public Batiment getBatiment() {
+        return batiment;
     }
 
-    public void setDepartement(Departement departement) {
-        this.departement = departement;
+    public void setBatiment(Batiment batiment) {
+        this.batiment = batiment;
     }
 }

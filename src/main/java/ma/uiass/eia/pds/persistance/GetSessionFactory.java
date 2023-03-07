@@ -2,6 +2,7 @@ package ma.uiass.eia.pds.persistance;
 
 import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.Lit.LitEquipe;
+import ma.uiass.eia.pds.model.batiment.Batiment;
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.dm.Dm;
 import ma.uiass.eia.pds.model.espace.Espace;
@@ -27,6 +28,7 @@ public class GetSessionFactory {
             configuration.setProperty("hibernate.connection.autocommit", "true");
             configuration.addAnnotatedClass(Lit.class);
             configuration.addAnnotatedClass(Departement.class);
+            configuration.addAnnotatedClass(Batiment.class);
             configuration.addAnnotatedClass(Espace.class);
             configuration.addAnnotatedClass(Salle.class);
             configuration.addAnnotatedClass(Chambre.class);
