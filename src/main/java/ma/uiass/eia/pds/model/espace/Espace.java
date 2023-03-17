@@ -1,8 +1,9 @@
 package ma.uiass.eia.pds.model.espace;
 
+import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.Lit.LitEquipe;
-import ma.uiass.eia.pds.model.batiment.Batiment;
-import ma.uiass.eia.pds.model.batiment.Batiment;
+import ma.uiass.eia.pds.model.departement.Departement;
+import ma.uiass.eia.pds.model.departement.Departement;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,17 +18,28 @@ public abstract class Espace {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "espace_id")
     int id;
-
+    @Column(name = "espace_nom")
+    String nomEspace;
     double superficie;
     @ManyToOne
-    @JoinColumn(name="batiment_id")
-    Batiment batiment;
+    @JoinColumn(name="departement_id")
+    Departement departement;
     @OneToMany(mappedBy = "espace")
-    List<LitEquipe> lstLitEquipe = new ArrayList<>();
+    List<Lit> lstLitEquipe = new ArrayList<>();
     public Espace(){}
-    public Espace(double superficie, Batiment batiment) {
+
+    public Espace(String nomEspace, double superficie, Departement departement) {
+        this.nomEspace = nomEspace;
         this.superficie = superficie;
-        this.batiment = batiment;
+        this.departement = departement;
+    }
+
+    public String getNomEspace() {
+        return nomEspace;
+    }
+
+    public void setNomEspace(String nomEspace) {
+        this.nomEspace = nomEspace;
     }
 
     public int getId() {
@@ -46,11 +58,11 @@ public abstract class Espace {
         this.superficie = superficie;
     }
 
-    public Batiment getBatiment() {
-        return batiment;
+    public Departement getDepartement() {
+        return departement;
     }
 
-    public void setBatiment(Batiment batiment) {
-        this.batiment = batiment;
+    public void setDepartement(Departement departement) {
+        this.departement = departement;
     }
 }

@@ -2,6 +2,7 @@ package ma.uiass.eia.pds.model.batiment;
 
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.espace.Espace;
+import ma.uiass.eia.pds.model.etage.Etage;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,10 +17,11 @@ public class Batiment {
     @Column(name = "batiment_nom")
     String nomBatiment;
     @OneToMany(mappedBy = "batiment")
-    List<Espace> espaces = new ArrayList<>();
-    @ManyToOne
-    @JoinColumn(name = "departement_id")
-    Departement departement;
+    List<Etage> etage;
+    public Batiment(){}
+    public Batiment(String nomBatiment) {
+        this.nomBatiment = nomBatiment;
+    }
 
     public int getId() {
         return id;
@@ -37,19 +39,11 @@ public class Batiment {
         this.nomBatiment = nomBatiment;
     }
 
-    public List<Espace> getEspaces() {
-        return espaces;
+    public List<Etage> getEtage() {
+        return etage;
     }
 
-    public void setEspaces(List<Espace> espaces) {
-        this.espaces = espaces;
-    }
-
-    public Departement getDepartement() {
-        return departement;
-    }
-
-    public void setDepartement(Departement departement) {
-        this.departement = departement;
+    public void setEtage(List<Etage> etage) {
+        this.etage = etage;
     }
 }

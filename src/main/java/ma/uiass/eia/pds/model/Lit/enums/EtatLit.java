@@ -1,4 +1,4 @@
-package ma.uiass.eia.pds.model.Lit;
+package ma.uiass.eia.pds.model.Lit.enums;
 
 public enum EtatLit {
     DISPONIBLE("Disponible"),

@@ -1,16 +1,20 @@
 package ma.uiass.eia.pds.controller;
 
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ma.uiass.eia.pds.model.Lit.EtatLit;
-import ma.uiass.eia.pds.model.Lit.Lit;
+import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
 import ma.uiass.eia.pds.metier.LitService;
 import ma.uiass.eia.pds.metier.LitServiceImpl;
-import ma.uiass.eia.pds.model.Lit.TypeLit;
+import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
+import ma.uiass.eia.pds.model.Lit.enums.TypeLit;
+import ma.uiass.eia.pds.model.reservation.Reservation;
 
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Path("lits")
 public class LitController {
@@ -41,24 +45,75 @@ public class LitController {
                 .entity(lits)
                 .build();
     }
-    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @POST
-    @Path("/{etat}/{type}")
-    public Response postLit(
-            @PathParam(value = "etat") String etatLit,
-            @PathParam(value = "type") String typeLit){
-            litService.addLit(new Lit(EtatLit.fromString(etatLit), TypeLit.fromString(typeLit)));
+    public Response postLitDescription(
+            @QueryParam(value = "type") String type,
+            @QueryParam(value = "model") String modelLit,
+            @QueryParam(value = "dimensions")String dimensions,
+            @QueryParam(value = "chargeMax") double chargeMax,
+            @QueryParam(value = "garantie") int garantie,
+            @QueryParam(value = "prix") double prix,
+            @QueryParam(value = "description") String description
+    ){
+        litService.addLitDescription(TypeLit.valueOf(type), ModelLit.valueOf(modelLit), dimensions, chargeMax, Period.of(garantie, 0, 0), prix, description);
             return Response
                     .ok()
                     .build();
         }
+    @Consumes(MediaType.APPLICATION_JSON)
+    @POST
+    @Path("/items")
+    public Response PostLitItem(
+            @QueryParam(value = "quantity") int quantity,
+            @QueryParam(value = "idLitDescription") int idLitDescription
+        ){
+        litService.addLits(quantity, idLitDescription);
+        return Response
+                .ok()
+                .build();
+        }
+
+    // Gerer Reservations
+    @POST
+    @Path("reservation")
+    public Response OccuperLit(
+//            @QueryParam(value = "dateDebut") String dateDebut,
+//            @QueryParam(value = "dateFin") String dateFin,
+//            @QueryParam(value = "id") int id
+            Reservation reservation
+    ){
+        litService.reserverLit(reservation.getDateDebut(), reservation.getDateFin(), reservation.getId());
+        return Response
+                .ok()
+                .entity(reservation.getDateDebut())
+                .build();
+    }
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("reservation")
+    public Response getReservations(
+            @QueryParam(value = "id") int idLit
+    ){
+        List<String> reservations = new ArrayList<>();
+        litService
+                .findReservations(idLit)
+                .forEach(elt -> reservations.add(elt.toString()));
+        return Response
+                .ok()
+                .entity(reservations)
+                .build();
+    }
+
+    // Admin
+
     @PUT
     @Path("/{id}/{etat}/{type}")
     public Response modifyLit(
             @PathParam(value = "id") int id,
             @PathParam(value = "etat") String etatLit,
             @PathParam(value = "type") String typeLit){
-            litService.updateLit(id, EtatLit.fromString(etatLit), TypeLit.fromString(typeLit));
+            litService.updateLit(id, EtatLit.fromString(etatLit));
             return Response
                     .ok()
                     .build();

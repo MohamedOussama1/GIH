@@ -1,29 +1,35 @@
 package ma.uiass.eia.pds;
 
-import ma.uiass.eia.pds.model.Lit.EtatLit;
+import ma.uiass.eia.pds.model.Lit.Dimensions;
 import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.Lit.LitEquipe;
-import ma.uiass.eia.pds.model.Lit.TypeLit;
+import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
+import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
+import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
+import ma.uiass.eia.pds.model.Lit.enums.TypeLit;
 import ma.uiass.eia.pds.model.batiment.Batiment;
 import ma.uiass.eia.pds.model.departement.Departement;
-import ma.uiass.eia.pds.model.departement.NomDepartement;
-import ma.uiass.eia.pds.model.dm.Dm;
 import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.model.espace.chambre.Chambre;
 import ma.uiass.eia.pds.model.espace.chambre.TypeChambre;
 import ma.uiass.eia.pds.model.espace.salle.Salle;
 import ma.uiass.eia.pds.model.espace.salle.TypeSalle;
+import ma.uiass.eia.pds.model.etage.Etage;
+import ma.uiass.eia.pds.model.reservation.Reservation;
 import ma.uiass.eia.pds.persistance.GetSessionFactory;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.hibernate.Session;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
     // Base URI the Grizzly HTTP server will listen on
@@ -45,65 +51,69 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        // Test Hibernate
-        Session session = GetSessionFactory.getSessionFactory().openSession();
-        session.beginTransaction();
+//         Populate DB
 
-        // Cardiologie
-        Departement cardiologie = new Departement();
-        cardiologie.setCapacity(200);
-        cardiologie.setNomDepartement(NomDepartement.CARDIOLOGIE);
-
-        // Batiment
-        Batiment batiment1 = new Batiment();
-        batiment1.setDepartement(cardiologie);
-        batiment1.setNomBatiment("Batiment 1");
-
-        Batiment batiment2 = new Batiment();
-        batiment2.setDepartement(cardiologie);
-        batiment2.setNomBatiment("Batiment 1");
-
-        // Chambre et Salle
-        Espace salle = new Salle(100, batiment2, TypeSalle.SALLE_EXAMINATION);
-        Espace chambre = new Chambre(200, batiment1, TypeChambre.DOUBLE);
-
-
-        // LitEquipe
-        LitEquipe litEquipeSalle = new LitEquipe();
-        litEquipeSalle.setType(TypeLit.ELECTRIC);
-        litEquipeSalle.setEtat(EtatLit.DISPONIBLE);
-        litEquipeSalle.setEspace(salle);
-
-        LitEquipe litEquipeChambre = new LitEquipe();
-        litEquipeChambre.setType(TypeLit.ELECTRIC);
-        litEquipeChambre.setEtat(EtatLit.DISPONIBLE);
-        litEquipeChambre.setEspace(chambre);
-
-        // Dm
-        Dm ciseaux = new Dm();
-        ciseaux.setNom("ciseaux");
-        ciseaux.setLit(litEquipeChambre);
-        Dm scanner = new Dm();
-        scanner.setNom("scanner");
-        scanner.setLit(litEquipeSalle);
-
-
-        // Save entities
-        session.save(cardiologie);
-        session.save(batiment1);
-        session.save(batiment2);
-        session.save(salle);
-        session.save(chambre);
-        session.save(litEquipeSalle);
-        session.save(litEquipeChambre);
-        session.save(ciseaux);
-        session.save(scanner);
-
-        // Commit and close session
-        session.getTransaction().commit();
-        session.close();
-
-
+//        Batiment batimentA = new Batiment("BatimentA");
+//        Batiment batimentB = new Batiment("BatimentB");
+//
+//        Etage etageA1 = new Etage(1, batimentA);
+//        Etage etageA2 =new Etage(2, batimentA);
+//        Etage etageA3 =new Etage(3, batimentA);
+//
+//        Etage etageB1 = new Etage(1, batimentB);
+//        Etage etageB2 =new Etage(2, batimentB);
+//        Etage etageB3 =new Etage(3, batimentB);
+//
+//        Departement cardiologie = new Departement("Cardiologie", etageA1);
+//        Departement radiologie = new Departement("Radiologie", etageA1);
+//
+//        Departement neurologie = new Departement("Neurologie", etageA2);
+//        Departement oncologie = new Departement("Oadiologie", etageA3);
+//
+//        Espace salleExamination = new Salle("Examination", 20, cardiologie, TypeSalle.SALLE_EXAMINATION);
+//        Espace salleReanimation = new Salle("reveil", 30, cardiologie, TypeSalle.SALLE_REVEIL );
+//
+//        Espace salleExma = new Salle("Exam", 20, neurologie, TypeSalle.SALLE_EXAMINATION);
+//        Espace salleReanim = new Salle("rev", 30, neurologie, TypeSalle.SALLE_REVEIL );
+//
+//        Espace chambre1 = new Chambre("ch1", 30, cardiologie, TypeChambre.MULTI );
+//        Espace chambre2 = new Chambre("ch2", 30, cardiologie, TypeChambre.MULTI );
+//        Espace chambre3 = new Chambre("ch3", 10, cardiologie, TypeChambre.SINGLE );
+//
+//        Lit litCardiologie1 = new Lit(TypeLit.ELECTRIC, ModelLit.STANDARD, "200x150x50", 150, Period.of(5, 0, 0), 11000,"Lit standard");
+//        litCardiologie1.setEtat(EtatLit.OCCUPE);
+//        Reservation reservation = new Reservation(LocalDateTime.of(2023, 3, 17, 12, 30, 0), LocalDateTime.of(2023, 3, 18, 12, 30, 0), litCardiologie1);
+//        Set fonctions = new HashSet();
+//        fonctions.addAll(Arrays.asList(FonctionLit.INCLINAISON_LIT, FonctionLit.POSITION_ASSISE, FonctionLit.TRENDELENBURG));
+//        litCardiologie1.setFonctionsLit(fonctions);
+//        litCardiologie1.setEspace(chambre1);
+//        System.out.println(litCardiologie1);
+//
+//        Session session = GetSessionFactory.getSessionFactory().openSession();
+//        session.beginTransaction();
+//        session.save(batimentA);
+//        session.save(batimentB);
+//        session.save(etageA1);
+//        session.save(etageB1);
+//        session.save(etageA2);
+//        session.save(etageB2);
+//        session.save(etageA3);
+//        session.save(etageB3);
+//        session.save(cardiologie);
+//        session.save(neurologie);
+//        session.save(radiologie);
+//        session.save(oncologie);
+//        session.save(salleExamination);
+//        session.save(salleReanimation);
+//        session.save(salleReanim);
+//        session.save(salleExma);
+//        session.save(chambre1);
+//        session.save(chambre2);
+//        session.save(chambre3);
+//        session.save(litCardiologie1);
+//        session.save(reservation);
+//        session.getTransaction().commit();
+//        session.close();
 
         final HttpServer server = startServer();
         System.out.println(String.format("Jersey app started with endpoints available at "

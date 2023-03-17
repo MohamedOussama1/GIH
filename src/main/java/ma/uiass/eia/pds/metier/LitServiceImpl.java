@@ -1,32 +1,57 @@
 package ma.uiass.eia.pds.metier;
 
-import ma.uiass.eia.pds.model.Lit.EtatLit;
+import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
 import ma.uiass.eia.pds.model.Lit.Lit;
-import ma.uiass.eia.pds.model.Lit.TypeLit;
+import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
+import ma.uiass.eia.pds.model.Lit.enums.TypeLit;
+import ma.uiass.eia.pds.model.reservation.Reservation;
 import ma.uiass.eia.pds.persistance.LitRepository;
 import ma.uiass.eia.pds.persistance.LitRepositoryImpl;
+import ma.uiass.eia.pds.persistance.ReservationRepository;
+import ma.uiass.eia.pds.persistance.ReservationRepositoryImpl;
 
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.List;
 
 public class LitServiceImpl implements LitService{
     private LitRepository litRepository = new LitRepositoryImpl();
+    private ReservationRepository reservationRepository = new ReservationRepositoryImpl();
     @Override
-    public void addLit(Lit lit) {
-        litRepository.saveLit(lit);
+    public void addLitDescription(TypeLit type, ModelLit modelLit, String dimensions, double chargeMax, Period garantie, double prix, String description) {
+        litRepository.saveLit(type, modelLit, dimensions, chargeMax, garantie, prix, description);
     }
+
+    @Override
+    public void addLits(int quantity, int litDescriptionId) {
+        litRepository.saveManyLit(quantity, litDescriptionId);
+    }
+
+    @Override
+    public void reserverLit(LocalDateTime dateDebut, LocalDateTime dateFin, int id) {
+        litRepository.occuperLit(id, dateDebut, dateFin);
+    }
+
+    @Override
+    public List<Reservation> findReservations(int idLit) {
+        return reservationRepository.getReservationsLit(idLit);
+    }
+
+
     @Override
     public List<Lit> getLits() {
-        return litRepository.findAllLit();
+//        return litRepository.findAllLit();
+        return null;
     }
 
     @Override
     public List<Lit> findByEtat(String etatLit) {
-        return litRepository.findLitByEtat(etatLit);
+        return null;
     }
 
     @Override
-    public void updateLit(int id, EtatLit etatLit, TypeLit typeLit) {
-        litRepository.updateLit(id, etatLit, typeLit);
+    public void updateLit(int id, EtatLit etatLit) {
+        litRepository.updateLit(id, etatLit);
     }
 
     @Override

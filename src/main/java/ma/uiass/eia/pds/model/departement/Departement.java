@@ -1,6 +1,7 @@
 package ma.uiass.eia.pds.model.departement;
 
-import ma.uiass.eia.pds.model.batiment.Batiment;
+import ma.uiass.eia.pds.model.etage.Etage;
+import ma.uiass.eia.pds.model.etage.Etage;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,33 +11,46 @@ import java.util.List;
 @Table(name="t_departement")
 public  class Departement {
     @Id
+    @Column(name = "departement_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int department_id;
-    @Enumerated(EnumType.STRING)
-    NomDepartement nomDepartement;
+    int id;
+    @Column(name = "departement_nom")
+    String nomDepartement;
     int capacity;
-    @OneToMany(mappedBy = "departement")
-    List<Batiment> batiment = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "etage_id")
+    Etage etage;
     public Departement(){}
-    public Departement(NomDepartement nomDepartement, int capacity, List<Batiment> batiment) {
+    public Departement(String nomDepartement, int capacity, Etage etage) {
         this.nomDepartement = nomDepartement;
         this.capacity = capacity;
-        this.batiment = batiment;
+        this.etage = etage;
     }
 
-    public int getDepartment_id() {
-        return department_id;
+    public Departement(String nomDepartement, Etage etage) {
+        this.nomDepartement = nomDepartement;
+        this.etage = etage;
     }
 
-    public void setDepartment_id(int department_id) {
-        this.department_id= department_id;
+    public Departement(String nomDepartement, int capacity) {
+        this.nomDepartement = nomDepartement;
+        this.capacity = capacity;
     }
 
-    public NomDepartement getNomDepartement() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id= id;
+    }
+
+    public String getNomDepartement() {
         return nomDepartement;
     }
 
-    public void setNomDepartement(NomDepartement nomDepartement) {
+    public void setNomDepartement(String nomDepartement) {
         this.nomDepartement = nomDepartement;
     }
 
@@ -48,12 +62,12 @@ public  class Departement {
         this.capacity = capacity;
     }
 
-    public List<Batiment> getbatiments() {
-        return batiment;
+    public Etage getEtage() {
+        return etage;
     }
 
-    public void setbatiments(List<Batiment> batiment) {
-        this.batiment = batiment;
+    public void setEtage(Etage etage) {
+        this.etage = etage;
     }
 
 

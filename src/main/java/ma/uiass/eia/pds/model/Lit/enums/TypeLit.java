@@ -1,8 +1,8 @@
-package ma.uiass.eia.pds.model.Lit;
+package ma.uiass.eia.pds.model.Lit.enums;
 
 public enum TypeLit {
-    STANDARD("standard"),
-    ELECTRIC("électrique");
+    MECANIQUE("Mécanique"),
+    ELECTRIQUE("Électrique");
     String name;
 
     TypeLit(String name){
@@ -10,9 +10,9 @@ public enum TypeLit {
     }
     // Convert String coming from the Front End to Enum
     public static TypeLit fromString(String s){
-        TypeLit typeLit = STANDARD;
-        if (s.equalsIgnoreCase("électrique"))
-            typeLit = ELECTRIC;
+        TypeLit typeLit = MECANIQUE;
+        if (s.equalsIgnoreCase("electrique"))
+            typeLit = ELECTRIQUE;
         return typeLit;
     }
 }

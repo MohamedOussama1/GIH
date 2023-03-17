@@ -2,10 +2,14 @@ package ma.uiass.eia.pds.metier;
 
 
 import ma.uiass.eia.pds.model.Lit.Lit;
+import ma.uiass.eia.pds.persistance.*;
 
 import java.util.List;
 
 public class LitManagerImpl implements LitManager {
+    SalleRepository salleRepository = new SalleRepositoryImpl();
+    ChambreRepository chambreRepository = new ChambreRepositoryImpl();
+    LitRepository litRepository = new LitRepositoryImpl();
     @Override
     public int getCapacity() {
         return 0;
@@ -13,7 +17,7 @@ public class LitManagerImpl implements LitManager {
 
     @Override
     public List<Lit> getAllLit(String nomDepartement) {
-        return null;
+        return litRepository.findAllLit(nomDepartement);
     }
 
     @Override
@@ -28,17 +32,17 @@ public class LitManagerImpl implements LitManager {
 
     @Override
     public List<Lit> getAllLitChambre(String nomDepartement) {
-        return null;
+        return chambreRepository.getAllLitChambre(nomDepartement);
     }
 
     @Override
     public List<Lit> getAllDisponibleLitChambre(String nomDepartement) {
-        return null;
+        return chambreRepository.getAllDisponibleLitChambre(nomDepartement);
     }
 
     @Override
     public List<Lit> getAllOccupeLitChambre(String nomDepartement) {
-        return null;
+        return chambreRepository.getAllOccupeLitChambre(nomDepartement);
     }
 
     @Override
@@ -48,17 +52,17 @@ public class LitManagerImpl implements LitManager {
 
     @Override
     public List<Lit> getAllLitSalle(String nomDepartement) {
-        return null;
+        return salleRepository.getAllLitSalle(nomDepartement);
     }
 
     @Override
     public List<Lit> getAllDisponibleLitSalle(String nomDepartement) {
-        return null;
+        return salleRepository.getAllDisponibleLitSalle(nomDepartement);
     }
 
     @Override
     public List<Lit> getAllOccupeLitSalle(String nomDepartement) {
-        return null;
+        return salleRepository.getAllOccupeLitSalle(nomDepartement);
     }
 
     @Override

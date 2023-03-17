@@ -1,6 +1,7 @@
 package ma.uiass.eia.pds.metier;
 
 import ma.uiass.eia.pds.model.Lit.Lit;
+import ma.uiass.eia.pds.model.Lit.LitEquipe;
 
 import java.util.List;
 
