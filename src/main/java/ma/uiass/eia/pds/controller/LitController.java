@@ -78,9 +78,6 @@ public class LitController {
     @POST
     @Path("reservation")
     public Response OccuperLit(
-//            @QueryParam(value = "dateDebut") String dateDebut,
-//            @QueryParam(value = "dateFin") String dateFin,
-//            @QueryParam(value = "id") int id
             Reservation reservation
     ){
         litService.reserverLit(reservation.getDateDebut(), reservation.getDateFin(), reservation.getId());
@@ -104,6 +101,7 @@ public class LitController {
                 .entity(reservations)
                 .build();
     }
+
 
     // Admin
 

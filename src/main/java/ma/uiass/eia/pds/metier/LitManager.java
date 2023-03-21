@@ -2,6 +2,7 @@ package ma.uiass.eia.pds.metier;
 
 import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.Lit.LitEquipe;
+import ma.uiass.eia.pds.model.espace.Espace;
 
 import java.util.List;
 
@@ -9,6 +10,9 @@ public interface LitManager {
 
     // Number of beds
     int getCapacity();
+
+    // Localisation
+    void deplacerLit(String nomDepartement, String typeEspace, int numEspace, int idLit);
 
     //
     List<Lit> getAllLit(String nomDepartement);

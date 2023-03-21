@@ -11,6 +11,7 @@ import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.model.espace.chambre.Chambre;
 import ma.uiass.eia.pds.model.espace.salle.Salle;
 import ma.uiass.eia.pds.model.etage.Etage;
+import ma.uiass.eia.pds.model.patient.Patient;
 import ma.uiass.eia.pds.model.reservation.Reservation;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -42,6 +43,7 @@ public class GetSessionFactory {
             configuration.addAnnotatedClass(Dm.class);
             configuration.addAnnotatedClass(Reservation.class);
             configuration.addAnnotatedClass(FonctionLit.class);
+            configuration.addAnnotatedClass(Patient.class);
             // Create Session Factory
             sessionFactory = configuration.buildSessionFactory();
         }

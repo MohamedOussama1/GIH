@@ -4,8 +4,6 @@ import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
 import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
 import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
 import ma.uiass.eia.pds.model.Lit.enums.TypeLit;
-import ma.uiass.eia.pds.model.espace.Espace;
-import ma.uiass.eia.pds.model.reservation.Reservation;
 
 import javax.persistence.*;
 import java.time.Period;
@@ -15,7 +13,6 @@ import java.util.List;
 import java.util.Set;
 
 @Entity(name="t_lit")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Lit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,12 +47,6 @@ public class Lit {
     String description;
     @OneToMany(mappedBy = "litDescription")
     List<LitItem> litsItem = new ArrayList<>();
-    @ManyToOne
-    @JoinColumn(name = "espace_id")
-    Espace espace;
-    @OneToOne
-    @JoinColumn(name = "reservation_id", referencedColumnName = "reservation_id")
-    Reservation reservation;
     public Lit(){}
 
     public Lit(TypeLit type, ModelLit modelLit, String dimensions, double chargeMax, Period garantie, double prix, String description) {
@@ -131,23 +122,6 @@ public class Lit {
         this.litsItem = litsItem;
     }
 
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
-
-
-    public Espace getEspace() {
-        return espace;
-    }
-
-    public void setEspace(Espace espace) {
-        this.espace = espace;
-    }
-
     public int getNumero() {
         return numero;
     }
@@ -184,11 +158,6 @@ public class Lit {
                 ", prix:" + prix +
                 ", garantie:" + garantie +
                 ", description:" + description +
-                ", espace:" + espace.getNomEspace() +
-                ", numEspace:" + espace.getId() +
-                ", departement:" + espace.getDepartement() +
-                ", etage:" + espace.getDepartement().getEtage() +
-                ", batiment:" + espace.getDepartement().getEtage().getBatiment() +
-                '}';
+                "}";
     }
 }

@@ -28,8 +28,33 @@ public class LitServiceImpl implements LitService{
     }
 
     @Override
-    public void reserverLit(LocalDateTime dateDebut, LocalDateTime dateFin, int id) {
-        litRepository.occuperLit(id, dateDebut, dateFin);
+    public void reserverLit(LocalDateTime dateDebut, LocalDateTime dateFin, int idLit) {
+        litRepository.occuperLit(idLit, dateDebut, dateFin);
+    }
+
+    @Override
+    public void annulerReservation(int idLit) {
+
+    }
+
+    @Override
+    public Reservation findReservation(int idReservation) {
+        return null;
+    }
+
+    @Override
+    public List<Reservation> getCurrentReservations() {
+        return null;
+    }
+
+    @Override
+    public List<Reservation> getCurrentReservation(Period period) {
+        return null;
+    }
+
+    @Override
+    public List<Reservation> getReservationHistorique() {
+        return null;
     }
 
     @Override

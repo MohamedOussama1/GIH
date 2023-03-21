@@ -16,9 +16,18 @@ public interface LitService {
 
     void addLitDescription(TypeLit type, ModelLit modelLit, String dimensions, double chargeMax, Period garantie, double prix, String description);
     void addLits(int quantity, int litDescriptionId);
-    void reserverLit(LocalDateTime dateDebut, LocalDateTime dateFin, int id);
-    List<Reservation> findReservations(int idLit);
     void updateLit(int id, EtatLit etatLit);
     void deleteLit(int id);
+
+    // Reservations
+    void reserverLit(LocalDateTime dateDebut, LocalDateTime dateFin, int idLit);
+    void annulerReservation(int idLit);
+    Reservation findReservation(int idReservation);
+    // DateVacation == null;
+    List<Reservation> getCurrentReservations();
+    List<Reservation> getCurrentReservation(Period period);
+    List<Reservation> getReservationHistorique();
+    List<Reservation> findReservations(int idLit);
+
 
 }

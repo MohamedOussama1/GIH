@@ -1,9 +1,6 @@
 package ma.uiass.eia.pds.controller;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import ma.uiass.eia.pds.metier.DepartementService;
 import ma.uiass.eia.pds.metier.DepartementServiceImpl;
@@ -139,5 +136,19 @@ public class DepartementController {
                         .status(Response.Status.NOT_FOUND)
                         .build();
         }
+    }
+    // Localisation
+    @PUT
+    @Path("{nomDepartement}")
+    public Response deplacerLit(
+            @PathParam(value = "nomDepartement") String nomDepartement,
+            @QueryParam(value = "idLit") int idLit,
+            @QueryParam(value = "typeEspace") String typeEspace,
+            @QueryParam(value = "numEspace") int numEspace
+    ){
+        litManager.deplacerLit(nomDepartement, typeEspace, numEspace, idLit);
+        return Response
+                .ok()
+                .build();
     }
 }

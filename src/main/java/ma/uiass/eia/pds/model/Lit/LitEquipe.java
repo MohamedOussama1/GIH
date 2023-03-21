@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "t_lit_equipe")
-public class LitEquipe extends Lit {
+public class LitEquipe extends LitItem {
     @OneToMany(mappedBy = "lit")
     List<Dm> lstDm = new ArrayList<>();
     public LitEquipe(){}

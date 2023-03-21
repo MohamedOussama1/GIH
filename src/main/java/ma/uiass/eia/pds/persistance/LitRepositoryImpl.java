@@ -1,5 +1,6 @@
 package ma.uiass.eia.pds.persistance;
 
+import ma.uiass.eia.pds.model.Lit.LitEquipe;
 import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
 import ma.uiass.eia.pds.model.Lit.Lit;
@@ -86,7 +87,7 @@ public class LitRepositoryImpl implements LitRepository{
     public void occuperLit(int id, LocalDateTime dateDebut, LocalDateTime dateFin) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Lit lit = session.find(Lit.class, id);
+        LitItem lit = session.find(LitItem.class, id);
         Reservation reservation = new Reservation(dateDebut, dateFin, lit);
         lit.setReservation(reservation);
         session.save(reservation);
@@ -106,5 +107,25 @@ public class LitRepositoryImpl implements LitRepository{
     @Override
     public void deleteManyLits(List<Integer> idLitList) {
 
+    }
+
+    @Override
+    public void deplacerLit(String nomDepartement, String typeEspace, int numEspace, int  idLit) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<Espace> criteria = criteriaBuilder.createQuery(Espace.class);
+        Root<Espace> rootEspace = criteria.from(Espace.class);
+        Join<Espace, Departement> departementJoin = rootEspace.join("departement_id");
+        criteria.select(rootEspace.get("id"));
+        criteria.where(criteriaBuilder.like(departementJoin.get("departement_nom"), nomDepartement));
+        criteria.where(criteriaBuilder.equal(rootEspace.get("numero"), numEspace));
+        int numType = typeEspace == "Salle" ? 1 : 2;
+        criteria.where(criteriaBuilder.equal(rootEspace.get("espace_type"), numType));
+        Espace espace = session.createQuery(criteria).getSingleResult();
+        LitItem lit = session.find(LitItem.class, idLit);
+        lit.setEspace(espace);
+        session.getTransaction().commit();
+        session.close();
     }
 }

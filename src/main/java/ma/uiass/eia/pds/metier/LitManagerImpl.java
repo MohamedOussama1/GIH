@@ -16,6 +16,11 @@ public class LitManagerImpl implements LitManager {
     }
 
     @Override
+    public void deplacerLit(String nomDepartement, String typeEspace, int numEspace, int idLit) {
+        litRepository.deplacerLit(nomDepartement, typeEspace, numEspace, idLit);
+    }
+
+    @Override
     public List<Lit> getAllLit(String nomDepartement) {
         return litRepository.findAllLit(nomDepartement);
     }

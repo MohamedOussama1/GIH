@@ -1,7 +1,7 @@
 package ma.uiass.eia.pds.model.reservation;
 
 import ma.uiass.eia.pds.controller.LocalDateTimeAdapter;
-import ma.uiass.eia.pds.model.Lit.Lit;
+import ma.uiass.eia.pds.model.Lit.LitItem;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -17,12 +17,14 @@ public class Reservation {
     LocalDateTime dateDebut;
     @Column(name = "date_fin")
     LocalDateTime dateFin;
+    @Column(name = "date_fin_final")
+    LocalDateTime dateFinFinal;
     @OneToOne
     @JoinColumn(name = "lit_id", referencedColumnName = "lit_id")
-    Lit lit;
+    LitItem lit;
     public Reservation(){}
 
-    public Reservation(LocalDateTime dateDebut, LocalDateTime dateFin, Lit lit) {
+    public Reservation(LocalDateTime dateDebut, LocalDateTime dateFin, LitItem lit) {
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.lit = lit;
@@ -54,20 +56,28 @@ public class Reservation {
     }
 
 
-    public Lit getLit() {
+    public LitItem getLit() {
         return lit;
     }
 
-    public void setLit(Lit lit) {
+    public void setLit(LitItem lit) {
         this.lit = lit;
+    }
+
+    public LocalDateTime getDateFinFinal() {
+        return dateFinFinal;
+    }
+
+    public void setDateFinFinal(LocalDateTime dateFinFinal) {
+        this.dateFinFinal = dateFinFinal;
     }
 
     @Override
     public String toString() {
-        return "Reservation{" +
-                "dateDebut=" + dateDebut +
-                ", dateFin=" + dateFin +
-                ", lit=" + lit.getNumero() +
+        return "{" +
+                "dateDebut:" + dateDebut +
+                ", dateFin:" + dateFin +
+                ", lit:" + lit.getCode() +
                 '}';
     }
 }

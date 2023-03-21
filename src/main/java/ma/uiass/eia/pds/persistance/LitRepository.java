@@ -18,4 +18,6 @@ public interface LitRepository {
 
     void deleteLit(int id);
     void deleteManyLits(List<Integer> idLitList);
+
+    void deplacerLit(String nomDepartement, String typeEspace, int numEspace, int idLit);
 }

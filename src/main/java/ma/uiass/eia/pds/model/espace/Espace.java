@@ -20,13 +20,22 @@ public abstract class Espace {
     int id;
     @Column(name = "espace_nom")
     String nomEspace;
+    @Column(name = "espace_numero")
+    int numero;
     double superficie;
     @ManyToOne
     @JoinColumn(name="departement_id")
     Departement departement;
     @OneToMany(mappedBy = "espace")
-    List<Lit> lstLitEquipe = new ArrayList<>();
+    List<LitEquipe> lstLitEquipe = new ArrayList<>();
     public Espace(){}
+
+    public Espace(String nomEspace, int numero, double superficie, Departement departement) {
+        this.nomEspace = nomEspace;
+        this.numero = numero;
+        this.superficie = superficie;
+        this.departement = departement;
+    }
 
     public Espace(String nomEspace, double superficie, Departement departement) {
         this.nomEspace = nomEspace;
