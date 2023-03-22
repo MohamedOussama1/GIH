@@ -18,7 +18,7 @@ public interface LitService {
     void deleteLit(int id);
 
     // Reservations
-    void reserverLit(LocalDateTime dateDebut, LocalDateTime dateFin, int idLit, int idPatient);
+    void reserverLit(LocalDateTime dateReservation, LocalDateTime dateDebut, LocalDateTime dateFin, int idLit, int idPatient);
     void annulerReservation(int idLit);
     Reservation findReservation(int idReservation);
     // DateVacation == null;

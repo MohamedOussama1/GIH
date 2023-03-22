@@ -14,6 +14,8 @@ public class Reservation {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column(name = "reservation_id")
     int id;
+    @Column(name = "date_reservation")
+    LocalDateTime dateReservation;
     @Column(name = "date_debut")
     LocalDateTime dateDebut;
     @Column(name = "date_debut_final")
@@ -30,7 +32,16 @@ public class Reservation {
     Patient patient;
     public Reservation(){}
 
-    public Reservation(LocalDateTime dateDebut, LocalDateTime dateFin, LitItem lit, Patient patient) {
+    public LocalDateTime getDateReservation() {
+        return dateReservation;
+    }
+
+    public void setDateReservation(LocalDateTime dateReservation) {
+        this.dateReservation = dateReservation;
+    }
+
+    public Reservation(LocalDateTime dateReservation, LocalDateTime dateDebut, LocalDateTime dateFin, LitItem lit, Patient patient) {
+        this.dateReservation = dateReservation;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.lit = lit;

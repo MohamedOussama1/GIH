@@ -82,7 +82,7 @@ public class LitController {
     public Response OccuperLit(
             Reservation reservation
     ){
-        litService.reserverLit(reservation.getDateDebut(), reservation.getDateFin(), reservation.getLit().getId(), reservation.getPatient().getId());
+        litService.reserverLit(reservation.getDateDebut(), reservation.getDateFin(), reservation.getDateReservation(), reservation.getLit().getId(), reservation.getPatient().getId());
         return Response
                 .ok()
                 .entity(reservation.getDateDebut())

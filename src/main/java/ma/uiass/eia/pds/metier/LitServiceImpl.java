@@ -29,8 +29,8 @@ public class LitServiceImpl implements LitService{
     }
 
     @Override
-    public void reserverLit(LocalDateTime dateDebut, LocalDateTime dateFin, int idLit, int idPatient) {
-        litRepository.occuperLit(idLit, idPatient, dateDebut, dateFin);
+    public void reserverLit(LocalDateTime dateReservation, LocalDateTime dateDebut, LocalDateTime dateFin, int idLit, int idPatient) {
+        litRepository.occuperLit(idLit, idPatient, dateReservation, dateDebut, dateFin);
     }
 
     @Override

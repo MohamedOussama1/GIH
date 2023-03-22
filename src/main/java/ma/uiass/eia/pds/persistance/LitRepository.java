@@ -14,7 +14,7 @@ public interface LitRepository {
     List<LitItem> findAllLit(String nomDepartement);
     void saveLit(TypeLit type, ModelLit modelLit, String dimensions, double chargeMax, Period garantie, double prix, String description);
     void saveManyLit(int quantity, int litDescriptionId);
-    void occuperLit(int idLit, int idPatient, LocalDateTime dateDebut, LocalDateTime dateFin);
+    void occuperLit(int idLit, int idPatient, LocalDateTime dateReservation, LocalDateTime dateDebut, LocalDateTime dateFin);
 
     void deleteLit(int id);
 

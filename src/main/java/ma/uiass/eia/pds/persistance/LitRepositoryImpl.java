@@ -76,12 +76,12 @@ public class LitRepositoryImpl implements LitRepository{
 
 
     @Override
-    public void occuperLit(int idLit, int idPatient, LocalDateTime dateDebut, LocalDateTime dateFin) {
+    public void occuperLit(int idLit, int idPatient, LocalDateTime dateReservation, LocalDateTime dateDebut, LocalDateTime dateFin) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         LitItem lit = session.find(LitItem.class, idLit);
         Patient patient = session.find(Patient.class, idPatient);
-        Reservation reservation = new Reservation(dateDebut, dateFin, lit, patient);
+        Reservation reservation = new Reservation(dateReservation, dateDebut, dateFin, lit, patient);
         session.save(reservation);
         session.getTransaction().commit();
         session.close();
