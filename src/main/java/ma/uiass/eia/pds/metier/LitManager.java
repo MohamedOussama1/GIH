@@ -2,6 +2,7 @@ package ma.uiass.eia.pds.metier;
 
 import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.Lit.LitEquipe;
+import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.espace.Espace;
 
 import java.util.List;
@@ -15,18 +16,18 @@ public interface LitManager {
     void deplacerLit(String nomDepartement, String typeEspace, int numEspace, int idLit);
 
     //
-    List<Lit> getAllLit(String nomDepartement);
-    List<Lit> getAllDisponibleLit(String nomDepartement);
-    List<Lit> getAllOccupeLit(String nomDepartement);
+    List<LitItem> getAllLit(String nomDepartement);
+    List<LitItem> getAllDisponibleLit(String nomDepartement);
+    List<LitItem> getAllOccupeLit(String nomDepartement);
 
-    List<Lit> getAllLitChambre(String nomDepartement);
-    List<Lit> getAllDisponibleLitChambre(String nomDepartement);
-    List<Lit> getAllOccupeLitChambre(String nomDepartement);
+    List<LitItem> getAllLitChambre(String nomDepartement);
+    List<LitItem> getAllDisponibleLitChambre(String nomDepartement);
+    List<LitItem> getAllOccupeLitChambre(String nomDepartement);
     double getUseRateChambre(String nomDepartement);
 
-    List<Lit> getAllLitSalle(String nomDepartement);
-    List<Lit> getAllDisponibleLitSalle(String nomDepartement);
-    List<Lit> getAllOccupeLitSalle(String nomDepartement);
+    List<LitItem> getAllLitSalle(String nomDepartement);
+    List<LitItem> getAllDisponibleLitSalle(String nomDepartement);
+    List<LitItem> getAllOccupeLitSalle(String nomDepartement);
     double getUseRateSalle(String nomDepartement);
 
 }

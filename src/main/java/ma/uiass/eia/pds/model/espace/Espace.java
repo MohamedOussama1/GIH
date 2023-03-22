@@ -2,6 +2,7 @@ package ma.uiass.eia.pds.model.espace;
 
 import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.Lit.LitEquipe;
+import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.departement.Departement;
 
@@ -27,7 +28,7 @@ public abstract class Espace {
     @JoinColumn(name="departement_id")
     Departement departement;
     @OneToMany(mappedBy = "espace")
-    List<LitEquipe> lstLitEquipe = new ArrayList<>();
+    List<LitItem> lstLitEquipe = new ArrayList<>();
     public Espace(){}
 
     public Espace(String nomEspace, int numero, double superficie, Departement departement) {
@@ -35,6 +36,22 @@ public abstract class Espace {
         this.numero = numero;
         this.superficie = superficie;
         this.departement = departement;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public List<LitItem> getLstLitEquipe() {
+        return lstLitEquipe;
+    }
+
+    public void setLstLitEquipe(List<LitItem> lstLitEquipe) {
+        this.lstLitEquipe = lstLitEquipe;
     }
 
     public Espace(String nomEspace, double superficie, Departement departement) {

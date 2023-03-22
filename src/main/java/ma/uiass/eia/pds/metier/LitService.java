@@ -16,11 +16,10 @@ public interface LitService {
 
     void addLitDescription(TypeLit type, ModelLit modelLit, String dimensions, double chargeMax, Period garantie, double prix, String description);
     void addLits(int quantity, int litDescriptionId);
-    void updateLit(int id, EtatLit etatLit);
     void deleteLit(int id);
 
     // Reservations
-    void reserverLit(LocalDateTime dateDebut, LocalDateTime dateFin, int idLit);
+    void reserverLit(LocalDateTime dateDebut, LocalDateTime dateFin, int idLit, int idPatient);
     void annulerReservation(int idLit);
     Reservation findReservation(int idReservation);
     // DateVacation == null;

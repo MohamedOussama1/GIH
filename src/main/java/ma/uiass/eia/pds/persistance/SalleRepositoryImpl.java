@@ -1,5 +1,6 @@
 package ma.uiass.eia.pds.persistance;
 
+import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
 import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.departement.Departement;
@@ -25,21 +26,21 @@ public class SalleRepositoryImpl implements SalleRepository{
         session.close();
     }
     @Override
-    public List<Lit> getAllLitSalle(String nomDepartement) {
+    public List<LitItem> getAllLitSalle(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
         // Criteria Builder to build our queries
         CriteriaBuilder builder = session.getCriteriaBuilder();
 
-        // Create a query, <Lit> and Lit.class indicates that the query is of return type Lit
-        CriteriaQuery<Lit> criteria = builder.createQuery(Lit.class);
+        // Create a query, <LitItem> and LitItem.class indicates that the query is of return type LitItem
+        CriteriaQuery<LitItem> criteria = builder.createQuery(LitItem.class);
 
         // This line is equivalent to writing "FROM t_lit" in the query, root contains columns of table t_lit
 
 
-        Root<Lit> rootLit = criteria.from(Lit.class);
-        Join<Lit, Espace> espaceJoin = rootLit.join("espace");
+        Root<LitItem> rootLit = criteria.from(LitItem.class);
+        Join<LitItem, Espace> espaceJoin = rootLit.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
         // This line is equivalent to writing "Select * " in the query
@@ -48,9 +49,9 @@ public class SalleRepositoryImpl implements SalleRepository{
         criteria.where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
 
         // Execute the query and store the result into lits
-        List<Lit> lits = session.createQuery(criteria).getResultList();
+        List<LitItem> lits = session.createQuery(criteria).getResultList();
         System.out.println(lits);
-        List<Lit> litsSalle = new ArrayList<>();
+        List<LitItem> litsSalle = new ArrayList<>();
         lits.forEach(elt -> {
             if (elt.getEspace().getClass() == Salle.class)
                 litsSalle.add(elt);
@@ -67,21 +68,21 @@ public class SalleRepositoryImpl implements SalleRepository{
 
 
     @Override
-    public List<Lit> getAllDisponibleLitSalle(String nomDepartement) {
+    public List<LitItem> getAllDisponibleLitSalle(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
         // Criteria Builder to build our queries
         CriteriaBuilder builder = session.getCriteriaBuilder();
 
-        // Create a query, <Lit> and Lit.class indicates that the query is of return type Lit
-        CriteriaQuery<Lit> criteria = builder.createQuery(Lit.class);
+        // Create a query, <LitItem> and LitItem.class indicates that the query is of return type LitItem
+        CriteriaQuery<LitItem> criteria = builder.createQuery(LitItem.class);
 
         // This line is equivalent to writing "FROM t_lit" in the query, root contains columns of table t_lit
 
 
-        Root<Lit> rootLit = criteria.from(Lit.class);
-        Join<Lit, Espace> espaceJoin = rootLit.join("espace");
+        Root<LitItem> rootLit = criteria.from(LitItem.class);
+        Join<LitItem, Espace> espaceJoin = rootLit.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
         // This line is equivalent to writing "Select * " in the query
@@ -91,9 +92,9 @@ public class SalleRepositoryImpl implements SalleRepository{
         criteria.where(builder.equal(rootLit.get("etat"), EtatLit.fromString("disponible")));
 
         // Execute the query and store the result into lits
-        List<Lit> lits = session.createQuery(criteria).getResultList();
+        List<LitItem> lits = session.createQuery(criteria).getResultList();
         System.out.println(lits);
-        List<Lit> litsSalle = new ArrayList<>();
+        List<LitItem> litsSalle = new ArrayList<>();
         lits.forEach(elt -> {
             if (elt.getEspace().getClass() == Salle.class)
                 litsSalle.add(elt);
@@ -107,21 +108,21 @@ public class SalleRepositoryImpl implements SalleRepository{
     }
 
     @Override
-    public List<Lit> getAllOccupeLitSalle(String nomDepartement) {
+    public List<LitItem> getAllOccupeLitSalle(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
         // Criteria Builder to build our queries
         CriteriaBuilder builder = session.getCriteriaBuilder();
 
-        // Create a query, <Lit> and Lit.class indicates that the query is of return type Lit
-        CriteriaQuery<Lit> criteria = builder.createQuery(Lit.class);
+        // Create a query, <Lit> and LitItem.class indicates that the query is of return type LitItem
+        CriteriaQuery<LitItem> criteria = builder.createQuery(LitItem.class);
 
         // This line is equivalent to writing "FROM t_lit" in the query, root contains columns of table t_lit
 
 
-        Root<Lit> rootLit = criteria.from(Lit.class);
-        Join<Lit, Espace> espaceJoin = rootLit.join("espace");
+        Root<LitItem> rootLit = criteria.from(LitItem.class);
+        Join<LitItem, Espace> espaceJoin = rootLit.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
         // This line is equivalent to writing "Select * " in the query
@@ -131,9 +132,9 @@ public class SalleRepositoryImpl implements SalleRepository{
         criteria.where(builder.equal(rootLit.get("etat"), EtatLit.fromString("occupé")));
 
         // Execute the query and store the result into lits
-        List<Lit> lits = session.createQuery(criteria).getResultList();
+        List<LitItem> lits = session.createQuery(criteria).getResultList();
         System.out.println(lits);
-        List<Lit> litsSalle = new ArrayList<>();
+        List<LitItem> litsSalle = new ArrayList<>();
         lits.forEach(elt -> {
             if (elt.getEspace().getClass() == Salle.class)
                 litsSalle.add(elt);

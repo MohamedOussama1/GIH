@@ -2,6 +2,7 @@ package ma.uiass.eia.pds.model.reservation;
 
 import ma.uiass.eia.pds.controller.LocalDateTimeAdapter;
 import ma.uiass.eia.pds.model.Lit.LitItem;
+import ma.uiass.eia.pds.model.patient.Patient;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -15,6 +16,8 @@ public class Reservation {
     int id;
     @Column(name = "date_debut")
     LocalDateTime dateDebut;
+    @Column(name = "date_debut_final")
+    LocalDateTime dateDebutFinal;
     @Column(name = "date_fin")
     LocalDateTime dateFin;
     @Column(name = "date_fin_final")
@@ -22,13 +25,34 @@ public class Reservation {
     @OneToOne
     @JoinColumn(name = "lit_id", referencedColumnName = "lit_id")
     LitItem lit;
+    @OneToOne
+    @JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
+    Patient patient;
     public Reservation(){}
 
-    public Reservation(LocalDateTime dateDebut, LocalDateTime dateFin, LitItem lit) {
+    public Reservation(LocalDateTime dateDebut, LocalDateTime dateFin, LitItem lit, Patient patient) {
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.lit = lit;
+        this.patient = patient;
     }
+
+    public LocalDateTime getDateDebutFinal() {
+        return dateDebutFinal;
+    }
+
+    public void setDateDebutFinal(LocalDateTime dateDebutFinal) {
+        this.dateDebutFinal = dateDebutFinal;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
     @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     public LocalDateTime getDateDebut() {
         return dateDebut;

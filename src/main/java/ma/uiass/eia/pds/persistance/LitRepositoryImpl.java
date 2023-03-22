@@ -8,6 +8,7 @@ import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
 import ma.uiass.eia.pds.model.Lit.enums.TypeLit;
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.espace.Espace;
+import ma.uiass.eia.pds.model.patient.Patient;
 import ma.uiass.eia.pds.model.reservation.Reservation;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -24,7 +25,7 @@ import java.util.stream.IntStream;
 public class LitRepositoryImpl implements LitRepository{
     private SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
     @Override
-    public List<Lit> findAllLit(String nomDepartement) {
+    public List<LitItem> findAllLit(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
@@ -32,11 +33,11 @@ public class LitRepositoryImpl implements LitRepository{
         CriteriaBuilder builder = session.getCriteriaBuilder();
 
         // Create a query, <Lit> and Lit.class indicates that the query is of return type Lit
-        CriteriaQuery<Lit> criteria = builder.createQuery(Lit.class);
+        CriteriaQuery<LitItem> criteria = builder.createQuery(LitItem.class);
 
         // This line is equivalent to writing "FROM t_lit" in the query, root contains columns of table t_lit
-        Root<Lit> root = criteria.from(Lit.class);
-        Join<Lit, Espace> espaceJoin = root.join("espace");
+        Root<LitItem> root = criteria.from(LitItem.class);
+        Join<LitItem, Espace> espaceJoin = root.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
         // This line is equivalent to writing "Select * " in the query
@@ -44,7 +45,7 @@ public class LitRepositoryImpl implements LitRepository{
         criteria.where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
 
         // Execute the query and store the result into lits
-        List<Lit> lits = session.createQuery(criteria).getResultList();
+        List<LitItem> lits = session.createQuery(criteria).getResultList();
 
         // Close session
         session.close();
@@ -73,22 +74,14 @@ public class LitRepositoryImpl implements LitRepository{
         session.close();
     }
 
-    @Override
-    public void updateLit(int id, EtatLit etatLit ) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Lit lit = session.find(Lit.class, id);
-        lit.setEtat(etatLit);
-        session.getTransaction().commit();
-        session.close();
-    }
 
     @Override
-    public void occuperLit(int id, LocalDateTime dateDebut, LocalDateTime dateFin) {
+    public void occuperLit(int idLit, int idPatient, LocalDateTime dateDebut, LocalDateTime dateFin) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        LitItem lit = session.find(LitItem.class, id);
-        Reservation reservation = new Reservation(dateDebut, dateFin, lit);
+        LitItem lit = session.find(LitItem.class, idLit);
+        Patient patient = session.find(Patient.class, idPatient);
+        Reservation reservation = new Reservation(dateDebut, dateFin, lit, patient);
         lit.setReservation(reservation);
         session.save(reservation);
         session.getTransaction().commit();
@@ -104,10 +97,6 @@ public class LitRepositoryImpl implements LitRepository{
         session.close();
     }
 
-    @Override
-    public void deleteManyLits(List<Integer> idLitList) {
-
-    }
 
     @Override
     public void deplacerLit(String nomDepartement, String typeEspace, int numEspace, int  idLit) {

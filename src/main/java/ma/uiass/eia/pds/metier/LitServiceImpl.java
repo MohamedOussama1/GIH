@@ -28,8 +28,8 @@ public class LitServiceImpl implements LitService{
     }
 
     @Override
-    public void reserverLit(LocalDateTime dateDebut, LocalDateTime dateFin, int idLit) {
-        litRepository.occuperLit(idLit, dateDebut, dateFin);
+    public void reserverLit(LocalDateTime dateDebut, LocalDateTime dateFin, int idLit, int idPatient) {
+        litRepository.occuperLit(idLit, idPatient, dateDebut, dateFin);
     }
 
     @Override
@@ -74,10 +74,6 @@ public class LitServiceImpl implements LitService{
         return null;
     }
 
-    @Override
-    public void updateLit(int id, EtatLit etatLit) {
-        litRepository.updateLit(id, etatLit);
-    }
 
     @Override
     public void deleteLit(int id) {

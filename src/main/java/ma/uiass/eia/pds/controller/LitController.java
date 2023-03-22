@@ -80,7 +80,7 @@ public class LitController {
     public Response OccuperLit(
             Reservation reservation
     ){
-        litService.reserverLit(reservation.getDateDebut(), reservation.getDateFin(), reservation.getId());
+        litService.reserverLit(reservation.getDateDebut(), reservation.getDateFin(), reservation.getLit().getId(), reservation.getPatient().getId());
         return Response
                 .ok()
                 .entity(reservation.getDateDebut())
@@ -105,17 +105,6 @@ public class LitController {
 
     // Admin
 
-    @PUT
-    @Path("/{id}/{etat}/{type}")
-    public Response modifyLit(
-            @PathParam(value = "id") int id,
-            @PathParam(value = "etat") String etatLit,
-            @PathParam(value = "type") String typeLit){
-            litService.updateLit(id, EtatLit.fromString(etatLit));
-            return Response
-                    .ok()
-                    .build();
-    }
     @DELETE
     @Path("/{id}")
     public Response deleteLit(

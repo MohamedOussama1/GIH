@@ -1,6 +1,5 @@
 package ma.uiass.eia.pds.model.Lit;
 
-import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
 import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
 import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
 import ma.uiass.eia.pds.model.Lit.enums.TypeLit;
@@ -18,9 +17,6 @@ public class Lit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="lit_id")
     int numero;
-    @Column(name = "etat_lit")
-    @Enumerated(EnumType.STRING)
-    EtatLit etat = EtatLit.DISPONIBLE;
     @Column(name = "type_lit")
     @Enumerated(EnumType.STRING)
     TypeLit type;
@@ -48,6 +44,14 @@ public class Lit {
     @OneToMany(mappedBy = "litDescription")
     List<LitItem> litsItem = new ArrayList<>();
     public Lit(){}
+
+    public List<LitItem> getLitsItem() {
+        return litsItem;
+    }
+
+    public void setLitsItem(List<LitItem> litsItem) {
+        this.litsItem = litsItem;
+    }
 
     public Lit(TypeLit type, ModelLit modelLit, String dimensions, double chargeMax, Period garantie, double prix, String description) {
         this.type = type;
@@ -130,14 +134,6 @@ public class Lit {
         this.numero = numero;
     }
 
-    public EtatLit getEtat() {
-        return etat;
-    }
-
-    public void setEtat(EtatLit etat) {
-        this.etat = etat;
-    }
-
     public TypeLit getType() {
         return type;
     }
@@ -150,7 +146,6 @@ public class Lit {
     public String toString() {
         return "{" +
                 "numero:" + numero +
-                ", etat:" + etat +
                 ", type:" + type +
                 ", modele:" + modelLit +
                 ", dimensions:" + dimensions +

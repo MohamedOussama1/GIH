@@ -1,8 +1,9 @@
 package ma.uiass.eia.pds.model.Lit.enums;
 
 public enum EtatLit {
-    DISPONIBLE("Disponible"),
-    OCCUPE("Occupé"),
+    NOUVEAU("Nouveau"),
+    BON("Bon"),
+    MAUVAIS("mauvais"),
     DEFECTUEUX("Défectueux");
     String name;
     EtatLit(String name){
@@ -12,13 +13,16 @@ public enum EtatLit {
     public static EtatLit fromString(String s){
         EtatLit etatLit = null;
         switch (s.toLowerCase()) {
-            case "disponible":
-                etatLit = DISPONIBLE;
+            case "nouveau":
+                etatLit = NOUVEAU;
                 break;
-            case "occupé":
-                etatLit = OCCUPE;
+            case "bon":
+                etatLit = BON;
                 break;
-            case "deféctueux":
+            case "mauvais":
+                etatLit = MAUVAIS;
+                break;
+            case "défectueux":
                 etatLit = DEFECTUEUX;
                 break;
         }

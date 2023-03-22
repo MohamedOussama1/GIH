@@ -32,7 +32,7 @@ public class Dm {
         this.nom = nom;
     }
 
-    public Lit getLit() {
+    public LitEquipe getLit() {
         return lit;
     }
 
