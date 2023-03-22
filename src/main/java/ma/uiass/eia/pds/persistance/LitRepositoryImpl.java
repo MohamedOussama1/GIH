@@ -41,8 +41,8 @@ public class LitRepositoryImpl implements LitRepository{
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
         // This line is equivalent to writing "Select * " in the query
-        criteria.select(root);
-        criteria.where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
+        criteria.select(root)
+                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
 
         // Execute the query and store the result into lits
         List<LitItem> lits = session.createQuery(criteria).getResultList();
@@ -82,7 +82,6 @@ public class LitRepositoryImpl implements LitRepository{
         LitItem lit = session.find(LitItem.class, idLit);
         Patient patient = session.find(Patient.class, idPatient);
         Reservation reservation = new Reservation(dateDebut, dateFin, lit, patient);
-        lit.setReservation(reservation);
         session.save(reservation);
         session.getTransaction().commit();
         session.close();
@@ -105,12 +104,16 @@ public class LitRepositoryImpl implements LitRepository{
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Espace> criteria = criteriaBuilder.createQuery(Espace.class);
         Root<Espace> rootEspace = criteria.from(Espace.class);
-        Join<Espace, Departement> departementJoin = rootEspace.join("departement_id");
-        criteria.select(rootEspace.get("id"));
-        criteria.where(criteriaBuilder.like(departementJoin.get("departement_nom"), nomDepartement));
-        criteria.where(criteriaBuilder.equal(rootEspace.get("numero"), numEspace));
+        Join<Espace, Departement> departementJoin = rootEspace.join("departement");
+
+        // Check if type is Salle or Chambre
         int numType = typeEspace == "Salle" ? 1 : 2;
-        criteria.where(criteriaBuilder.equal(rootEspace.get("espace_type"), numType));
+
+        criteria.select(rootEspace.get("id"))
+                .where(criteriaBuilder.like(departementJoin.get("nomDepartement"), nomDepartement))
+                .where(criteriaBuilder.equal(rootEspace.get("numero"), numEspace))
+                .where(criteriaBuilder.equal(rootEspace.type(), numType));
+
         Espace espace = session.createQuery(criteria).getSingleResult();
         LitItem lit = session.find(LitItem.class, idLit);
         lit.setEspace(espace);

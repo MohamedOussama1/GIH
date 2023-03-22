@@ -41,17 +41,8 @@ public class Lit {
     Set<FonctionLit> fonctionsLit = new HashSet<>();
     @Column(name = "description_lit")
     String description;
-    @OneToMany(mappedBy = "litDescription")
-    List<LitItem> litsItem = new ArrayList<>();
     public Lit(){}
 
-    public List<LitItem> getLitsItem() {
-        return litsItem;
-    }
-
-    public void setLitsItem(List<LitItem> litsItem) {
-        this.litsItem = litsItem;
-    }
 
     public Lit(TypeLit type, ModelLit modelLit, String dimensions, double chargeMax, Period garantie, double prix, String description) {
         this.type = type;
@@ -118,13 +109,6 @@ public class Lit {
         this.description = description;
     }
 
-    public List<LitItem> getLitItemList() {
-        return litsItem;
-    }
-
-    public void setLitItemList(List<LitItem> litsItem) {
-        this.litsItem = litsItem;
-    }
 
     public int getNumero() {
         return numero;

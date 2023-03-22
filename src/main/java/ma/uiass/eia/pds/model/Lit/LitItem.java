@@ -26,7 +26,7 @@ public class LitItem {
     @Column(name = "lit_occupé")
     Boolean occupied = false;
     @ManyToOne
-    @JoinColumn(name = "lit_id", referencedColumnName = "lit_id")
+    @JoinColumn(name = "lit_id")
     Lit litDescription;
 
     @ManyToOne
@@ -36,6 +36,17 @@ public class LitItem {
     @JoinColumn(name = "reservation_id", referencedColumnName = "reservation_id")
     Reservation reservation;
     public LitItem(){}
+
+    public LitItem(int id, String code, EtatLit etat, BigDecimal percentEtat, Boolean occupied, Lit litDescription, Espace espace, Reservation reservation) {
+        this.id = id;
+        this.code = code;
+        this.etat = etat;
+        this.percentEtat = percentEtat;
+        this.occupied = occupied;
+        this.litDescription = litDescription;
+        this.espace = espace;
+        this.reservation = reservation;
+    }
 
     public LitItem(String code, Lit litDescription, Espace espace) {
         this.code = code;
@@ -125,9 +136,9 @@ public class LitItem {
                 ", reservation:" + reservation +
                 ", espace:" + espace.getNomEspace() +
                 ", numEspace:" + espace.getId() +
-                ", departement:" + espace.getDepartement() +
-                ", etage:" + espace.getDepartement().getEtage() +
-                ", batiment:" + espace.getDepartement().getEtage().getBatiment() +
+//                ", departement:" + espace.getDepartement() +
+//                ", etage:" + espace.getDepartement().getEtage() +
+//                ", batiment:" + espace.getDepartement().getEtage().getBatiment() +
                 '}';
     }
 }

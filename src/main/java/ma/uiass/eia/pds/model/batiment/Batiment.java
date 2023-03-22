@@ -17,7 +17,7 @@ public class Batiment {
     @Column(name = "batiment_nom")
     String nomBatiment;
     @OneToMany(mappedBy = "batiment")
-    List<Etage> etage;
+    List<Etage> etage = new ArrayList<>();
     public Batiment(){}
     public Batiment(String nomBatiment) {
         this.nomBatiment = nomBatiment;
@@ -45,5 +45,14 @@ public class Batiment {
 
     public void setEtage(List<Etage> etage) {
         this.etage = etage;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id:" + id +
+                ", nomBatiment:" + nomBatiment +
+                ", etage=" + etage +
+                '}';
     }
 }

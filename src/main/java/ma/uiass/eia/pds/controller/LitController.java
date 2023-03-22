@@ -22,10 +22,12 @@ public class LitController {
     private LitService litService = new LitServiceImpl();
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getLits(){
+    public Response getLits(
+            @QueryParam(value = "nomDepartement") String nomDepartement
+    ){
         List<String> lits = new ArrayList<>();
         litService
-                .getLits()
+                .getLits(nomDepartement)
                 .forEach(elt -> lits.add(elt.toString()));
         return Response
                 .ok()

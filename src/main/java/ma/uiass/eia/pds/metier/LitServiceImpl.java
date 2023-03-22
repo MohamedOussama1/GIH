@@ -1,5 +1,6 @@
 package ma.uiass.eia.pds.metier;
 
+import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
 import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
@@ -64,13 +65,12 @@ public class LitServiceImpl implements LitService{
 
 
     @Override
-    public List<Lit> getLits() {
-//        return litRepository.findAllLit();
-        return null;
+    public List<LitItem> getLits(String nomDepartement) {
+        return litRepository.findAllLit(nomDepartement);
     }
 
     @Override
-    public List<Lit> findByEtat(String etatLit) {
+    public List<LitItem> findByEtat(String etatLit) {
         return null;
     }
 

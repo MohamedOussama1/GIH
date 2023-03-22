@@ -11,10 +11,6 @@ public class LitManagerImpl implements LitManager {
     SalleRepository salleRepository = new SalleRepositoryImpl();
     ChambreRepository chambreRepository = new ChambreRepositoryImpl();
     LitRepository litRepository = new LitRepositoryImpl();
-    @Override
-    public int getCapacity() {
-        return 0;
-    }
 
     @Override
     public void deplacerLit(String nomDepartement, String typeEspace, int numEspace, int idLit) {

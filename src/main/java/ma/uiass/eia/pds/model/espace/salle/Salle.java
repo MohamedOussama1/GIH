@@ -15,8 +15,8 @@ public  class Salle extends Espace {
         this.typeSalle = typeSalle;
     }
 
-    public Salle(String nomSalle, double superficie, Departement departement, TypeSalle typeSalle) {
-        super(nomSalle, superficie, departement);
+    public Salle(String nomEspace, int numero, double superficie, Departement departement, TypeSalle typeSalle) {
+        super(nomEspace, numero, superficie, departement);
         this.typeSalle = typeSalle;
     }
 

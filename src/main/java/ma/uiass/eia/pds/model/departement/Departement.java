@@ -1,11 +1,8 @@
 package ma.uiass.eia.pds.model.departement;
 
 import ma.uiass.eia.pds.model.etage.Etage;
-import ma.uiass.eia.pds.model.etage.Etage;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name="t_departement")
@@ -16,26 +13,22 @@ public  class Departement {
     int id;
     @Column(name = "departement_nom")
     String nomDepartement;
-    int capacity;
+    int capacityMax;
 
     @ManyToOne
     @JoinColumn(name = "etage_id")
     Etage etage;
     public Departement(){}
-    public Departement(String nomDepartement, int capacity, Etage etage) {
+    public Departement(String nomDepartement, int capacityMax, Etage etage) {
         this.nomDepartement = nomDepartement;
-        this.capacity = capacity;
+        this.capacityMax = capacityMax;
         this.etage = etage;
     }
 
-    public Departement(String nomDepartement, Etage etage) {
-        this.nomDepartement = nomDepartement;
-        this.etage = etage;
-    }
 
-    public Departement(String nomDepartement, int capacity) {
+    public Departement(String nomDepartement, int capacityMax) {
         this.nomDepartement = nomDepartement;
-        this.capacity = capacity;
+        this.capacityMax = capacityMax;
     }
 
     public int getId() {
@@ -54,12 +47,12 @@ public  class Departement {
         this.nomDepartement = nomDepartement;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public int getCapacityMax() {
+        return capacityMax;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setCapacityMax(int capacityMax) {
+        this.capacityMax = capacityMax;
     }
 
     public Etage getEtage() {
@@ -70,5 +63,13 @@ public  class Departement {
         this.etage = etage;
     }
 
-
+    @Override
+    public String toString() {
+        return "{" +
+                "id:" + id +
+                ", nomDepartement:" + nomDepartement +
+                ", capacityMax:" + capacityMax +
+//                ", etage:" + etage +
+                '}';
+    }
 }

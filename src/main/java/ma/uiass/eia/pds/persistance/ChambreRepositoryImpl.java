@@ -5,6 +5,7 @@ import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.model.espace.chambre.Chambre;
+import ma.uiass.eia.pds.model.espace.chambre.TypeChambre;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -13,10 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChambreRepositoryImpl implements ChambreRepository {
+    DepartementRepository departementRepository = new DepartementRepositoryImpl();
     SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
     @Override
-    public void saveChambre(String nomBatiment, double superficie, String nomChambre, String typeChambre) {
-
+    public void saveChambre(String nomDepartement, int numero, double superficie, String nomChambre, String typeChambre) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.save(new Chambre(nomChambre, numero, superficie, departementRepository.findByName(nomDepartement), TypeChambre.fromString(typeChambre)) {
+        });
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override
@@ -42,10 +49,9 @@ public class ChambreRepositoryImpl implements ChambreRepository {
         Join<LitItem, Espace> espaceJoin = rootLit.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
-        // This line is equivalent to writing "Select * " in the query
-        criteria.select(rootLit);
-
-        criteria.where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
+        // This line is equivalent to writing "Select * " and "Where ..." in the query
+        criteria.select(rootLit)
+                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
 
         // Execute the query and store the result into lits
         List<LitItem> lits = session.createQuery(criteria).getResultList();
@@ -82,11 +88,10 @@ public class ChambreRepositoryImpl implements ChambreRepository {
         Join<LitItem, Espace> espaceJoin = rootLit.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
-        // This line is equivalent to writing "Select * " in the query
-        criteria.select(rootLit);
-
-        criteria.where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
-        criteria.where(builder.equal(rootLit.get("etat"), EtatLit.fromString("occupé")));
+        // This line is equivalent to writing "Select * " and "Where ..." in the query
+        criteria.select(rootLit)
+                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement))
+                .where(builder.equal(rootLit.get("occupied"), 1));
 
         // Execute the query and store the result into lits
         List<LitItem> lits = session.createQuery(criteria).getResultList();
@@ -122,11 +127,10 @@ public class ChambreRepositoryImpl implements ChambreRepository {
         Join<LitItem, Espace> espaceJoin = rootLit.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
-        // This line is equivalent to writing "Select * " in the query
-        criteria.select(rootLit);
-
-        criteria.where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
-        criteria.where(builder.equal(rootLit.get("etat"), EtatLit.fromString("disponible")));
+        // This line is equivalent to writing "Select *" and "Where ..." in the query
+        criteria.select(rootLit)
+                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement))
+                .where(builder.equal(rootLit.get("occupied"), 0));
 
         // Execute the query and store the result into lits
         List<LitItem> lits = session.createQuery(criteria).getResultList();

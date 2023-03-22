@@ -28,7 +28,7 @@ public abstract class Espace {
     @JoinColumn(name="departement_id")
     Departement departement;
     @OneToMany(mappedBy = "espace")
-    List<LitItem> lstLitEquipe = new ArrayList<>();
+    List<LitItem> lstLit = new ArrayList<>();
     public Espace(){}
 
     public Espace(String nomEspace, int numero, double superficie, Departement departement) {
@@ -47,18 +47,13 @@ public abstract class Espace {
     }
 
     public List<LitItem> getLstLitEquipe() {
-        return lstLitEquipe;
+        return lstLit;
     }
 
     public void setLstLitEquipe(List<LitItem> lstLitEquipe) {
-        this.lstLitEquipe = lstLitEquipe;
+        this.lstLit = lstLitEquipe;
     }
 
-    public Espace(String nomEspace, double superficie, Departement departement) {
-        this.nomEspace = nomEspace;
-        this.superficie = superficie;
-        this.departement = departement;
-    }
 
     public String getNomEspace() {
         return nomEspace;
@@ -90,5 +85,16 @@ public abstract class Espace {
 
     public void setDepartement(Departement departement) {
         this.departement = departement;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", nomEspace='" + nomEspace +
+                ", numero=" + numero +
+                ", superficie=" + superficie +
+                ", departement=" + departement +
+                '}';
     }
 }

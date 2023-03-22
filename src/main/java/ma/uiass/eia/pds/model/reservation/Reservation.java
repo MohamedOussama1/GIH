@@ -23,7 +23,7 @@ public class Reservation {
     @Column(name = "date_fin_final")
     LocalDateTime dateFinFinal;
     @OneToOne
-    @JoinColumn(name = "lit_id", referencedColumnName = "lit_id")
+    @JoinColumn(name = "lit_item_id", referencedColumnName = "lit_item_id")
     LitItem lit;
     @OneToOne
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id")

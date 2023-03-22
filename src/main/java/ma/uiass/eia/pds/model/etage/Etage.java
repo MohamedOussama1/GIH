@@ -52,4 +52,13 @@ public class Etage {
     public void setReference(int reference) {
         this.reference = reference;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id:" + id +
+                ", reference:" + reference +
+                ", batiment:" + batiment +
+                '}';
+    }
 }

@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface LitManager {
 
-    // Number of beds
-    int getCapacity();
 
     // Localisation
     void deplacerLit(String nomDepartement, String typeEspace, int numEspace, int idLit);

@@ -14,12 +14,13 @@ public class Chambre extends Espace {
     public Chambre(TypeChambre typeChambre) {
         this.typeChambre = typeChambre;
     }
-    public Chambre(){}
 
-    public Chambre(String nomChambre, double superficie, Departement departement, TypeChambre typeChambre) {
-        super(nomChambre, superficie, departement);
+    public Chambre(String nomEspace, int numero, double superficie, Departement departement, TypeChambre typeChambre) {
+        super(nomEspace, numero, superficie, departement);
         this.typeChambre = typeChambre;
     }
+
+    public Chambre(){}
 
     public TypeChambre getTypeChambre() {
         return typeChambre;

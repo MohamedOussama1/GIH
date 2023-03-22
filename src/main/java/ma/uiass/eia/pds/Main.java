@@ -1,10 +1,7 @@
 package ma.uiass.eia.pds;
 
-import ma.uiass.eia.pds.model.Lit.Dimensions;
 import ma.uiass.eia.pds.model.Lit.Lit;
-import ma.uiass.eia.pds.model.Lit.LitEquipe;
 import ma.uiass.eia.pds.model.Lit.LitItem;
-import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
 import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
 import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
 import ma.uiass.eia.pds.model.Lit.enums.TypeLit;
@@ -67,27 +64,35 @@ public class Main {
         Etage etageB2 =new Etage(2, batimentB);
         Etage etageB3 =new Etage(3, batimentB);
 
-        Departement cardiologie = new Departement("Cardiologie", etageA1);
-        Departement radiologie = new Departement("Radiologie", etageA1);
+        Departement cardiologie = new Departement("Cardiologie", 200,  etageA1);
+        Departement radiologie = new Departement("Radiologie", 100, etageA1);
 
-        Departement neurologie = new Departement("Neurologie", etageA2);
-        Departement oncologie = new Departement("Oadiologie", etageA3);
+        Departement neurologie = new Departement("Neurologie", 50, etageA2);
+        Departement oncologie = new Departement("Oadiologie", 40,  etageA3);
 
-        Espace salleExamination = new Salle("Examination", 20, cardiologie, TypeSalle.SALLE_EXAMINATION);
-        Espace salleReanimation = new Salle("reveil", 30, cardiologie, TypeSalle.SALLE_REVEIL );
+        Espace salleExamination = new Salle("Examination",10, 20, cardiologie, TypeSalle.SALLE_EXAMINATION);
+        Espace salleReanimation = new Salle("reveil",12,  30, cardiologie, TypeSalle.SALLE_REVEIL );
 
-        Espace salleExma = new Salle("Exam", 20, neurologie, TypeSalle.SALLE_EXAMINATION);
-        Espace salleReanim = new Salle("rev", 30, neurologie, TypeSalle.SALLE_REVEIL );
+        Espace salleExma = new Salle("Exam",15,  20, neurologie, TypeSalle.SALLE_EXAMINATION);
+        Espace salleReanim = new Salle("rev", 14,30, neurologie, TypeSalle.SALLE_REVEIL );
 
-        Espace chambre1 = new Chambre("ch1", 30, cardiologie, TypeChambre.MULTI );
-        Espace chambre2 = new Chambre("ch2", 30, cardiologie, TypeChambre.MULTI );
-        Espace chambre3 = new Chambre("ch3", 10, cardiologie, TypeChambre.SINGLE );
+        Espace chambre1 = new Chambre("ch1",41,  30, cardiologie, TypeChambre.MULTI );
+        Espace chambre2 = new Chambre("ch2",68,  30, cardiologie, TypeChambre.MULTI );
+        Espace chambre3 = new Chambre("ch3",70,  10, cardiologie, TypeChambre.SINGLE );
 
         Lit litCardiologie = new Lit(TypeLit.ELECTRIQUE, ModelLit.STANDARD, "200x150x50", 150, Period.of(5, 0, 0), 11000,"Lit standard");
+        Lit litCardiologie1 = new Lit(TypeLit.ELECTRIQUE, ModelLit.STANDARD, "200x150x50", 150, Period.of(5, 0, 0), 11000,"Lit standard");
+        Lit litCardiologie2 = new Lit(TypeLit.ELECTRIQUE, ModelLit.STANDARD, "200x150x50", 150, Period.of(5, 0, 0), 11000,"Lit standard");
+        Lit litCardiologie3 = new Lit(TypeLit.ELECTRIQUE, ModelLit.STANDARD, "200x150x50", 150, Period.of(5, 0, 0), 11000,"Lit standard");
+        Lit litCardiologie4 = new Lit(TypeLit.ELECTRIQUE, ModelLit.STANDARD, "200x150x50", 150, Period.of(5, 0, 0), 11000,"Lit standard");
         Set fonctions = new HashSet();
         fonctions.addAll(Arrays.asList(FonctionLit.INCLINAISON_LIT, FonctionLit.POSITION_ASSISE, FonctionLit.TRENDELENBURG));
         litCardiologie.setFonctionsLit(fonctions);
-        LitItem litItem = new LitItem("201", litCardiologie, chambre3);
+        LitItem litItem = new LitItem("202", litCardiologie, chambre3);
+        LitItem litItem2 = new LitItem("221", litCardiologie1, salleReanim);
+        LitItem litItem3 = new LitItem("301", litCardiologie2, salleReanimation);
+        LitItem litItem5 = new LitItem("21", litCardiologie3, chambre1);
+        LitItem litItem4 = new LitItem("20", litCardiologie4, chambre2);
         Patient patient = new Patient("JARMOUNI", "Rachid", LocalDate.of(2002, 1, 1), 80, 175);
         Reservation reservation = new Reservation(LocalDateTime.of(2023, 3, 17, 12, 30, 0), LocalDateTime.of(2023, 3, 18, 12, 30, 0), litItem, patient);
 
@@ -113,7 +118,15 @@ public class Main {
         session.save(chambre2);
         session.save(chambre3);
         session.save(litCardiologie);
+        session.save(litCardiologie1);
+        session.save(litCardiologie2);
+        session.save(litCardiologie3);
+        session.save(litCardiologie4);
         session.save(litItem);
+        session.save(litItem2);
+        session.save(litItem3);
+        session.save(litItem4);
+        session.save(litItem5);
         session.save(patient);
         session.save(reservation);
         session.getTransaction().commit();

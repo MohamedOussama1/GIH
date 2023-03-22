@@ -17,10 +17,10 @@ import java.util.List;
 public class SalleRepositoryImpl implements SalleRepository{
     private SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
     private DepartementRepository departementRepository = new DepartementRepositoryImpl();
-    public void saveSalle(String nomDepartement, double superficie, String nomSalle, String typeSalle) {
+    public void saveSalle(String nomDepartement, int numero, double superficie, String nomSalle, String typeSalle) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(new Salle(nomSalle, superficie, departementRepository.findByName(nomDepartement), TypeSalle.fromString(typeSalle)) {
+        session.save(new Salle(nomSalle, numero, superficie, departementRepository.findByName(nomDepartement), TypeSalle.fromString(typeSalle)) {
         });
         session.getTransaction().commit();
         session.close();
@@ -44,9 +44,8 @@ public class SalleRepositoryImpl implements SalleRepository{
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
         // This line is equivalent to writing "Select * " in the query
-        criteria.select(rootLit);
-
-        criteria.where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
+        criteria.select(rootLit)
+                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
 
         // Execute the query and store the result into lits
         List<LitItem> lits = session.createQuery(criteria).getResultList();
@@ -86,10 +85,9 @@ public class SalleRepositoryImpl implements SalleRepository{
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
         // This line is equivalent to writing "Select * " in the query
-        criteria.select(rootLit);
-
-        criteria.where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
-        criteria.where(builder.equal(rootLit.get("etat"), EtatLit.fromString("disponible")));
+        criteria.select(rootLit)
+                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement))
+                .where(builder.equal(rootLit.get("occupied"), 0));
 
         // Execute the query and store the result into lits
         List<LitItem> lits = session.createQuery(criteria).getResultList();
@@ -126,10 +124,9 @@ public class SalleRepositoryImpl implements SalleRepository{
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
         // This line is equivalent to writing "Select * " in the query
-        criteria.select(rootLit);
-
-        criteria.where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
-        criteria.where(builder.equal(rootLit.get("etat"), EtatLit.fromString("occupé")));
+        criteria.select(rootLit)
+                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement))
+                .where(builder.equal(rootLit.get("occupied"), 1));
 
         // Execute the query and store the result into lits
         List<LitItem> lits = session.createQuery(criteria).getResultList();

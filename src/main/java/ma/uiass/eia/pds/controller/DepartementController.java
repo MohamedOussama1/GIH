@@ -78,24 +78,23 @@ public class DepartementController {
                 .build();
     };
     @GET
-    @Path("{nomDepartement}/{typeEspace}/lits/{etatLit}")
+    @Path("{nomDepartement}/{typeEspace}/lits/{occupied}")
     public Response getAllLitEspaceEtat(
             @PathParam(value = "nomDepartement") String nomDepartement,
             @PathParam(value = "typeEspace") String typeEspace,
-            @PathParam(value = "etatLit") String etatLit) {
+            @PathParam(value = "occupied")Boolean occupied){
         List<String> lits = new ArrayList<>();
         switch (typeEspace) {
             case "Salle":
-                switch (etatLit) {
-                    case "Disponible":
-                        litManager
-                                .getAllDisponibleLitSalle(nomDepartement)
-                                .forEach(elt -> lits.add(elt.toString()));
-                        return Response
-                                .ok()
-                                .entity(lits)
-                                .build();
-                    case "Occupé":
+                if (!occupied) {
+                    litManager
+                            .getAllDisponibleLitSalle(nomDepartement)
+                            .forEach(elt -> lits.add(elt.toString()));
+                    return Response
+                            .ok()
+                            .entity(lits)
+                            .build();
+                }else{
                         litManager
                                 .getAllOccupeLitSalle(nomDepartement)
                                 .forEach(elt -> lits.add(elt.toString()));
@@ -103,32 +102,23 @@ public class DepartementController {
                                 .ok()
                                 .entity(lits)
                                 .build();
-                    default:
-                        return Response
-                                .status(Response.Status.NOT_FOUND)
-                                .build();
                 }
             case "Chambre":
-                switch (etatLit) {
-                    case "Disponible":
-                        litManager
-                                .getAllDisponibleLitChambre(nomDepartement)
-                                .forEach(elt -> lits.add(elt.toString()));
-                        return Response
-                                .ok()
-                                .entity(lits)
-                                .build();
-                    case "Occupé":
-                        litManager
+                if (!occupied) {
+                    litManager
+                            .getAllDisponibleLitChambre(nomDepartement)
+                            .forEach(elt -> lits.add(elt.toString()));
+                    return Response
+                            .ok()
+                            .entity(lits)
+                            .build();
+                }else {
+                    litManager
                                 .getAllOccupeLitChambre(nomDepartement)
                                 .forEach(elt -> lits.add(elt.toString()));
                         return Response
                                 .ok()
                                 .entity(lits)
-                                .build();
-                    default:
-                        return Response
-                                .status(Response.Status.NOT_FOUND)
                                 .build();
                 }
             default:
