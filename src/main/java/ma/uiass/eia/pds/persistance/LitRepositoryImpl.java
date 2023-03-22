@@ -91,7 +91,7 @@ public class LitRepositoryImpl implements LitRepository{
     public void deleteLit(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.delete(session.find(Lit.class, id));
+        session.delete(session.find(LitItem.class, id));
         session.getTransaction().commit();
         session.close();
     }
