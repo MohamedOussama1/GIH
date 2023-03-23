@@ -13,10 +13,7 @@ import ma.uiass.eia.pds.model.reservation.Reservation;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
@@ -107,14 +104,16 @@ public class LitRepositoryImpl implements LitRepository{
         Join<Espace, Departement> departementJoin = rootEspace.join("departement");
 
         // Check if type is Salle or Chambre
-        int numType = typeEspace == "Salle" ? 1 : 2;
+        int numType = typeEspace.equals("Salle") ? 1 : 2;
+        System.out.println(numType);
 
+        Predicate predicate1 = criteriaBuilder.like(departementJoin.get("nomDepartement"), nomDepartement);
+        Predicate predicate2 = criteriaBuilder.equal(rootEspace.get("numero"), numEspace);
+        Predicate predicate3 = criteriaBuilder.equal(rootEspace.type(), numType);
         criteria.select(rootEspace.get("id"))
-                .where(criteriaBuilder.like(departementJoin.get("nomDepartement"), nomDepartement))
-                .where(criteriaBuilder.equal(rootEspace.get("numero"), numEspace))
-                .where(criteriaBuilder.equal(rootEspace.type(), numType));
+                .where(criteriaBuilder.and(predicate1, predicate2, predicate3));
 
-        Espace espace = session.createQuery(criteria).getSingleResult();
+        Espace espace = session.find(Espace.class, session.createQuery(criteria).getSingleResult());
         LitItem lit = session.find(LitItem.class, idLit);
         lit.setEspace(espace);
         session.getTransaction().commit();

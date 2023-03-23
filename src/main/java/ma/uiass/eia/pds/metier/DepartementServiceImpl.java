@@ -23,4 +23,14 @@ public class DepartementServiceImpl implements DepartementService {
     public void addBatiment(Batiment batiment) {
 
     }
+
+    @Override
+    public List<Integer> getAllCodeEspace(String nomDepartement, String typeEspace) {
+       return departementRepository.getAllCodeEspace(nomDepartement, typeEspace);
+    }
+
+    @Override
+    public List<Integer> getAllCodeLit(String nomDepartement, int numEspace) {
+        return departementRepository.getAllCodeLit(nomDepartement, numEspace);
+    }
 }

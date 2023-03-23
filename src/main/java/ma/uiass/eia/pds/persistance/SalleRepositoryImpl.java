@@ -1,8 +1,6 @@
 package ma.uiass.eia.pds.persistance;
 
 import ma.uiass.eia.pds.model.Lit.LitItem;
-import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
-import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.model.espace.salle.Salle;
@@ -43,18 +41,16 @@ public class SalleRepositoryImpl implements SalleRepository{
         Join<LitItem, Espace> espaceJoin = rootLit.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
+
+        Predicate predicate1 = builder.like(departementJoin.get("nomDepartement"), nomDepartement);
+        Predicate predicate2 = builder.equal(espaceJoin.type(), 1);
+
         // This line is equivalent to writing "Select * " in the query
         criteria.select(rootLit)
-                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
+                .where(builder.and(predicate1, predicate2));
 
         // Execute the query and store the result into lits
-        List<LitItem> lits = session.createQuery(criteria).getResultList();
-        System.out.println(lits);
-        List<LitItem> litsSalle = new ArrayList<>();
-        lits.forEach(elt -> {
-            if (elt.getEspace().getClass() == Salle.class)
-                litsSalle.add(elt);
-        });
+        List<LitItem> litsSalle = session.createQuery(criteria).getResultList();
 
         // Close session
         session.close();
@@ -84,19 +80,16 @@ public class SalleRepositoryImpl implements SalleRepository{
         Join<LitItem, Espace> espaceJoin = rootLit.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
+        Predicate predicate1 = builder.like(departementJoin.get("nomDepartement"), nomDepartement);
+        Predicate predicate2 = builder.equal(espaceJoin.type(), 1);
+        Predicate predicate3 = builder.equal(rootLit.get("occupied"), 0);
+
         // This line is equivalent to writing "Select * " in the query
         criteria.select(rootLit)
-                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement))
-                .where(builder.equal(rootLit.get("occupied"), 0));
+                .where(builder.and(predicate1, predicate2, predicate3));
 
         // Execute the query and store the result into lits
-        List<LitItem> lits = session.createQuery(criteria).getResultList();
-        System.out.println(lits);
-        List<LitItem> litsSalle = new ArrayList<>();
-        lits.forEach(elt -> {
-            if (elt.getEspace().getClass() == Salle.class)
-                litsSalle.add(elt);
-        });
+        List<LitItem> litsSalle = session.createQuery(criteria).getResultList();
 
         // Close session
         session.close();
@@ -123,19 +116,16 @@ public class SalleRepositoryImpl implements SalleRepository{
         Join<LitItem, Espace> espaceJoin = rootLit.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
+        Predicate predicate1 = builder.like(departementJoin.get("nomDepartement"), nomDepartement);
+        Predicate predicate2 = builder.equal(espaceJoin.type(), 1);
+        Predicate predicate3 = builder.equal(rootLit.get("occupied"), 1);
+
         // This line is equivalent to writing "Select * " in the query
         criteria.select(rootLit)
-                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement))
-                .where(builder.equal(rootLit.get("occupied"), 1));
+                .where(builder.and(predicate1, predicate2, predicate3));
 
         // Execute the query and store the result into lits
-        List<LitItem> lits = session.createQuery(criteria).getResultList();
-        System.out.println(lits);
-        List<LitItem> litsSalle = new ArrayList<>();
-        lits.forEach(elt -> {
-            if (elt.getEspace().getClass() == Salle.class)
-                litsSalle.add(elt);
-        });
+        List<LitItem> litsSalle = session.createQuery(criteria).getResultList();
 
         // Close session
         session.close();

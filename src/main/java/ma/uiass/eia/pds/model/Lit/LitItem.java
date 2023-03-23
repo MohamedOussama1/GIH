@@ -131,11 +131,12 @@ public class LitItem {
         return "{" +
                 "id:" + id +
                 ", code:" + code  +
-                ", litDescription" + litDescription +
-                ", espace" + espace +
+                ", occupied:" + occupied +
+                ", litDescription:" + litDescription.getNumero() +
                 ", reservation:" + reservation +
                 ", espace:" + espace.getNomEspace() +
-                ", numEspace:" + espace.getId() +
+                ", numEspace:" + espace.getNumero() +
+                ", description:" + litDescription.getDescription() +
 //                ", departement:" + espace.getDepartement() +
 //                ", etage:" + espace.getDepartement().getEtage() +
 //                ", batiment:" + espace.getDepartement().getEtage().getBatiment() +

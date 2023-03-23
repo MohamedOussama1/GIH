@@ -1,14 +1,15 @@
 package ma.uiass.eia.pds.persistance;
 
+import com.sun.enterprise.module.common_impl.Jar;
+import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.batiment.Batiment;
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.departement.NomDepartement;
+import ma.uiass.eia.pds.model.espace.Espace;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 public class DepartementRepositoryImpl implements DepartementRepository{
@@ -73,5 +74,64 @@ public class DepartementRepositoryImpl implements DepartementRepository{
 
         return departements;
 
+    }
+
+    @Override
+    public List<Integer> getAllCodeEspace(String nomDepartement, String typeEspace) {
+        Session session = sessionFactory.openSession();
+
+        // Criteria Builder to build our queries
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+
+        // Create a query, <Departement> and Departement.class indicates that the query is of return type Departement
+        CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
+
+        Root<Espace> rootEspace = criteria.from(Espace.class);
+        Join<Espace, Departement> departementJoin = rootEspace.join("departement");
+
+        int numType = typeEspace.equals("Salle") ? 1 : 2;
+
+        Predicate predicate1 = builder.equal(departementJoin.get("nomDepartement"), nomDepartement);
+        Predicate predicate2 = builder.equal(rootEspace.type(), numType);
+
+        criteria.select(rootEspace.get("numero"))
+                .where(builder.and(predicate1, predicate2));
+
+        // Execute the query and store the result into departements
+        List<Integer> codesEspaces = session.createQuery(criteria).getResultList();
+
+        // Close session
+        session.close();
+
+        return codesEspaces;
+    }
+
+    @Override
+    public List<Integer> getAllCodeLit(String nomDepartement, int numEspace) {
+        Session session = sessionFactory.openSession();
+
+        // Criteria Builder to build our queries
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+
+        // Create a query, <Departement> and Departement.class indicates that the query is of return type Departement
+        CriteriaQuery<Integer> criteria = builder.createQuery(Integer.class);
+
+        Root<LitItem> rootLitItem = criteria.from(LitItem.class);
+        Join<LitItem, Espace> espaceJoin = rootLitItem.join("espace");
+        Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
+
+        Predicate predicate1 = builder.equal(departementJoin.get("nomDepartement"), nomDepartement);
+        Predicate predicate2 = builder.equal(espaceJoin.get("numero"), numEspace);
+
+        criteria.select(rootLitItem.get("id"))
+                .where(builder.and(predicate1, predicate2));
+
+        // Execute the query and store the result into departements
+        List<Integer> codesLits = session.createQuery(criteria).getResultList();
+
+        // Close session
+        session.close();
+
+        return codesLits;
     }
 }

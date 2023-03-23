@@ -9,4 +9,8 @@ public interface DepartementRepository {
     void save(String nomDepartement);
     Departement findByName(String nomDepartement);
     List<Departement> findAllDepartement();
+
+    List<Integer> getAllCodeEspace(String nomDepartement, String typeEspace);
+
+    List<Integer> getAllCodeLit(String nomDepartement, int numEspace);
 }

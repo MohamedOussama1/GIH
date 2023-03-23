@@ -21,7 +21,7 @@ public abstract class Espace {
     int id;
     @Column(name = "espace_nom")
     String nomEspace;
-    @Column(name = "espace_numero")
+    @Column(name = "espace_numero", unique = true)
     int numero;
     double superficie;
     @ManyToOne

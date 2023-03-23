@@ -49,18 +49,15 @@ public class ChambreRepositoryImpl implements ChambreRepository {
         Join<LitItem, Espace> espaceJoin = rootLit.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
-        // This line is equivalent to writing "Select * " and "Where ..." in the query
+        Predicate predicate1 = builder.like(departementJoin.get("nomDepartement"), nomDepartement);
+        Predicate predicate2 = builder.equal(espaceJoin.type(), 2);
+
+        // This line is equivalent to writing "Select * " in the query
         criteria.select(rootLit)
-                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
+                .where(builder.and(predicate1, predicate2));
 
         // Execute the query and store the result into lits
-        List<LitItem> lits = session.createQuery(criteria).getResultList();
-        System.out.println(lits);
-        List<LitItem> litsChambre = new ArrayList<>();
-        lits.forEach(elt -> {
-            if (elt.getEspace().getClass() == Chambre.class)
-                litsChambre.add(elt);
-        });
+        List<LitItem> litsChambre = session.createQuery(criteria).getResultList();
 
         // Close session
         session.close();
@@ -88,19 +85,16 @@ public class ChambreRepositoryImpl implements ChambreRepository {
         Join<LitItem, Espace> espaceJoin = rootLit.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
-        // This line is equivalent to writing "Select * " and "Where ..." in the query
+        Predicate predicate1 = builder.like(departementJoin.get("nomDepartement"), nomDepartement);
+        Predicate predicate2 = builder.equal(espaceJoin.type(), 2);
+        Predicate predicate3 = builder.equal(rootLit.get("occupied"), 1);
+
+        // This line is equivalent to writing "Select * " in the query
         criteria.select(rootLit)
-                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement))
-                .where(builder.equal(rootLit.get("occupied"), 1));
+                .where(builder.and(predicate1, predicate2, predicate3));
 
         // Execute the query and store the result into lits
-        List<LitItem> lits = session.createQuery(criteria).getResultList();
-        System.out.println(lits);
-        List<LitItem> litsChambre = new ArrayList<>();
-        lits.forEach(elt -> {
-            if (elt.getEspace().getClass() == Chambre.class)
-                litsChambre.add(elt);
-        });
+        List<LitItem> litsChambre = session.createQuery(criteria).getResultList();
 
         // Close session
         session.close();
@@ -127,19 +121,16 @@ public class ChambreRepositoryImpl implements ChambreRepository {
         Join<LitItem, Espace> espaceJoin = rootLit.join("espace");
         Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
-        // This line is equivalent to writing "Select *" and "Where ..." in the query
+        Predicate predicate1 = builder.like(departementJoin.get("nomDepartement"), nomDepartement);
+        Predicate predicate2 = builder.equal(espaceJoin.type(), 2);
+        Predicate predicate3 = builder.equal(rootLit.get("occupied"), 0);
+
+        // This line is equivalent to writing "Select * " in the query
         criteria.select(rootLit)
-                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement))
-                .where(builder.equal(rootLit.get("occupied"), 0));
+                .where(builder.and(predicate1, predicate2, predicate3));
 
         // Execute the query and store the result into lits
-        List<LitItem> lits = session.createQuery(criteria).getResultList();
-        System.out.println(lits);
-        List<LitItem> litsChambre = new ArrayList<>();
-        lits.forEach(elt -> {
-            if (elt.getEspace().getClass() == Chambre.class)
-                litsChambre.add(elt);
-        });
+        List<LitItem> litsChambre = session.createQuery(criteria).getResultList();
 
         // Close session
         session.close();

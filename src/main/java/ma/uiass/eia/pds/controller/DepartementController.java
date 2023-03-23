@@ -36,6 +36,32 @@ public class DepartementController {
                 .build();
     };
     @GET
+    @Path("/{nomDepartement}/espaces/{typeEspace}")
+    public Response getCodesEspacesDepartement(
+            @PathParam(value = "nomDepartement") String nomDepartement,
+            @PathParam(value = "typeEspace") String typeEspace
+    ){
+        return Response
+                .ok()
+                .entity(departementService
+                        .getAllCodeEspace(nomDepartement, typeEspace)
+                )
+                .build();
+    }
+    @GET
+    @Path("/{nomDepartement}/{codeEspace}/codesLits")
+    public Response getCodesLitsEspace(
+    @PathParam(value = "nomDepartement") String nomDepartement,
+    @PathParam(value = "codeEspace") int numEspace
+        ){
+        return Response
+                .ok()
+                .entity(departementService
+                        .getAllCodeLit(nomDepartement, numEspace)
+                )
+                .build();
+    }
+    @GET
     @Path("/{nomDepartement}/lits")
     public Response getAllLitDepartement(
             @PathParam(value = "nomDepartement") String nomDepartement){
@@ -58,9 +84,7 @@ public class DepartementController {
             case "Salle":
                 litManager
                         .getAllLitSalle(nomDepartement)
-                        .forEach(elt -> {
-                            lits.add(elt.toString());
-                        });
+                        .forEach(elt -> lits.add(elt.toString()));
                 break;
             case "Chambre":
                 litManager

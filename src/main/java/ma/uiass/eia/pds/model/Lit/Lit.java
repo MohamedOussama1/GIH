@@ -44,6 +44,7 @@ public class Lit {
     public Lit(){}
 
 
+
     public Lit(TypeLit type, ModelLit modelLit, String dimensions, double chargeMax, Period garantie, double prix, String description) {
         this.type = type;
         this.modelLit = modelLit;

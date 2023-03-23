@@ -10,4 +10,9 @@ public interface DepartementService {
     List<Departement> getAllDepartement();
 
     void addBatiment(Batiment batiment);
+
+
+    List<Integer> getAllCodeEspace(String nomDepartement, String typeEspace);
+
+    List<Integer> getAllCodeLit(String nomDepartement, int numEspace);
 }
