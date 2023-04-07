@@ -68,7 +68,7 @@ public class LitRepositoryImpl implements LitRepository{
         IntStream.range(0, quantity).forEach( i -> {
             Lit lit = session.find(Lit.class, litDescriptionId);
             LitItem litItem = new LitItem(lit);
-            Espace stock = session.find(Espace.class, 8);
+            Espace stock = session.find(Espace.class, 21);
             litItem.setEspace(stock);
             litItem.setCode(String.valueOf((int)(Math.random() * 10000)));
             session.save(litItem);
