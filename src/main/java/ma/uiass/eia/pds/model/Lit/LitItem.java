@@ -4,6 +4,7 @@ import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
 import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.model.reservation.Reservation;
 import org.hibernate.validator.constraints.Range;
+import org.json.JSONPropertyIgnore;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -102,6 +103,7 @@ public class LitItem {
         this.occupied = occupied;
     }
 
+
     public Lit getLitDescription() {
         return litDescription;
     }
@@ -110,6 +112,7 @@ public class LitItem {
         this.litDescription = litDescription;
     }
 
+    @JSONPropertyIgnore
     public Espace getEspace() {
         return espace;
     }
@@ -117,7 +120,7 @@ public class LitItem {
     public void setEspace(Espace espace) {
         this.espace = espace;
     }
-
+    @JSONPropertyIgnore
     public Reservation getReservation() {
         return reservation;
     }
@@ -133,10 +136,10 @@ public class LitItem {
                 ", code:" + code  +
                 ", occupied:" + occupied +
                 ", litDescription:" + litDescription.getNumero() +
-                ", reservation:" + reservation +
-                ", espace:" + espace.getNomEspace() +
-                ", numEspace:" + espace.getNumero() +
-                ", description:" + litDescription.getDescription() +
+//                ", reservation:" + reservation +
+//                ", espace:" + espace.getNomEspace() +
+//                ", numEspace:" + espace.getNumero() +
+//                ", description:" + litDescription.getDescription() +
 //                ", departement:" + espace.getDepartement() +
 //                ", etage:" + espace.getDepartement().getEtage() +
 //                ", batiment:" + espace.getDepartement().getEtage().getBatiment() +

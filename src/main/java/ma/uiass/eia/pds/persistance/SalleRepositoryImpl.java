@@ -10,7 +10,9 @@ import org.hibernate.SessionFactory;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SalleRepositoryImpl implements SalleRepository{
     private SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
@@ -24,7 +26,7 @@ public class SalleRepositoryImpl implements SalleRepository{
         session.close();
     }
     @Override
-    public List<LitItem> getAllLitSalle(String nomDepartement) {
+    public Map<Salle, List<LitItem>> getAllLitSalle(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
@@ -55,7 +57,7 @@ public class SalleRepositoryImpl implements SalleRepository{
         // Close session
         session.close();
 
-        return litsSalle;
+        return convertBedList(litsSalle);
 
 
     }
@@ -63,7 +65,7 @@ public class SalleRepositoryImpl implements SalleRepository{
 
 
     @Override
-    public List<LitItem> getAllDisponibleLitSalle(String nomDepartement) {
+    public Map<Salle, List<LitItem>> getAllDisponibleLitSalle(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
@@ -94,12 +96,12 @@ public class SalleRepositoryImpl implements SalleRepository{
         // Close session
         session.close();
 
-        return litsSalle;
+        return convertBedList(litsSalle);
 
     }
 
     @Override
-    public List<LitItem> getAllOccupeLitSalle(String nomDepartement) {
+    public Map<Salle, List<LitItem>> getAllOccupeLitSalle(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
@@ -130,6 +132,19 @@ public class SalleRepositoryImpl implements SalleRepository{
         // Close session
         session.close();
 
-        return litsSalle;
+        return convertBedList(litsSalle);
+    }
+    public Map<Salle, List<LitItem>> convertBedList(List<LitItem> litItems){
+        Map<Salle, List<LitItem>> espaceListMap = new HashMap<>();
+        litItems.forEach(elt -> {
+            Salle espace = (Salle) elt.getEspace();
+            if (espaceListMap.containsKey(espace))
+                espaceListMap.get(espace).add(elt);
+            else {
+                espaceListMap.put(espace, new ArrayList<>());
+                espaceListMap.get(espace).add(elt);
+            }
+        });
+        return espaceListMap;
     }
 }

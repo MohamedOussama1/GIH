@@ -3,9 +3,13 @@ package ma.uiass.eia.pds.metier;
 
 import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.Lit.LitItem;
+import ma.uiass.eia.pds.model.espace.Espace;
+import ma.uiass.eia.pds.model.espace.chambre.Chambre;
+import ma.uiass.eia.pds.model.espace.salle.Salle;
 import ma.uiass.eia.pds.persistance.*;
 
 import java.util.List;
+import java.util.Map;
 
 public class LitManagerImpl implements LitManager {
     SalleRepository salleRepository = new SalleRepositoryImpl();
@@ -18,8 +22,8 @@ public class LitManagerImpl implements LitManager {
     }
 
     @Override
-    public List<LitItem> getAllLit(String nomDepartement) {
-        return litRepository.findAllLit(nomDepartement);
+    public List<LitItem> getAllLitStock() {
+        return litRepository.findAllLitStock();
     }
 
     @Override
@@ -33,17 +37,17 @@ public class LitManagerImpl implements LitManager {
     }
 
     @Override
-    public List<LitItem> getAllLitChambre(String nomDepartement) {
+    public Map<Chambre, List<LitItem>> getAllLitChambre(String nomDepartement) {
         return chambreRepository.getAllLitChambre(nomDepartement);
     }
 
     @Override
-    public List<LitItem> getAllDisponibleLitChambre(String nomDepartement) {
+    public Map<Chambre, List<LitItem>> getAllDisponibleLitChambre(String nomDepartement) {
         return chambreRepository.getAllDisponibleLitChambre(nomDepartement);
     }
 
     @Override
-    public List<LitItem> getAllOccupeLitChambre(String nomDepartement) {
+    public Map<Chambre, List<LitItem>> getAllOccupeLitChambre(String nomDepartement) {
         return chambreRepository.getAllOccupeLitChambre(nomDepartement);
     }
 
@@ -53,17 +57,17 @@ public class LitManagerImpl implements LitManager {
     }
 
     @Override
-    public List<LitItem> getAllLitSalle(String nomDepartement) {
+    public  Map<Salle, List<LitItem>> getAllLitSalle(String nomDepartement) {
         return salleRepository.getAllLitSalle(nomDepartement);
     }
 
     @Override
-    public List<LitItem> getAllDisponibleLitSalle(String nomDepartement) {
+    public Map<Salle, List<LitItem>> getAllDisponibleLitSalle(String nomDepartement) {
         return salleRepository.getAllDisponibleLitSalle(nomDepartement);
     }
 
     @Override
-    public List<LitItem> getAllOccupeLitSalle(String nomDepartement) {
+    public Map<Salle, List<LitItem>> getAllOccupeLitSalle(String nomDepartement) {
         return salleRepository.getAllOccupeLitSalle(nomDepartement);
     }
 

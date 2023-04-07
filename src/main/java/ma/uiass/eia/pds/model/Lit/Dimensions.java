@@ -1,5 +1,8 @@
 package ma.uiass.eia.pds.model.Lit;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Dimensions {
     double longeur;
     double largeur;
@@ -10,6 +13,8 @@ public class Dimensions {
         this.largeur = largeur;
         this.hauteur = hauteur;
     }
+
+    public Dimensions() {}
 
     public double getLongeur() {
         return longeur;

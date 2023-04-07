@@ -6,26 +6,37 @@ import ma.uiass.eia.pds.metier.DepartementService;
 import ma.uiass.eia.pds.metier.DepartementServiceImpl;
 import ma.uiass.eia.pds.metier.LitManager;
 import ma.uiass.eia.pds.metier.LitManagerImpl;
-import ma.uiass.eia.pds.model.departement.Departement;
+import ma.uiass.eia.pds.model.Lit.LitItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import ma.uiass.eia.pds.model.espace.Espace;
+import ma.uiass.eia.pds.model.espace.chambre.Chambre;
+import ma.uiass.eia.pds.model.espace.salle.Salle;
+import org.json.JSONObject;
+import org.json.JSONArray;
+
+import javax.ws.rs.client.Entity;
 
 @Path("/departement")
 public class DepartementController {
     DepartementService departementService = new DepartementServiceImpl();
     LitManager litManager = new LitManagerImpl();
+
     @POST
     @Path("{nomDepartement}")
     public Response addDepartement(
-            @PathParam(value = "nomDepartement") String nomDepartement){
+            @PathParam(value = "nomDepartement") String nomDepartement) {
         departementService.addDepartement(nomDepartement);
         return Response
                 .ok()
                 .build();
     }
+
     @GET
-    public Response getAllDepartement(){
+    public Response getAllDepartement() {
         List<String> departements = new ArrayList<>();
         departementService
                 .getAllDepartement()
@@ -34,13 +45,14 @@ public class DepartementController {
                 .ok()
                 .entity(departements)
                 .build();
-    };
+    }
+
     @GET
     @Path("/{nomDepartement}/espaces/{typeEspace}")
     public Response getCodesEspacesDepartement(
             @PathParam(value = "nomDepartement") String nomDepartement,
             @PathParam(value = "typeEspace") String typeEspace
-    ){
+    ) {
         return Response
                 .ok()
                 .entity(departementService
@@ -48,12 +60,13 @@ public class DepartementController {
                 )
                 .build();
     }
+
     @GET
     @Path("/{nomDepartement}/{codeEspace}/codesLits")
     public Response getCodesLitsEspace(
-    @PathParam(value = "nomDepartement") String nomDepartement,
-    @PathParam(value = "codeEspace") int numEspace
-        ){
+            @PathParam(value = "nomDepartement") String nomDepartement,
+            @PathParam(value = "codeEspace") int numEspace
+    ) {
         return Response
                 .ok()
                 .entity(departementService
@@ -61,35 +74,35 @@ public class DepartementController {
                 )
                 .build();
     }
+
     @GET
     @Path("/{nomDepartement}/lits")
     public Response getAllLitDepartement(
-            @PathParam(value = "nomDepartement") String nomDepartement){
+            @PathParam(value = "nomDepartement") String nomDepartement) {
         List<String> lits = new ArrayList<>();
         litManager
-                .getAllLit(nomDepartement)
+                .getAllLitStock()
                 .forEach(elt -> lits.add(elt.toString()));
         return Response
                 .ok()
                 .entity(lits)
                 .build();
-    };
+    }
+
+    ;
+
     @GET
     @Path("{nomDepartement}/{typeEspace}/lits")
     public Response getAllLitEspace(
             @PathParam(value = "nomDepartement") String nomDepartement,
-            @PathParam(value = "typeEspace") String typeEspace){
-        List<String> lits = new ArrayList<>();
+            @PathParam(value = "typeEspace") String typeEspace) {
+        List<String> lstEspaces = new ArrayList<>();
         switch (typeEspace) {
             case "Salle":
-                litManager
-                        .getAllLitSalle(nomDepartement)
-                        .forEach(elt -> lits.add(elt.toString()));
+                populateJsonListSalle(lstEspaces, litManager.getAllLitSalle(nomDepartement));
                 break;
             case "Chambre":
-                litManager
-                        .getAllLitChambre(nomDepartement)
-                        .forEach(elt -> lits.add(elt.toString()));
+                populateJsonListChambre(lstEspaces, litManager.getAllLitChambre(nomDepartement));
                 break;
             default:
                 return Response
@@ -98,59 +111,48 @@ public class DepartementController {
         }
         return Response
                 .ok()
-                .entity(lits)
+                .entity(lstEspaces)
                 .build();
-    };
+    }
+
+    ;
+
     @GET
     @Path("{nomDepartement}/{typeEspace}/lits/{occupied}")
     public Response getAllLitEspaceEtat(
             @PathParam(value = "nomDepartement") String nomDepartement,
             @PathParam(value = "typeEspace") String typeEspace,
-            @PathParam(value = "occupied")Boolean occupied){
-        List<String> lits = new ArrayList<>();
+            @PathParam(value = "occupied") Boolean occupied) {
+        List<String> lstEspaces = new ArrayList<>();
         switch (typeEspace) {
+
             case "Salle":
                 if (!occupied) {
-                    litManager
-                            .getAllDisponibleLitSalle(nomDepartement)
-                            .forEach(elt -> lits.add(elt.toString()));
-                    return Response
-                            .ok()
-                            .entity(lits)
-                            .build();
-                }else{
-                        litManager
-                                .getAllOccupeLitSalle(nomDepartement)
-                                .forEach(elt -> lits.add(elt.toString()));
-                        return Response
-                                .ok()
-                                .entity(lits)
-                                .build();
+                    populateJsonListSalle(lstEspaces, litManager.getAllDisponibleLitSalle(nomDepartement));
+                } else {
+                    populateJsonListSalle(lstEspaces, litManager.getAllOccupeLitSalle(nomDepartement));
                 }
+                break;
+
             case "Chambre":
                 if (!occupied) {
-                    litManager
-                            .getAllDisponibleLitChambre(nomDepartement)
-                            .forEach(elt -> lits.add(elt.toString()));
-                    return Response
-                            .ok()
-                            .entity(lits)
-                            .build();
-                }else {
-                    litManager
-                                .getAllOccupeLitChambre(nomDepartement)
-                                .forEach(elt -> lits.add(elt.toString()));
-                        return Response
-                                .ok()
-                                .entity(lits)
-                                .build();
+                    populateJsonListChambre(lstEspaces, litManager.getAllDisponibleLitChambre(nomDepartement));
+                } else {
+                    populateJsonListChambre(lstEspaces, litManager.getAllOccupeLitChambre(nomDepartement));
                 }
+                break;
+
             default:
                 return Response
                         .status(Response.Status.NOT_FOUND)
                         .build();
         }
+        return Response
+                .ok()
+                .entity(lstEspaces)
+                .build();
     }
+
     // Localisation
     @PUT
     @Path("{nomDepartement}")
@@ -159,10 +161,28 @@ public class DepartementController {
             @QueryParam(value = "idLit") int idLit,
             @QueryParam(value = "typeEspace") String typeEspace,
             @QueryParam(value = "numEspace") int numEspace
-    ){
+    ) {
         litManager.deplacerLit(nomDepartement, typeEspace, numEspace, idLit);
         return Response
                 .ok()
                 .build();
+    }
+
+    public void populateJsonListSalle(List<String> jsonList, Map<Salle, List<LitItem>> espaceBedMap) {
+        espaceBedMap.forEach((espace, litLst) -> {
+            JSONObject espaceJson = new JSONObject();
+            espaceJson.put("salle", new JSONObject(espace));
+            espaceJson.put("litLst", litLst);
+            jsonList.add(espaceJson.toString());
+        });
+    }
+
+    public void populateJsonListChambre(List<String> jsonList, Map<Chambre, List<LitItem>> espaceBedMap) {
+        espaceBedMap.forEach((espace, litLst) -> {
+            JSONObject espaceJson = new JSONObject();
+            espaceJson.put("chambre", new JSONObject(espace));
+            espaceJson.put("litLst", litLst);
+            jsonList.add(espaceJson.toString());
+        });
     }
 }

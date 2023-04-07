@@ -52,7 +52,6 @@ public class Batiment {
         return "{" +
                 "id:" + id +
                 ", nomBatiment:" + nomBatiment +
-                ", etage=" + etage +
                 '}';
     }
 }

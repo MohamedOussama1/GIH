@@ -5,6 +5,7 @@ import ma.uiass.eia.pds.model.Lit.LitEquipe;
 import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
 import ma.uiass.eia.pds.model.batiment.Batiment;
+import ma.uiass.eia.pds.model.demande.DemandeAffectation;
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.dm.Dm;
 import ma.uiass.eia.pds.model.espace.Espace;
@@ -44,6 +45,7 @@ public class GetSessionFactory {
             configuration.addAnnotatedClass(Reservation.class);
             configuration.addAnnotatedClass(FonctionLit.class);
             configuration.addAnnotatedClass(Patient.class);
+            configuration.addAnnotatedClass(DemandeAffectation.class);
             // Create Session Factory
             sessionFactory = configuration.buildSessionFactory();
         }

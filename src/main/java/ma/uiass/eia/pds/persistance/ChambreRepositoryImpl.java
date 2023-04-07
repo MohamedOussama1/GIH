@@ -11,7 +11,9 @@ import org.hibernate.SessionFactory;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChambreRepositoryImpl implements ChambreRepository {
     DepartementRepository departementRepository = new DepartementRepositoryImpl();
@@ -32,7 +34,7 @@ public class ChambreRepositoryImpl implements ChambreRepository {
     }
 
     @Override
-    public List<LitItem> getAllLitChambre(String nomDepartement) {
+    public Map<Chambre, List<LitItem>> getAllLitChambre(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
@@ -62,13 +64,13 @@ public class ChambreRepositoryImpl implements ChambreRepository {
         // Close session
         session.close();
 
-        return litsChambre;
+        return convertBedList(litsChambre);
 
 
     }
 
     @Override
-    public List<LitItem> getAllOccupeLitChambre(String nomDepartement) {
+    public Map<Chambre, List<LitItem>> getAllOccupeLitChambre(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
@@ -99,12 +101,12 @@ public class ChambreRepositoryImpl implements ChambreRepository {
         // Close session
         session.close();
 
-        return litsChambre;
+        return convertBedList(litsChambre);
 
     }
 
     @Override
-    public List<LitItem> getAllDisponibleLitChambre(String nomDepartement) {
+    public Map<Chambre, List<LitItem>> getAllDisponibleLitChambre(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
@@ -135,7 +137,22 @@ public class ChambreRepositoryImpl implements ChambreRepository {
         // Close session
         session.close();
 
-        return litsChambre;
+        return convertBedList(litsChambre);
 
+    }
+
+    // Helper method to convert bed List to Map of (Espace : List of LitItems inside)
+    public Map<Chambre, List<LitItem>> convertBedList(List<LitItem> litItems){
+        Map<Chambre, List<LitItem>> espaceListMap = new HashMap<>();
+        litItems.forEach(elt -> {
+            Chambre espace = (Chambre) elt.getEspace();
+            if (espaceListMap.containsKey(espace))
+                espaceListMap.get(espace).add(elt);
+            else {
+                espaceListMap.put(espace, new ArrayList<>());
+                espaceListMap.get(espace).add(elt);
+            }
+        });
+        return espaceListMap;
     }
 }

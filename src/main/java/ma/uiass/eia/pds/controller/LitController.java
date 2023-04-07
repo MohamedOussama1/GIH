@@ -4,16 +4,19 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import ma.uiass.eia.pds.model.Lit.Dimensions;
 import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
 import ma.uiass.eia.pds.metier.LitService;
 import ma.uiass.eia.pds.metier.LitServiceImpl;
+import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
 import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
 import ma.uiass.eia.pds.model.Lit.enums.TypeLit;
 import ma.uiass.eia.pds.model.reservation.Reservation;
+import org.json.JSONObject;
 
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Path("lits")
@@ -21,14 +24,17 @@ public class LitController {
 
     private LitService litService = new LitServiceImpl();
     @GET
+    @Path("stock")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getLits(
-            @QueryParam(value = "nomDepartement") String nomDepartement
+    public Response getLitsStock(
     ){
         List<String> lits = new ArrayList<>();
         litService
-                .getLits(nomDepartement)
-                .forEach(elt -> lits.add(elt.toString()));
+                .getLitsStock()
+                .forEach(lit -> {
+                    JSONObject jsonLit = new JSONObject(lit);
+                    lits.add(jsonLit.toString());
+                });
         return Response
                 .ok()
                 .entity(lits)
@@ -52,15 +58,26 @@ public class LitController {
     public Response postLitDescription(
             @QueryParam(value = "type") String type,
             @QueryParam(value = "model") String modelLit,
+            @QueryParam(value = "fonctions") List<String> fonctions,
             @QueryParam(value = "dimensions")String dimensions,
             @QueryParam(value = "chargeMax") double chargeMax,
             @QueryParam(value = "garantie") int garantie,
             @QueryParam(value = "prix") double prix,
+            @QueryParam(value = "frontColor") String frontColor,
             @QueryParam(value = "description") String description
     ){
-        litService.addLitDescription(TypeLit.valueOf(type), ModelLit.valueOf(modelLit), dimensions, chargeMax, Period.of(garantie, 0, 0), prix, description);
+        // Extract longeur, largeur, hauteur from String dimensions as List<Double>
+        List<Double> dimensionsValues = Arrays.stream(dimensions.split("x")).map(Double::valueOf).collect(Collectors.toList());
+        Dimensions litDimension = new Dimensions(dimensionsValues.get(0), dimensionsValues.get(1), dimensionsValues.get(2));
+
+        // Convert List<String> fonctions to Set<FonctionLit> fonctions
+        Set<FonctionLit> fonctionsLit = new HashSet<>();
+        fonctions.forEach(elt -> fonctionsLit.add(FonctionLit.valueOf(elt)));
+        // Return id of LitDescription to create LitItems with it
+        int idLitDescription = litService.addLitDescription(TypeLit.valueOf(type), ModelLit.valueOf(modelLit), litDimension, chargeMax, Period.of(garantie, 0, 0), prix, fonctionsLit, frontColor, description);
             return Response
                     .ok()
+                    .entity(idLitDescription)
                     .build();
         }
     @Consumes(MediaType.APPLICATION_JSON)

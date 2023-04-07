@@ -1,9 +1,9 @@
 package ma.uiass.eia.pds.persistance;
 
-import ma.uiass.eia.pds.model.Lit.LitEquipe;
+import ma.uiass.eia.pds.model.Lit.Dimensions;
 import ma.uiass.eia.pds.model.Lit.LitItem;
-import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
 import ma.uiass.eia.pds.model.Lit.Lit;
+import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
 import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
 import ma.uiass.eia.pds.model.Lit.enums.TypeLit;
 import ma.uiass.eia.pds.model.departement.Departement;
@@ -17,12 +17,13 @@ import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 public class LitRepositoryImpl implements LitRepository{
     private SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
     @Override
-    public List<LitItem> findAllLit(String nomDepartement) {
+    public List<LitItem> findAllLitStock() {
         // Open new session
         Session session = sessionFactory.openSession();
 
@@ -35,11 +36,10 @@ public class LitRepositoryImpl implements LitRepository{
         // This line is equivalent to writing "FROM t_lit" in the query, root contains columns of table t_lit
         Root<LitItem> root = criteria.from(LitItem.class);
         Join<LitItem, Espace> espaceJoin = root.join("espace");
-        Join<Espace, Departement> departementJoin = espaceJoin.join("departement");
 
         // This line is equivalent to writing "Select * " in the query
         criteria.select(root)
-                .where(builder.like(departementJoin.get("nomDepartement"), nomDepartement));
+                .where(builder.like(espaceJoin.get("nomEspace"), "Stock"));
 
         // Execute the query and store the result into lits
         List<LitItem> lits = session.createQuery(criteria).getResultList();
@@ -50,12 +50,15 @@ public class LitRepositoryImpl implements LitRepository{
         return lits;
     }
     @Override
-    public void saveLit(TypeLit type, ModelLit modelLit, String dimensions, double chargeMax, Period garantie, double prix, String description) {
+    public int saveLit(TypeLit type, ModelLit modelLit, Dimensions dimensions, double chargeMax, Period garantie, double prix, Set<FonctionLit> fonctionsLit, String frontColor,  String description) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(new Lit(type, modelLit, dimensions, chargeMax, garantie, prix,  description));
+        Lit litDescription = new Lit(type, modelLit, dimensions, chargeMax, garantie, prix, fonctionsLit, frontColor, description);
+        session.save(litDescription);
+        int id = litDescription.getNumero();
         session.getTransaction().commit();
         session.close();
+        return id;
     }
 
     @Override
@@ -65,12 +68,14 @@ public class LitRepositoryImpl implements LitRepository{
         IntStream.range(0, quantity).forEach( i -> {
             Lit lit = session.find(Lit.class, litDescriptionId);
             LitItem litItem = new LitItem(lit);
+            Espace stock = session.find(Espace.class, 8);
+            litItem.setEspace(stock);
+            litItem.setCode(String.valueOf((int)(Math.random() * 10000)));
             session.save(litItem);
             });
         session.getTransaction().commit();
         session.close();
     }
-
 
     @Override
     public void occuperLit(int idLit, int idPatient, LocalDateTime dateReservation, LocalDateTime dateDebut, LocalDateTime dateFin) {
@@ -105,13 +110,13 @@ public class LitRepositoryImpl implements LitRepository{
 
         // Check if type is Salle or Chambre
         int numType = typeEspace.equals("Salle") ? 1 : 2;
-        System.out.println(numType);
 
         Predicate predicate1 = criteriaBuilder.like(departementJoin.get("nomDepartement"), nomDepartement);
         Predicate predicate2 = criteriaBuilder.equal(rootEspace.get("numero"), numEspace);
         Predicate predicate3 = criteriaBuilder.equal(rootEspace.type(), numType);
+        Predicate predicate4 = criteriaBuilder.isNull(rootEspace.get("departement"));
         criteria.select(rootEspace.get("id"))
-                .where(criteriaBuilder.and(predicate1, predicate2, predicate3));
+                .where(criteriaBuilder.and(predicate1, predicate2, criteriaBuilder.or(predicate3, predicate4)));
 
         Espace espace = session.find(Espace.class, session.createQuery(criteria).getSingleResult());
         LitItem lit = session.find(LitItem.class, idLit);

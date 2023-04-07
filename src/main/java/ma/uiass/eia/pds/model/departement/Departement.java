@@ -65,11 +65,6 @@ public  class Departement {
 
     @Override
     public String toString() {
-        return "{" +
-                "id:" + id +
-                ", nomDepartement:" + nomDepartement +
-                ", capacityMax:" + capacityMax +
-//                ", etage:" + etage +
-                '}';
+        return nomDepartement;
     }
 }

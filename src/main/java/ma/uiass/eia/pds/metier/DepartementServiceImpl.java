@@ -2,6 +2,7 @@ package ma.uiass.eia.pds.metier;
 
 import ma.uiass.eia.pds.model.batiment.Batiment;
 import ma.uiass.eia.pds.model.departement.Departement;
+import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.persistance.DepartementRepository;
 import ma.uiass.eia.pds.persistance.DepartementRepositoryImpl;
 
@@ -33,4 +34,5 @@ public class DepartementServiceImpl implements DepartementService {
     public List<Integer> getAllCodeLit(String nomDepartement, int numEspace) {
         return departementRepository.getAllCodeLit(nomDepartement, numEspace);
     }
+
 }

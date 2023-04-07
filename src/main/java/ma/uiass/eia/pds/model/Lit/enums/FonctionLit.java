@@ -6,7 +6,6 @@ import ma.uiass.eia.pds.model.Lit.Lit;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "t_fonction")
 public enum FonctionLit {
     REGLAGE_DE_LA_HAUTEUR(0, "Réglage de la hauteur"),
     REGLAGE_DOSSIER(1, "Réglage de la position du dossier"),
@@ -25,11 +24,22 @@ public enum FonctionLit {
     @ManyToMany(mappedBy = "fonctionsLit")
     List<Lit> lits;
 
-    FonctionLit(){}
+
+    FonctionLit(int id, String description, List<Lit> lits) {
+        this.id = id;
+        this.description = description;
+        this.lits = lits;
+    }
+
     FonctionLit(int id, String description){
         this.id = id;
         this.description = description;
     }
+
+    FonctionLit() {
+
+    }
+
 
     @Override
     public String toString() {

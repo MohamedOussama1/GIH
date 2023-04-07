@@ -4,7 +4,8 @@ public enum NomFournisseur {
     HILL_ROOM("Hill-Room"),
     INVACARE("Invacare"),
     LINET("Linet"),
-    ARJO("arjo");
+    ARJO("arjo"),
+    FAVERO("favero");
     String nom;
     NomFournisseur(String nom){
         this.nom = nom;

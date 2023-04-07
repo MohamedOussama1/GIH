@@ -5,6 +5,7 @@ import ma.uiass.eia.pds.model.Lit.LitEquipe;
 import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.departement.Departement;
+import org.json.JSONPropertyIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public abstract class Espace {
         this.numero = numero;
     }
 
+    @JSONPropertyIgnore
     public List<LitItem> getLstLitEquipe() {
         return lstLit;
     }
@@ -79,6 +81,7 @@ public abstract class Espace {
         this.superficie = superficie;
     }
 
+    @JSONPropertyIgnore
     public Departement getDepartement() {
         return departement;
     }
@@ -90,11 +93,11 @@ public abstract class Espace {
     @Override
     public String toString() {
         return "{" +
-                "id=" + id +
-                ", nomEspace='" + nomEspace +
-                ", numero=" + numero +
-                ", superficie=" + superficie +
-                ", departement=" + departement +
+                "id:" + id +
+                ", nomEspace:" + nomEspace +
+                ", numero:" + numero +
+                ", superficie:" + superficie +
+//                ", departement:" + departement +
                 '}';
     }
 }
