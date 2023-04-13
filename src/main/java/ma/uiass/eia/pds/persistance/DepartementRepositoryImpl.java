@@ -134,4 +134,26 @@ public class DepartementRepositoryImpl implements DepartementRepository{
 
         return codesLits;
     }
+
+    @Override
+    public List<LitItem> getAllLitStock(String nomDepartement) {
+
+        Session session = sessionFactory.openSession();
+
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+
+        CriteriaQuery<LitItem> criteria = builder.createQuery(LitItem.class);
+
+        Root<LitItem> root = criteria.from(LitItem.class);
+        Join<LitItem, Espace> espaceJoin = root.join("espace");
+
+        criteria.select(root)
+                .where(builder.like(espaceJoin.get("nomEspace"), "Stock " + nomDepartement));
+
+        List<LitItem> lits = session.createQuery(criteria).getResultList();
+
+        session.close();
+
+        return lits;
+    }
 }

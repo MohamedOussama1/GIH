@@ -1,9 +1,6 @@
 package ma.uiass.eia.pds.model.espace;
 
-import ma.uiass.eia.pds.model.Lit.Lit;
-import ma.uiass.eia.pds.model.Lit.LitEquipe;
 import ma.uiass.eia.pds.model.Lit.LitItem;
-import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.departement.Departement;
 import org.json.JSONPropertyIgnore;
 

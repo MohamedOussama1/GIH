@@ -1,9 +1,6 @@
 package ma.uiass.eia.pds.metier;
 
-import ma.uiass.eia.pds.model.Lit.Lit;
-import ma.uiass.eia.pds.model.Lit.LitEquipe;
 import ma.uiass.eia.pds.model.Lit.LitItem;
-import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.model.espace.chambre.Chambre;
 import ma.uiass.eia.pds.model.espace.salle.Salle;
 

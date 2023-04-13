@@ -46,10 +46,14 @@ public class SalleRepositoryImpl implements SalleRepository{
 
         Predicate predicate1 = builder.like(departementJoin.get("nomDepartement"), nomDepartement);
         Predicate predicate2 = builder.equal(espaceJoin.type(), 1);
+        Predicate predicate3 = builder.notEqual(espaceJoin.get("numero"), 1001);
+        Predicate predicate4 = builder.notEqual(espaceJoin.get("numero"), 1002);
+        Predicate predicate5 = builder.notEqual(espaceJoin.get("numero"), 1003);
+        Predicate predicate6 = builder.notEqual(espaceJoin.get("numero"), 1004);
 
         // This line is equivalent to writing "Select * " in the query
         criteria.select(rootLit)
-                .where(builder.and(predicate1, predicate2));
+                .where(builder.and(predicate1, predicate2, predicate3, predicate4, predicate5, predicate6));
 
         // Execute the query and store the result into lits
         List<LitItem> litsSalle = session.createQuery(criteria).getResultList();
@@ -84,11 +88,15 @@ public class SalleRepositoryImpl implements SalleRepository{
 
         Predicate predicate1 = builder.like(departementJoin.get("nomDepartement"), nomDepartement);
         Predicate predicate2 = builder.equal(espaceJoin.type(), 1);
-        Predicate predicate3 = builder.equal(rootLit.get("occupied"), 0);
+        Predicate predicate7 = builder.equal(rootLit.get("occupied"), 0);
+        Predicate predicate3 = builder.notEqual(espaceJoin.get("numero"), 1001);
+        Predicate predicate4 = builder.notEqual(espaceJoin.get("numero"), 1002);
+        Predicate predicate5 = builder.notEqual(espaceJoin.get("numero"), 1003);
+        Predicate predicate6 = builder.notEqual(espaceJoin.get("numero"), 1004);
 
         // This line is equivalent to writing "Select * " in the query
         criteria.select(rootLit)
-                .where(builder.and(predicate1, predicate2, predicate3));
+                .where(builder.and(predicate1, predicate2, predicate3, predicate4, predicate5, predicate6, predicate7));
 
         // Execute the query and store the result into lits
         List<LitItem> litsSalle = session.createQuery(criteria).getResultList();
@@ -120,11 +128,15 @@ public class SalleRepositoryImpl implements SalleRepository{
 
         Predicate predicate1 = builder.like(departementJoin.get("nomDepartement"), nomDepartement);
         Predicate predicate2 = builder.equal(espaceJoin.type(), 1);
-        Predicate predicate3 = builder.equal(rootLit.get("occupied"), 1);
+        Predicate predicate7 = builder.equal(rootLit.get("occupied"), 1);
+        Predicate predicate3 = builder.notEqual(espaceJoin.get("numero"), 1001);
+        Predicate predicate4 = builder.notEqual(espaceJoin.get("numero"), 1002);
+        Predicate predicate5 = builder.notEqual(espaceJoin.get("numero"), 1003);
+        Predicate predicate6 = builder.notEqual(espaceJoin.get("numero"), 1004);
 
         // This line is equivalent to writing "Select * " in the query
         criteria.select(rootLit)
-                .where(builder.and(predicate1, predicate2, predicate3));
+                .where(builder.and(predicate1, predicate2, predicate3, predicate4, predicate5, predicate6, predicate7));
 
         // Execute the query and store the result into lits
         List<LitItem> litsSalle = session.createQuery(criteria).getResultList();

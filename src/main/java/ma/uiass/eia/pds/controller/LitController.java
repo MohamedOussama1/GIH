@@ -5,7 +5,6 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ma.uiass.eia.pds.model.Lit.Dimensions;
-import ma.uiass.eia.pds.model.Lit.enums.EtatLit;
 import ma.uiass.eia.pds.metier.LitService;
 import ma.uiass.eia.pds.metier.LitServiceImpl;
 import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
@@ -17,15 +16,15 @@ import org.json.JSONObject;
 import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Path("lits")
 public class LitController {
 
     private LitService litService = new LitServiceImpl();
     @GET
     @Path("stock")
-    @Produces(MediaType.APPLICATION_JSON)
     public Response getLitsStock(
     ){
         List<String> lits = new ArrayList<>();
@@ -41,6 +40,33 @@ public class LitController {
                 .build();
     }
     @GET
+    @Path("fonctions")
+    public Response getFonctionsLit(){
+        List<FonctionLit> fonctionsLits = Arrays.asList(FonctionLit.values());
+        return Response
+                .ok()
+                .entity(fonctionsLits)
+                .build();
+    }
+    @GET
+    @Path("models")
+    public Response getModelsLit(){
+        List<ModelLit> fonctionsLits = Arrays.asList(ModelLit.values());
+        return Response
+                .ok()
+                .entity(fonctionsLits)
+                .build();
+    }
+    @GET
+    @Path("types")
+    public Response getTypesLit(){
+        List<TypeLit> fonctionsLits = Arrays.asList(TypeLit.values());
+        return Response
+                .ok()
+                .entity(fonctionsLits)
+                .build();
+    }
+    @GET
     @Path("/{etat}")
     public Response getLitsByEtat(
             @PathParam(value = "etat") String etatLit){
@@ -53,7 +79,6 @@ public class LitController {
                 .entity(lits)
                 .build();
     }
-    @Consumes(MediaType.APPLICATION_JSON)
     @POST
     public Response postLitDescription(
             @QueryParam(value = "type") String type,
@@ -80,7 +105,6 @@ public class LitController {
                     .entity(idLitDescription)
                     .build();
         }
-    @Consumes(MediaType.APPLICATION_JSON)
     @POST
     @Path("/items")
     public Response PostLitItem(
@@ -106,7 +130,6 @@ public class LitController {
                 .build();
     }
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("reservation")
     public Response getReservations(
             @QueryParam(value = "id") int idLit

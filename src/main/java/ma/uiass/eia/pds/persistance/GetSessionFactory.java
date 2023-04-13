@@ -1,7 +1,6 @@
 package ma.uiass.eia.pds.persistance;
 
 import ma.uiass.eia.pds.model.Lit.Lit;
-import ma.uiass.eia.pds.model.Lit.LitEquipe;
 import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
 import ma.uiass.eia.pds.model.batiment.Batiment;
@@ -40,7 +39,6 @@ public class GetSessionFactory {
             configuration.addAnnotatedClass(Chambre.class);
             configuration.addAnnotatedClass(Lit.class);
             configuration.addAnnotatedClass(LitItem.class);
-            configuration.addAnnotatedClass(LitEquipe.class);
             configuration.addAnnotatedClass(Dm.class);
             configuration.addAnnotatedClass(Reservation.class);
             configuration.addAnnotatedClass(FonctionLit.class);

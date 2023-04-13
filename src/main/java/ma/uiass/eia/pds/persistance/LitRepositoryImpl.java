@@ -117,6 +117,8 @@ public class LitRepositoryImpl implements LitRepository{
         Predicate predicate4 = criteriaBuilder.isNull(rootEspace.get("departement"));
         criteria.select(rootEspace.get("id"))
                 .where(criteriaBuilder.and(predicate1, predicate2, criteriaBuilder.or(predicate3, predicate4)));
+        criteria.select(rootEspace.get("id"))
+                .where(criteriaBuilder.and(predicate2, criteriaBuilder.or(predicate3, predicate4)));
 
         Espace espace = session.find(Espace.class, session.createQuery(criteria).getSingleResult());
         LitItem lit = session.find(LitItem.class, idLit);

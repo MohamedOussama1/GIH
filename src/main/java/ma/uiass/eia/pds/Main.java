@@ -1,5 +1,6 @@
 package ma.uiass.eia.pds;
 
+import jakarta.ws.rs.ext.MessageBodyWriter;
 import ma.uiass.eia.pds.model.Lit.Dimensions;
 import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.Lit.LitItem;
@@ -19,6 +20,7 @@ import ma.uiass.eia.pds.model.reservation.Reservation;
 import ma.uiass.eia.pds.persistance.GetSessionFactory;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.hibernate.Session;
 
@@ -43,7 +45,7 @@ public class Main {
     public static HttpServer startServer() {
         // create a resource config that scans for JAX-RS resources and providers
         // in ma.uiass.eia.pds package
-        final ResourceConfig rc = new ResourceConfig().packages("ma.uiass.eia.pds.controller");
+        ResourceConfig rc = new ResourceConfig().packages("ma.uiass.eia.pds.controller", "com.fasterxml.jackson.jaxrs.json.provider").register(JacksonFeature.class);
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
@@ -87,6 +89,10 @@ public class Main {
         Espace salleReanim1 = new Salle("Salle de réveil CARDIOO", 1006,30, cardiologie, TypeSalle.SALLE_REVEIL);
 
         Espace stock = new Salle("Stock", 1000,200, null, TypeSalle.SALLE_EXAMINATION );
+        Espace stockRadio = new Salle("Stock Radiologie", 1004,200, radiologie, TypeSalle.SALLE_EXAMINATION );
+        Espace stockOnco = new Salle("Stock Oncologie", 1003,200, oncologie, TypeSalle.SALLE_EXAMINATION );
+        Espace stockCardio = new Salle("Stock Cardiologie", 1002,200, cardiologie, TypeSalle.SALLE_EXAMINATION );
+        Espace stockNeuro = new Salle("Stock Neurologie", 1001,200, neurologie, TypeSalle.SALLE_EXAMINATION );
 
         Espace chambre1 = new Chambre("chambre4 NEURO",1090,  30, neurologie, TypeChambre.MULTI );
         Espace chambre2 = new Chambre("chambre2 NEURO",708,  30, neurologie, TypeChambre.DOUBLE );
@@ -121,14 +127,14 @@ public class Main {
         LitItem litItem20 = new LitItem("322", litDescription3, salleExam2);
         LitItem litItem4 = new LitItem("221", litDescription4, chambre2);
         LitItem litItem6 = new LitItem("112", litDescription, stock);
-        LitItem litItem7 = new LitItem("382", litDescription1, stock);
+        LitItem litItem7 = new LitItem("382", litDescription1, stockRadio);
         LitItem litItem8 = new LitItem("341", litDescription2, salleReanimation1);
-        LitItem litItem9 = new LitItem("293", litDescription3, stock);
+        LitItem litItem9 = new LitItem("293", litDescription3, stockNeuro);
         LitItem litItem10 = new LitItem("119", litDescription4, chambre5);
         LitItem litItem11 = new LitItem("109", litDescription4, chambre6);
         LitItem litItem12 = new LitItem("12", litDescription4, chambre7);
-        LitItem litItem13 = new LitItem("7", litDescription4, stock);
-        LitItem litItem14 = new LitItem("9", litDescription4, stock);
+        LitItem litItem13 = new LitItem("7", litDescription4, stockCardio);
+        LitItem litItem14 = new LitItem("9", litDescription4, stockOnco);
 
         Patient patient = new Patient("Jarmouni", "Rachid", LocalDate.of(2002, 1, 1), 80, 175);
         Reservation reservation = new Reservation(LocalDateTime.of(2023, 3, 10, 0, 0, 0), LocalDateTime.of(2023, 3, 17, 12, 30, 0), LocalDateTime.of(2023, 3, 18, 12, 30, 0), litItem, patient);
@@ -170,6 +176,10 @@ public class Main {
         session.save(salleReanim1);
         session.save(salleReanimation1);
         session.save(stock);
+        session.save(stockCardio);
+        session.save(stockRadio);
+        session.save(stockOnco);
+        session.save(stockNeuro);
         session.save(litDescription);
         session.save(litDescription1);
         session.save(litDescription2);

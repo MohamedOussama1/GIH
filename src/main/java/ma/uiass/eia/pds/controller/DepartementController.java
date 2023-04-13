@@ -1,6 +1,7 @@
 package ma.uiass.eia.pds.controller;
 
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ma.uiass.eia.pds.metier.DepartementService;
 import ma.uiass.eia.pds.metier.DepartementServiceImpl;
@@ -12,14 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.model.espace.chambre.Chambre;
 import ma.uiass.eia.pds.model.espace.salle.Salle;
 import org.json.JSONObject;
-import org.json.JSONArray;
 
-import javax.ws.rs.client.Entity;
-
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 @Path("/departement")
 public class DepartementController {
     DepartementService departementService = new DepartementServiceImpl();
@@ -41,9 +40,27 @@ public class DepartementController {
         departementService
                 .getAllDepartement()
                 .forEach(elt -> departements.add(elt.getNomDepartement()));
+        System.out.println(departements);
         return Response
                 .ok()
                 .entity(departements)
+                .build();
+    }
+    @GET
+    @Path("stock")
+    public Response getLitsStock(
+            @QueryParam(value = "nomDepartement") String nomDepartement
+    ){
+        List<String> lits = new ArrayList<>();
+        departementService
+                .getLitsStock(nomDepartement)
+                .forEach(lit -> {
+                    JSONObject jsonLit = new JSONObject(lit);
+                    lits.add(jsonLit.toString());
+                });
+        return Response
+                .ok()
+                .entity(lits)
                 .build();
     }
 

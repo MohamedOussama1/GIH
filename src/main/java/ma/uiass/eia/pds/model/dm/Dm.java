@@ -1,7 +1,6 @@
 package ma.uiass.eia.pds.model.dm;
 
-import ma.uiass.eia.pds.model.Lit.Lit;
-import ma.uiass.eia.pds.model.Lit.LitEquipe;
+import ma.uiass.eia.pds.model.Lit.LitItem;
 
 import javax.persistence.*;
 
@@ -13,7 +12,7 @@ public class Dm {
     String nom;
     @ManyToOne
     @JoinColumn(name = "lit_id")
-    LitEquipe lit;
+    LitItem lit;
     public Dm(){}
 
     public int getId() {
@@ -32,11 +31,11 @@ public class Dm {
         this.nom = nom;
     }
 
-    public LitEquipe getLit() {
+    public LitItem getLit() {
         return lit;
     }
 
-    public void setLit(LitEquipe lit) {
+    public void setLit(LitItem lit) {
         this.lit = lit;
     }
 }
