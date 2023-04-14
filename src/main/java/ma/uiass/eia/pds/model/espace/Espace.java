@@ -90,10 +90,10 @@ public abstract class Espace {
     @Override
     public String toString() {
         return "{" +
-                "id:" + id +
-                ", nomEspace:" + nomEspace +
+                "idEspace:" + id +
+//                ", nomEspace:" + nomEspace +
                 ", numero:" + numero +
-                ", superficie:" + superficie +
+//                ", superficie:" + superficie +
 //                ", departement:" + departement +
                 '}';
     }

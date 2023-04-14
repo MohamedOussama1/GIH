@@ -21,7 +21,7 @@ public class MarkovController {
         // Set the working directory for the process builder
 
 
-        processBuilder.directory(new File("C:\\Users\\Fujitsu LifeBook u\\Desktop\\pds\\Send\\GIH\\src\\main\\java\\ma\\uiass\\eia\\pds\\controller"));
+        processBuilder.directory(new File("C:\\Users\\Fujitsu LifeBook u\\Desktop\\GIH\\src\\main\\java\\ma\\uiass\\eia\\pds\\controller"));
 
 
         // Start the process

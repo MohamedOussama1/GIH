@@ -11,6 +11,7 @@ import ma.uiass.eia.pds.metier.LitServiceImpl;
 import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.model.reservation.Reservation;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.Period;
@@ -123,7 +124,41 @@ public class LitController {
                 .build();
     }
 
+
+
+
     // Rachid
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+
+    @RolesAllowed({"admin","normal"})
+
+//    @PermitAll
+    public Response getLits(
+            @QueryParam(value = "nomDepartement") String nomDepartement
+    ){
+        List<LitItem> lits = new ArrayList<>();
+//        return litService.getLits(nomDepartement);
+
+        litService
+                .getLits(nomDepartement)
+                .forEach(elt -> lits.add(elt));
+
+        JSONArray jlist=new JSONArray();
+        for (LitItem lit:lits){
+            JSONObject js=new JSONObject();
+            js.put("idlit",lit.getId());
+            js.put("Occupation",lit.getOccupied());
+            js.put("codelit",lit.getCode());
+            jlist.put(js);
+        }
+        return Response
+                .ok()
+                .entity(jlist.toString())
+                .build();
+    }
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -206,6 +241,9 @@ public class LitController {
 
         litService.occuperLit(id);
 
-        return Response.ok().build();
+        return Response
+                .ok()
+                .entity("rachid")
+                .build();
     }
 }
