@@ -137,7 +137,7 @@ public class Main {
         LitItem litItem14 = new LitItem("9", litDescription4, stockOnco);
 
         Patient patient = new Patient("Jarmouni", "Rachid", LocalDate.of(2002, 1, 1), 80, 175);
-        Reservation reservation = new Reservation(LocalDateTime.of(2023, 3, 10, 0, 0, 0), LocalDateTime.of(2023, 3, 17, 12, 30, 0), LocalDateTime.of(2023, 3, 18, 12, 30, 0), litItem, patient);
+        Reservation reservation = new Reservation(LocalDateTime.of(2023, 3, 10, 0, 0, 0), LocalDateTime.of(2023, 3, 17, 12, 30, 0), LocalDateTime.of(2023, 3, 18, 12, 30, 0), litItem);
 
         Session session = GetSessionFactory.getSessionFactory().openSession();
         session.beginTransaction();

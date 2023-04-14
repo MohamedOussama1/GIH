@@ -11,7 +11,7 @@ import java.util.Map;
 public interface ChambreRepository {
     void saveChambre(String nomDepartement, int numero, double superficie, String nomChambre, String typeChambre);
     List<Chambre> getAllChambre();
-    Map<Chambre, List<LitItem>> getAllLitChambre(String nomDepartement);
-    Map<Chambre, List<LitItem>> getAllOccupeLitChambre(String nomDepartement);
-    Map<Chambre, List<LitItem>> getAllDisponibleLitChambre(String nomDepartement);
+    List<String> getAllLitChambre(String nomDepartement);
+    List<String> getAllOccupeLitChambre(String nomDepartement);
+    List<String> getAllDisponibleLitChambre(String nomDepartement);
 }

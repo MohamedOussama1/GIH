@@ -14,12 +14,16 @@ import java.util.List;
 import java.util.Set;
 
 public interface LitRepository {
-    List<LitItem> findAllLitStock();
-    int saveLit(TypeLit type, ModelLit modelLit, Dimensions dimensions, double chargeMax, Period garantie, double prix, Set<FonctionLit> fonctionsLit, String frontColor, String description);
+    List<String> findAllLitStock();
+    List<LitItem> findAllLit(String nomDepartement);
+    int saveLit(String type, String modelLit, String dimensions, double chargeMax, Period garantie, double prix, List<String> fonctionsLit, String frontColor, String description);
     void saveManyLit(int quantity, int litDescriptionId);
-    void occuperLit(int idLit, int idPatient, LocalDateTime dateReservation, LocalDateTime dateDebut, LocalDateTime dateFin);
+    void occuperLit(int idLit);
 
     void deleteLit(int id);
 
     void deplacerLit(String nomDepartement, String typeEspace, int numEspace, int idLit);
+    List<String> getFonctionsLit();
+    List<String> getTypesLit();
+    List<String> getModelsLit();
 }

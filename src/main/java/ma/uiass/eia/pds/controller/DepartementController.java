@@ -7,14 +7,10 @@ import ma.uiass.eia.pds.metier.DepartementService;
 import ma.uiass.eia.pds.metier.DepartementServiceImpl;
 import ma.uiass.eia.pds.metier.LitManager;
 import ma.uiass.eia.pds.metier.LitManagerImpl;
-import ma.uiass.eia.pds.model.Lit.LitItem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import ma.uiass.eia.pds.model.espace.chambre.Chambre;
-import ma.uiass.eia.pds.model.espace.salle.Salle;
 import org.json.JSONObject;
 
 @Produces(MediaType.APPLICATION_JSON)
@@ -92,19 +88,19 @@ public class DepartementController {
                 .build();
     }
 
-    @GET
-    @Path("/{nomDepartement}/lits")
-    public Response getAllLitDepartement(
-            @PathParam(value = "nomDepartement") String nomDepartement) {
-        List<String> lits = new ArrayList<>();
-        litManager
-                .getAllLitStock()
-                .forEach(elt -> lits.add(elt.toString()));
-        return Response
-                .ok()
-                .entity(lits)
-                .build();
-    }
+//    @GET
+//    @Path("/{nomDepartement}/lits")
+//    public Response getAllLitDepartement(
+//            @PathParam(value = "nomDepartement") String nomDepartement) {
+//        List<String> lits = new ArrayList<>();
+//        litManager
+//                .getAllLitStock()
+//                .forEach(elt -> lits.add(elt.toString()));
+//        return Response
+//                .ok()
+//                .entity(lits)
+//                .build();
+//    }
 
     ;
 
@@ -113,13 +109,13 @@ public class DepartementController {
     public Response getAllLitEspace(
             @PathParam(value = "nomDepartement") String nomDepartement,
             @PathParam(value = "typeEspace") String typeEspace) {
-        List<String> lstEspaces = new ArrayList<>();
+        List<String> lstEspaces;
         switch (typeEspace) {
             case "Salle":
-                populateJsonListSalle(lstEspaces, litManager.getAllLitSalle(nomDepartement));
+                lstEspaces = litManager.getAllLitSalle(nomDepartement);
                 break;
             case "Chambre":
-                populateJsonListChambre(lstEspaces, litManager.getAllLitChambre(nomDepartement));
+                lstEspaces = litManager.getAllLitChambre(nomDepartement);
                 break;
             default:
                 return Response
@@ -140,22 +136,24 @@ public class DepartementController {
             @PathParam(value = "nomDepartement") String nomDepartement,
             @PathParam(value = "typeEspace") String typeEspace,
             @PathParam(value = "occupied") Boolean occupied) {
-        List<String> lstEspaces = new ArrayList<>();
+        List<String> lstEspaces;
         switch (typeEspace) {
 
             case "Salle":
                 if (!occupied) {
-                    populateJsonListSalle(lstEspaces, litManager.getAllDisponibleLitSalle(nomDepartement));
-                } else {
-                    populateJsonListSalle(lstEspaces, litManager.getAllOccupeLitSalle(nomDepartement));
+                    lstEspaces = litManager.getAllDisponibleLitSalle(nomDepartement);
+                }
+                else {
+                    lstEspaces = litManager.getAllOccupeLitSalle(nomDepartement);
                 }
                 break;
 
             case "Chambre":
                 if (!occupied) {
-                    populateJsonListChambre(lstEspaces, litManager.getAllDisponibleLitChambre(nomDepartement));
-                } else {
-                    populateJsonListChambre(lstEspaces, litManager.getAllOccupeLitChambre(nomDepartement));
+                    lstEspaces = litManager.getAllDisponibleLitChambre(nomDepartement);
+                }
+                else {
+                    lstEspaces = litManager.getAllOccupeLitChambre(nomDepartement);
                 }
                 break;
 
@@ -183,23 +181,5 @@ public class DepartementController {
         return Response
                 .ok()
                 .build();
-    }
-
-    public void populateJsonListSalle(List<String> jsonList, Map<Salle, List<LitItem>> espaceBedMap) {
-        espaceBedMap.forEach((espace, litLst) -> {
-            JSONObject espaceJson = new JSONObject();
-            espaceJson.put("salle", new JSONObject(espace));
-            espaceJson.put("litLst", litLst);
-            jsonList.add(espaceJson.toString());
-        });
-    }
-
-    public void populateJsonListChambre(List<String> jsonList, Map<Chambre, List<LitItem>> espaceBedMap) {
-        espaceBedMap.forEach((espace, litLst) -> {
-            JSONObject espaceJson = new JSONObject();
-            espaceJson.put("chambre", new JSONObject(espace));
-            espaceJson.put("litLst", litLst);
-            jsonList.add(espaceJson.toString());
-        });
     }
 }

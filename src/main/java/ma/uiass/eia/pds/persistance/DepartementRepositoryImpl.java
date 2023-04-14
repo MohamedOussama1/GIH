@@ -6,11 +6,16 @@ import ma.uiass.eia.pds.model.batiment.Batiment;
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.departement.NomDepartement;
 import ma.uiass.eia.pds.model.espace.Espace;
+import ma.uiass.eia.pds.model.espace.chambre.Chambre;
+import ma.uiass.eia.pds.model.espace.salle.Salle;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.json.JSONObject;
 
 import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DepartementRepositoryImpl implements DepartementRepository{
     private SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();

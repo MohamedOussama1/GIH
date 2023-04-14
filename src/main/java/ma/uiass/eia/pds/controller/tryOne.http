@@ -1,0 +1,2 @@
+GET http://localhost:8081/lits?nomDepartement=Cardiologie
+Authorization: Basic user1:1234

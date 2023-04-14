@@ -1,6 +1,9 @@
 package ma.uiass.eia.pds.metier;
 
 import ma.uiass.eia.pds.model.Lit.LitItem;
+import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
+import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
+import ma.uiass.eia.pds.model.Lit.enums.TypeLit;
 import ma.uiass.eia.pds.model.espace.chambre.Chambre;
 import ma.uiass.eia.pds.model.espace.salle.Salle;
 
@@ -13,19 +16,19 @@ public interface LitManager {
     // Localisation
     void deplacerLit(String nomDepartement, String typeEspace, int numEspace, int idLit);
 
-    //
-    List<LitItem> getAllLitStock();
+
+    List<LitItem> getAllLit(String nomDepartement);
     List<LitItem> getAllDisponibleLit(String nomDepartement);
     List<LitItem> getAllOccupeLit(String nomDepartement);
 
-    Map<Chambre, List<LitItem>> getAllLitChambre(String nomDepartement);
-    Map<Chambre, List<LitItem>> getAllDisponibleLitChambre(String nomDepartement);
-    Map<Chambre, List<LitItem>> getAllOccupeLitChambre(String nomDepartement);
+    List<String> getAllLitChambre(String nomDepartement);
+    List<String> getAllDisponibleLitChambre(String nomDepartement);
+    List<String> getAllOccupeLitChambre(String nomDepartement);
     double getUseRateChambre(String nomDepartement);
 
-    Map<Salle, List<LitItem>> getAllLitSalle(String nomDepartement);
-    Map<Salle, List<LitItem>> getAllDisponibleLitSalle(String nomDepartement);
-    Map<Salle, List<LitItem>> getAllOccupeLitSalle(String nomDepartement);
+    List<String> getAllLitSalle(String nomDepartement);
+    List<String> getAllDisponibleLitSalle(String nomDepartement);
+    List<String> getAllOccupeLitSalle(String nomDepartement);
     double getUseRateSalle(String nomDepartement);
 
 }

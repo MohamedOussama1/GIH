@@ -3,10 +3,12 @@ package ma.uiass.eia.pds.persistance;
 import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.espace.Espace;
+import ma.uiass.eia.pds.model.espace.chambre.Chambre;
 import ma.uiass.eia.pds.model.espace.salle.Salle;
 import ma.uiass.eia.pds.model.espace.salle.TypeSalle;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.json.JSONObject;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class SalleRepositoryImpl implements SalleRepository{
         session.close();
     }
     @Override
-    public Map<Salle, List<LitItem>> getAllLitSalle(String nomDepartement) {
+    public List<String> getAllLitSalle(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
@@ -58,18 +60,23 @@ public class SalleRepositoryImpl implements SalleRepository{
         // Execute the query and store the result into lits
         List<LitItem> litsSalle = session.createQuery(criteria).getResultList();
 
+        // Convert to Map of Salle:Lits
+        Map<Salle, List<LitItem>> litsSalleMap = convertBedList(litsSalle);
+
+        // Convert to Json
+        List<String> litsSalleJson = new ArrayList<>();
+        populateJsonListSalle(litsSalleJson, litsSalleMap);
+
         // Close session
         session.close();
 
-        return convertBedList(litsSalle);
-
-
+        return litsSalleJson;
     }
 
 
 
     @Override
-    public Map<Salle, List<LitItem>> getAllDisponibleLitSalle(String nomDepartement) {
+    public List<String> getAllDisponibleLitSalle(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
@@ -101,15 +108,19 @@ public class SalleRepositoryImpl implements SalleRepository{
         // Execute the query and store the result into lits
         List<LitItem> litsSalle = session.createQuery(criteria).getResultList();
 
+
+        // Convert to Json
+        List<String> litsSalleJson = new ArrayList<>();
+        litsSalle.forEach(litSalle -> litsSalleJson.add(litSalle.toString()));
+
         // Close session
         session.close();
 
-        return convertBedList(litsSalle);
-
+        return litsSalleJson;
     }
 
     @Override
-    public Map<Salle, List<LitItem>> getAllOccupeLitSalle(String nomDepartement) {
+    public List<String> getAllOccupeLitSalle(String nomDepartement) {
         // Open new session
         Session session = sessionFactory.openSession();
 
@@ -141,10 +152,15 @@ public class SalleRepositoryImpl implements SalleRepository{
         // Execute the query and store the result into lits
         List<LitItem> litsSalle = session.createQuery(criteria).getResultList();
 
+
+        // Convert to Json
+        List<String> litsSalleJson = new ArrayList<>();
+        litsSalle.forEach(litSalle -> litsSalleJson.add(litSalle.toString()));
+
         // Close session
         session.close();
 
-        return convertBedList(litsSalle);
+        return litsSalleJson;
     }
     public Map<Salle, List<LitItem>> convertBedList(List<LitItem> litItems){
         Map<Salle, List<LitItem>> espaceListMap = new HashMap<>();
@@ -159,4 +175,13 @@ public class SalleRepositoryImpl implements SalleRepository{
         });
         return espaceListMap;
     }
+    public void populateJsonListSalle(List<String> jsonList, Map<Salle, List<LitItem>> espaceBedMap) {
+        espaceBedMap.forEach((espace, litLst) -> {
+            JSONObject espaceJson = new JSONObject();
+            espaceJson.put("salle", new JSONObject(espace));
+            espaceJson.put("litLst", litLst);
+            jsonList.add(espaceJson.toString());
+        });
+    }
+
 }

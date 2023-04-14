@@ -22,9 +22,10 @@ public class LitManagerImpl implements LitManager {
     }
 
     @Override
-    public List<LitItem> getAllLitStock() {
-        return litRepository.findAllLitStock();
+    public List<LitItem> getAllLit(String nomDepartement) {
+        return litRepository.findAllLit(nomDepartement);
     }
+
 
     @Override
     public List<LitItem> getAllDisponibleLit(String nomDepartement) {
@@ -37,17 +38,17 @@ public class LitManagerImpl implements LitManager {
     }
 
     @Override
-    public Map<Chambre, List<LitItem>> getAllLitChambre(String nomDepartement) {
+    public List<String> getAllLitChambre(String nomDepartement) {
         return chambreRepository.getAllLitChambre(nomDepartement);
     }
 
     @Override
-    public Map<Chambre, List<LitItem>> getAllDisponibleLitChambre(String nomDepartement) {
+    public List<String> getAllDisponibleLitChambre(String nomDepartement) {
         return chambreRepository.getAllDisponibleLitChambre(nomDepartement);
     }
 
     @Override
-    public Map<Chambre, List<LitItem>> getAllOccupeLitChambre(String nomDepartement) {
+    public List<String> getAllOccupeLitChambre(String nomDepartement) {
         return chambreRepository.getAllOccupeLitChambre(nomDepartement);
     }
 
@@ -57,17 +58,17 @@ public class LitManagerImpl implements LitManager {
     }
 
     @Override
-    public  Map<Salle, List<LitItem>> getAllLitSalle(String nomDepartement) {
+    public  List<String> getAllLitSalle(String nomDepartement) {
         return salleRepository.getAllLitSalle(nomDepartement);
     }
 
     @Override
-    public Map<Salle, List<LitItem>> getAllDisponibleLitSalle(String nomDepartement) {
+    public List<String> getAllDisponibleLitSalle(String nomDepartement) {
         return salleRepository.getAllDisponibleLitSalle(nomDepartement);
     }
 
     @Override
-    public Map<Salle, List<LitItem>> getAllOccupeLitSalle(String nomDepartement) {
+    public List<String> getAllOccupeLitSalle(String nomDepartement) {
         return salleRepository.getAllOccupeLitSalle(nomDepartement);
     }
 

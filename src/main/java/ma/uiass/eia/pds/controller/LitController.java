@@ -1,21 +1,21 @@
 package ma.uiass.eia.pds.controller;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import ma.uiass.eia.pds.model.Lit.Dimensions;
 import ma.uiass.eia.pds.metier.LitService;
 import ma.uiass.eia.pds.metier.LitServiceImpl;
-import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
-import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
-import ma.uiass.eia.pds.model.Lit.enums.TypeLit;
+import ma.uiass.eia.pds.model.Lit.LitItem;
+import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.model.reservation.Reservation;
 import org.json.JSONObject;
 
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -42,7 +42,7 @@ public class LitController {
     @GET
     @Path("fonctions")
     public Response getFonctionsLit(){
-        List<FonctionLit> fonctionsLits = Arrays.asList(FonctionLit.values());
+        List<String> fonctionsLits = litService.getFonctionsLit();
         return Response
                 .ok()
                 .entity(fonctionsLits)
@@ -51,19 +51,19 @@ public class LitController {
     @GET
     @Path("models")
     public Response getModelsLit(){
-        List<ModelLit> fonctionsLits = Arrays.asList(ModelLit.values());
+        List<String> modelLits = litService.getModelsLit();
         return Response
                 .ok()
-                .entity(fonctionsLits)
+                .entity(modelLits)
                 .build();
     }
     @GET
     @Path("types")
     public Response getTypesLit(){
-        List<TypeLit> fonctionsLits = Arrays.asList(TypeLit.values());
+        List<String> typesLit = litService.getTypesLit();
         return Response
                 .ok()
-                .entity(fonctionsLits)
+                .entity(typesLit)
                 .build();
     }
     @GET
@@ -91,15 +91,9 @@ public class LitController {
             @QueryParam(value = "frontColor") String frontColor,
             @QueryParam(value = "description") String description
     ){
-        // Extract longeur, largeur, hauteur from String dimensions as List<Double>
-        List<Double> dimensionsValues = Arrays.stream(dimensions.split("x")).map(Double::valueOf).collect(Collectors.toList());
-        Dimensions litDimension = new Dimensions(dimensionsValues.get(0), dimensionsValues.get(1), dimensionsValues.get(2));
 
-        // Convert List<String> fonctions to Set<FonctionLit> fonctions
-        Set<FonctionLit> fonctionsLit = new HashSet<>();
-        fonctions.forEach(elt -> fonctionsLit.add(FonctionLit.valueOf(elt)));
         // Return id of LitDescription to create LitItems with it
-        int idLitDescription = litService.addLitDescription(TypeLit.valueOf(type), ModelLit.valueOf(modelLit), litDimension, chargeMax, Period.of(garantie, 0, 0), prix, fonctionsLit, frontColor, description);
+        int idLitDescription = litService.addLitDescription(type, modelLit, dimensions, chargeMax, Period.of(garantie, 0, 0), prix, fonctions, frontColor, description);
             return Response
                     .ok()
                     .entity(idLitDescription)
@@ -117,34 +111,6 @@ public class LitController {
                 .build();
         }
 
-    // Gerer Reservations
-    @POST
-    @Path("reservation")
-    public Response OccuperLit(
-            Reservation reservation
-    ){
-        litService.reserverLit(reservation.getDateDebut(), reservation.getDateFin(), reservation.getDateReservation(), reservation.getLit().getId(), reservation.getPatient().getId());
-        return Response
-                .ok()
-                .entity(reservation.getDateDebut())
-                .build();
-    }
-    @GET
-    @Path("reservation")
-    public Response getReservations(
-            @QueryParam(value = "id") int idLit
-    ){
-        List<String> reservations = new ArrayList<>();
-        litService
-                .findReservations(idLit)
-                .forEach(elt -> reservations.add(elt.toString()));
-        return Response
-                .ok()
-                .entity(reservations)
-                .build();
-    }
-
-
     // Admin
 
     @DELETE
@@ -155,5 +121,91 @@ public class LitController {
         return Response
                 .ok()
                 .build();
+    }
+
+    // Rachid
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("litinespace")
+//    @RolesAllowed("admin")
+    @PermitAll
+    public Response getLitsEspace() {
+        HashMap<String, List<String>> mapchambr = new HashMap<>();
+
+        HashMap<Espace,List<LitItem>> hashlitespae = litService.getLitsEspace("Cardiologie");
+
+        for (Espace lst : hashlitespae.keySet()) {
+            List<String> lstLits = new ArrayList<>();
+            for (LitItem lit : hashlitespae.get(lst)) {
+                lstLits.add(lit.toString());
+            }
+            mapchambr.put(lst.toString(), lstLits);
+        }
+        System.out.println("@@@@@@@@@@@@@@@@@"+hashlitespae.get(0));
+        return Response.ok().entity(mapchambr).build();
+    }
+
+    @GET
+    @Path("litdisponible")
+    @Produces(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"admin","normal"})
+    public Response getAllLitDisponible(
+            @QueryParam(value = "nomDepartement") String nomDepartement,
+            @QueryParam(value = "espaceType") String espaceType
+    ){
+        List<String> lits = new ArrayList<>();
+        litService
+                .Chercher_lit_disponbile_a_Reserver(nomDepartement,espaceType)
+                .forEach(elt -> lits.add("{"+"id :"+elt.getId()+ ", Espace : "+elt.getEspace().getId()+"}"));
+        return Response
+                .ok()
+                .entity(lits)
+                .build();
+    }
+    @GET
+//    @Produces(MediaType.APPLICATION_JSON)
+    @Path("allreservation")
+    @RolesAllowed({"admin","normal"})
+    public Response getAllReservation(){
+        List<String> lits = new ArrayList<>();
+
+        litService
+                .getReservationHistorique().forEach(elt -> lits.add(elt.toString()));
+        return Response
+                .ok()
+                .entity(lits)
+                .build();
+
+    }
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("admin")
+    @RolesAllowed({"admin","normal"})
+    public Response OccuperLit(
+            @QueryParam(value = "id") int lit_id
+
+    ){
+
+        litService.reserverLit(lit_id);
+        return Response
+                .ok()
+                .entity("rachid")
+                .build();
+    }
+
+    ///                 <rachid> occuper ou liberer un lit
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("occuperlit")
+    @RolesAllowed({"admin","normal"})
+
+    public Response postOccuper_lit(
+            @QueryParam(value="id") int id
+    ){
+
+        litService.occuperLit(id);
+
+        return Response.ok().build();
     }
 }
