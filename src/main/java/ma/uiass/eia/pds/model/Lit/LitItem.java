@@ -132,13 +132,14 @@ public class LitItem {
     @Override
     public String toString() {
         return "{" +
-                "id:" + id +
+                "idLit:" + id +
                 ", code:" + code  +
                 ", occupied:" + occupied +
                 ", litDescription:" + litDescription.getNumero() +
+                ", typeEspace:" + espace.getClass() +
 //                ", reservation:" + reservation +
 //                ", espace:" + espace.getNomEspace() +
-//                ", numEspace:" + espace.getNumero() +
+                ", idEspace:" + espace.getNumero() +
 //                ", description:" + litDescription.getDescription() +
 //                ", departement:" + espace.getDepartement() +
 //                ", etage:" + espace.getDepartement().getEtage() +

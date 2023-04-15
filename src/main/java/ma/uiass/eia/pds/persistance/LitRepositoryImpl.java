@@ -13,6 +13,7 @@ import org.hibernate.SessionFactory;
 import org.json.JSONObject;
 
 import javax.persistence.criteria.*;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -131,17 +132,12 @@ public class LitRepositoryImpl implements LitRepository{
         LitItem lit = session.find(LitItem.class, idLit);
 
         if(lit.getOccupied()) {
-
             lit.setOccupied(false);
         }
         else {
             lit.setOccupied(true);
         }
-
-
-
         session.update(lit);
-
         session.getTransaction().commit();
         session.close();
     }
@@ -153,8 +149,6 @@ public class LitRepositoryImpl implements LitRepository{
         session.getTransaction().commit();
         session.close();
     }
-
-
     @Override
     public void deplacerLit(String nomDepartement, String typeEspace, int numEspace, int  idLit) {
         Session session = sessionFactory.openSession();
@@ -197,4 +191,5 @@ public class LitRepositoryImpl implements LitRepository{
     public List<String> getModelsLit() {
         return Arrays.stream(ModelLit.values()).map(modelLit -> modelLit.name()).collect(Collectors.toList());
     }
+
 }

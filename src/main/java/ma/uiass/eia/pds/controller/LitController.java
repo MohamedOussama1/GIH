@@ -130,17 +130,19 @@ public class LitController {
     @Path("litinespace")
 //    @RolesAllowed("admin")
     @PermitAll
-    public Response getLitsEspace() {
+    public Response getLitsEspace(@QueryParam(value = "nomDepartement") String nomDepartement) {
         HashMap<String, List<String>> mapchambr = new HashMap<>();
 
-        HashMap<Espace,List<LitItem>> hashlitespae = litService.getLitsEspace("Cardiologie");
+        HashMap<Espace,List<LitItem>> hashlitespae = litService.getLitsEspace(nomDepartement);
 
         for (Espace lst : hashlitespae.keySet()) {
-            List<String> lstLits = new ArrayList<>();
-            for (LitItem lit : hashlitespae.get(lst)) {
-                lstLits.add(lit.toString());
+            if (lst.getNumero() < 999 || lst.getNumero() > 1004){
+                List<String> lstLits = new ArrayList<>();
+                for (LitItem lit : hashlitespae.get(lst)) {
+                    lstLits.add(lit.toString());
+                }
+                mapchambr.put(lst.toString(), lstLits);
             }
-            mapchambr.put(lst.toString(), lstLits);
         }
         System.out.println("@@@@@@@@@@@@@@@@@"+hashlitespae.get(0));
         return Response.ok().entity(mapchambr).build();
@@ -157,7 +159,11 @@ public class LitController {
         List<String> lits = new ArrayList<>();
         litService
                 .Chercher_lit_disponbile_a_Reserver(nomDepartement,espaceType)
-                .forEach(elt -> lits.add("{"+"id :"+elt.getId()+ ", Espace : "+elt.getEspace().getId()+"}"));
+                .forEach(elt ->{
+                    int numEspace = elt.getEspace().getNumero();
+                    if (numEspace < 999 || numEspace > 1004)
+                        lits.add("{" + "id :" + elt.getId() + ", code: " + elt.getCode() + ", numEspace: " + elt.getEspace().getNumero() + ", Espace : " + elt.getEspace().getId() + "}");
+                });
         return Response
                 .ok()
                 .entity(lits)
@@ -207,5 +213,14 @@ public class LitController {
         litService.occuperLit(id);
 
         return Response.ok().build();
+    }
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("reservation")
+    public Response saveExitDate(@QueryParam(value = "idLit") int idLit){
+        litService.saveExitDate(idLit);
+        return Response
+                .ok()
+                .build();
     }
 }

@@ -90,10 +90,11 @@ public abstract class Espace {
     @Override
     public String toString() {
         return "{" +
-                "id:" + id +
+                "idEspace:" + id +
                 ", nomEspace:" + nomEspace +
                 ", numero:" + numero +
                 ", superficie:" + superficie +
+                ", type:" + getClass().getSimpleName() +
 //                ", departement:" + departement +
                 '}';
     }

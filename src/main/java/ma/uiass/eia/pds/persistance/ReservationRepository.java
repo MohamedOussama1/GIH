@@ -21,4 +21,5 @@ public interface ReservationRepository {
 
     void Update_Les_Dates_Reel();
 
+    void saveExitDate(int idLit);
 }

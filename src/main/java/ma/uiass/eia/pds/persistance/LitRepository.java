@@ -26,4 +26,5 @@ public interface LitRepository {
     List<String> getFonctionsLit();
     List<String> getTypesLit();
     List<String> getModelsLit();
+
 }

@@ -91,7 +91,6 @@ public class LitServiceImpl implements LitService {
         HashMap<Espace, List<LitItem>> mapchambre = new HashMap<>();
 
         for (LitItem lit : lstallLit) {
-
             if (!mapchambre.containsKey(lit.getEspace())) {
                 mapchambre.put(lit.getEspace(), new ArrayList<>());
             }
@@ -122,6 +121,12 @@ public class LitServiceImpl implements LitService {
 
         return lstItem;
     }
+
+    @Override
+    public void saveExitDate(int idLit) {
+        reservationRepository.saveExitDate(idLit);
+    }
+
     @Override
     public List<Reservation> getReservationHistorique() {
         return reservationRepository.getAll();

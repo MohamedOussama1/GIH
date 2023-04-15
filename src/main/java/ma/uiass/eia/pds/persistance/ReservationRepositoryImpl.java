@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -106,7 +107,7 @@ public class ReservationRepositoryImpl implements ReservationRepository{
 
         LitItem lit=session.find(LitItem.class,idlit);
 
-        Reservation reservation = new Reservation(LocalDateTime.now(),LocalDateTime.of(2023, 3, 17, 12, 30, 0), LocalDateTime.of(2023, 3, 18, 12, 30, 0), lit);
+        Reservation reservation = new Reservation(LocalDateTime.now(), LocalDateTime.of(2023, 3, 18, 12, 30, 0),null, lit);
 
         session.save(reservation);
 
@@ -114,6 +115,29 @@ public class ReservationRepositoryImpl implements ReservationRepository{
 
         session.close();
 
+    }
+    @Override
+    public void saveExitDate(int idLit) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Reservation> criteria = builder.createQuery(Reservation.class);
+
+        Root<Reservation> root = criteria.from(Reservation.class);
+
+        Predicate predicate1 = builder.equal(root.get("lit"), idLit);
+        Predicate predicate2 = builder.isNull(root.get("dateFinPredicted"));
+
+        criteria.select(root)
+                .where(builder.and(predicate1, predicate2));
+
+        Reservation currentReservation = session.createQuery(criteria).getSingleResult();
+        currentReservation.setDateFin(LocalDateTime.now());
+        session.save(currentReservation);
+
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override

@@ -41,4 +41,6 @@ public interface LitService {
     List<LitItem> getLits(String nomDepartement);
 
     List<LitItem> Chercher_lit_disponbile_a_Reserver(String nomDepartment,String typeEspace);
+
+    void saveExitDate(int idLit);
 }
