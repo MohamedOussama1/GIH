@@ -43,7 +43,6 @@ public class DemandeAffectation {
     }
 
     public DemandeAffectation(TypeLit typeLit, ModelLit modelLit, Departement departement, int qte) {
-        this.id = id;
         this.departement=departement;
         this.etatDemande = EtatDemande.NONTRAITÉE;
         this.date_debut = LocalDate.now();

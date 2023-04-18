@@ -9,6 +9,9 @@ import ma.uiass.eia.pds.model.Lit.enums.ModelLit;
 import ma.uiass.eia.pds.model.Lit.enums.TypeLit;
 import ma.uiass.eia.pds.model.batiment.Batiment;
 import ma.uiass.eia.pds.model.departement.Departement;
+import ma.uiass.eia.pds.model.dm.DM;
+import ma.uiass.eia.pds.model.dm.DMItem;
+import ma.uiass.eia.pds.model.dm.TypeDM;
 import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.model.espace.chambre.Chambre;
 import ma.uiass.eia.pds.model.espace.chambre.TypeChambre;
@@ -76,6 +79,9 @@ public class Main {
         Espace salleExamination = new Salle("Salle de procédure NEURO",912, 20, neurologie, TypeSalle.SALLE_PROCEDURE);
         Espace salleReanimation = new Salle("Salle de réveil NEURO",922,  30, neurologie, TypeSalle.SALLE_REVEIL );
 
+        Espace salleExamination4 = new Salle("Salle de procédure RADIO",990, 20, neurologie, TypeSalle.SALLE_PROCEDURE);
+        Espace salleReanimation4 = new Salle("Salle de réveil RADIO",902,  30, neurologie, TypeSalle.SALLE_REVEIL );
+
         Espace salleExam = new Salle("Salle d'éxamination NEURO",971,  20, neurologie, TypeSalle.SALLE_EXAMINATION);
         Espace salleReanim = new Salle("Salle de radiologie NEURO", 906,30, radiologie, TypeSalle.SALLE_RADIOLOGIE );
 
@@ -87,6 +93,18 @@ public class Main {
         Espace salleExam3 = new Salle("Salle de procédure CARDIO",801,  20, cardiologie, TypeSalle.SALLE_PROCEDURE);
         Espace salleExam4 = new Salle("Salle d'éxamination CARDIO",802,  20, cardiologie, TypeSalle.SALLE_EXAMINATION);
         Espace salleReanim1 = new Salle("Salle de réveil CARDIOO", 1006,30, cardiologie, TypeSalle.SALLE_REVEIL);
+
+        Espace salleEaxmi = new Salle("Salle d'éxamination CARDIO",654,  20, cardiologie, TypeSalle.SALLE_EXAMINATION);
+        Espace salleExami2 = new Salle("Salle de réveil CARDIO",653,  20, cardiologie, TypeSalle.SALLE_REVEIL);
+        Espace salleExami3= new Salle("Salle de procédure CARDIO",652,  20, cardiologie, TypeSalle.SALLE_PROCEDURE);
+        Espace salleExami4= new Salle("Salle d'éxamination CARDIO",651,  20, cardiologie, TypeSalle.SALLE_EXAMINATION);
+        Espace salleReanim3 = new Salle("Salle de réveil CARDIOO", 650,30, cardiologie, TypeSalle.SALLE_REVEIL);
+
+        Espace salleExamin1 = new Salle("Salle d'éxamination CARDIO",645,  20, cardiologie, TypeSalle.SALLE_EXAMINATION);
+        Espace salleExamin2 = new Salle("Salle de réveil CARDIO",646,  20, cardiologie, TypeSalle.SALLE_REVEIL);
+        Espace salleExamin3 = new Salle("Salle de procédure CARDIO",647,  20, cardiologie, TypeSalle.SALLE_PROCEDURE);
+        Espace salleExamin4 = new Salle("Salle d'éxamination CARDIO",648,  20, cardiologie, TypeSalle.SALLE_EXAMINATION);
+        Espace salleReanim2 = new Salle("Salle de réveil CARDIOO", 649,30, cardiologie, TypeSalle.SALLE_REVEIL);
 
         Espace stock = new Salle("Stock", 1000,200, null, TypeSalle.SALLE_EXAMINATION );
         Espace stockRadio = new Salle("Stock Radiologie", 1004,200, radiologie, TypeSalle.SALLE_EXAMINATION );
@@ -117,14 +135,29 @@ public class Main {
 
         LitItem litItem = new LitItem("23", litDescription, stock);
         LitItem litItem15 = new LitItem("28", litDescription, salleExamination1);
-        LitItem litItem2 = new LitItem("106", litDescription1, salleReanim);
+        LitItem litItem30 = new LitItem("171", litDescription1, salleEaxmi);
+        LitItem litItem31 = new LitItem("170", litDescription1, chambre3);
+        LitItem litItem32 = new LitItem("172", litDescription1, chambre3);
+        LitItem litItem33 = new LitItem("173", litDescription1, chambre8);
+        LitItem litItem34 = new LitItem("174", litDescription1, chambre9);
+        LitItem litItem35 = new LitItem("175", litDescription1, chambre4);
+        LitItem litItem29 = new LitItem("107", litDescription1, salleExami2);
+        LitItem litItem28 = new LitItem("108", litDescription1, salleExami3);
+        LitItem litItem27 = new LitItem("111", litDescription1, salleExami4);
+        LitItem litItem26 = new LitItem("165", litDescription1, salleReanim1);
+        LitItem litItem25 = new LitItem("167", litDescription1, salleReanim2);
+        LitItem litItem24 = new LitItem("161", litDescription1, salleReanim3);
+        LitItem litItem23 = new LitItem("163", litDescription1, salleExamin1);
+        LitItem litItem22 = new LitItem("160", litDescription1, salleExamin2);
+        LitItem litItem21 = new LitItem("169", litDescription1, salleExamin3);
+        LitItem litItem20 = new LitItem("162", litDescription1, salleExamin4);
         LitItem litItem3 = new LitItem("908", litDescription2, stock);
         LitItem litItem5 = new LitItem("323", litDescription3, chambre1);
         LitItem litItem16 = new LitItem("22", litDescription, stock);
         LitItem litItem17 = new LitItem("27", litDescription, salleExam1);
         LitItem litItem18= new LitItem("105", litDescription1, salleExam4);
         LitItem litItem19 = new LitItem("907", litDescription2, salleExam3);
-        LitItem litItem20 = new LitItem("322", litDescription3, salleExam2);
+        LitItem litItem2 = new LitItem("322", litDescription3, salleExam2);
         LitItem litItem4 = new LitItem("221", litDescription4, chambre2);
         LitItem litItem6 = new LitItem("112", litDescription, stock);
         LitItem litItem7 = new LitItem("382", litDescription1, stockRadio);
@@ -158,7 +191,19 @@ public class Main {
         session.save(salleReanimation1);
         session.save(salleReanim);
         session.save(salleReanim1);
+        session.save(salleReanim2);
+        session.save(salleReanim3);
         session.save(salleExam);
+        session.save(salleReanimation4);
+        session.save(salleExamination4);
+        session.save(salleEaxmi);
+        session.save(salleExamin1);
+        session.save(salleExamin2);
+        session.save(salleExamin3);
+        session.save(salleExamin4);
+        session.save(salleExami2);
+        session.save(salleExami3);
+        session.save(salleExami4);
         session.save(chambre1);
         session.save(chambre2);
         session.save(chambre3);
@@ -205,8 +250,37 @@ public class Main {
         session.save(litItem18);
         session.save(litItem19);
         session.save(litItem20);
+        session.save(litItem21);
+        session.save(litItem22);
+        session.save(litItem23);
+        session.save(litItem24);
+        session.save(litItem25);
+        session.save(litItem26);
+        session.save(litItem27);
+        session.save(litItem28);
+        session.save(litItem29);
+        session.save(litItem30);
+        session.save(litItem31);
+        session.save(litItem32);
+        session.save(litItem33);
+        session.save(litItem34);
+        session.save(litItem35);
         session.save(patient);
         session.save(reservation);
+        TypeDM typeDm = new TypeDM("fournitures");
+        DM dm = new DM("ciseaux", 20, typeDm);
+        DMItem ciseaux1 = new DMItem("ciseaux 1", dm);
+        DMItem ciseaux2 = new DMItem("ciseaux 2", dm);
+        DMItem ciseaux3 = new DMItem("ciseaux 3", dm);
+        DMItem ciseaux4 = new DMItem("ciseaux 4", dm);
+        DMItem ciseaux5= new DMItem("ciseaux 5", dm);
+        session.save(typeDm);
+        session.save(dm);
+        session.save(ciseaux1);
+        session.save(ciseaux2);
+        session.save(ciseaux3);
+        session.save(ciseaux4);
+        session.save(ciseaux5);
         session.getTransaction().commit();
         session.close();
 

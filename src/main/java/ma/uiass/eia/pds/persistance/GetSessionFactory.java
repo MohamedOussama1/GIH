@@ -5,8 +5,11 @@ import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
 import ma.uiass.eia.pds.model.batiment.Batiment;
 import ma.uiass.eia.pds.model.demande.DemandeAffectation;
+import ma.uiass.eia.pds.model.demande.DemandeDm;
 import ma.uiass.eia.pds.model.departement.Departement;
-import ma.uiass.eia.pds.model.dm.Dm;
+import ma.uiass.eia.pds.model.dm.DM;
+import ma.uiass.eia.pds.model.dm.DMItem;
+import ma.uiass.eia.pds.model.dm.TypeDM;
 import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.model.espace.chambre.Chambre;
 import ma.uiass.eia.pds.model.espace.salle.Salle;
@@ -39,11 +42,15 @@ public class GetSessionFactory {
             configuration.addAnnotatedClass(Chambre.class);
             configuration.addAnnotatedClass(Lit.class);
             configuration.addAnnotatedClass(LitItem.class);
-            configuration.addAnnotatedClass(Dm.class);
+            configuration.addAnnotatedClass(DM.class);
+            configuration.addAnnotatedClass(DMItem.class);
+            configuration.addAnnotatedClass(TypeDM.class);
             configuration.addAnnotatedClass(Reservation.class);
             configuration.addAnnotatedClass(FonctionLit.class);
             configuration.addAnnotatedClass(Patient.class);
             configuration.addAnnotatedClass(DemandeAffectation.class);
+            configuration.addAnnotatedClass(DemandeDm.class);
+
             // Create Session Factory
             sessionFactory = configuration.buildSessionFactory();
         }

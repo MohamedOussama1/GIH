@@ -17,6 +17,9 @@
         <!-- Set Driver Name -->
         <property name = "hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
 
+<!--        Connection pool size -->
+        <property name = "hibernate.connection.pool_size">100</property>
+
         <property name = "hibernate.show_sql">true</property>
 
         <property name="hibernate.hbm2ddl.auto">update</property>
