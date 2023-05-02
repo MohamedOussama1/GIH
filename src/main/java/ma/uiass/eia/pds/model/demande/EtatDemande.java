@@ -1,10 +1,11 @@
 package ma.uiass.eia.pds.model.demande;
 
 public enum EtatDemande {
+    INITIALISÉE("initialisée"),
+    CONFIRMÉE("confirmée"),
     TRAITÉE("traitée"),
-    NONTRAITÉE("nontraitée"),
 
-    ENCOURS("en cours de traitement"),
+    ACCEPTÉE("acceptée"),
 
    REJETÉE ("rejetée");
     String name;
@@ -15,17 +16,20 @@ public enum EtatDemande {
     public static EtatDemande fromString(String s){
         EtatDemande etatDemande = null;
         switch (s.toLowerCase()) {
-            case "traitée":
-                etatDemande = TRAITÉE;
+            case "initialisée":
+                etatDemande = INITIALISÉE;
                 break;
-            case "nontraitée":
-                etatDemande = NONTRAITÉE;
+            case "confirmée":
+                etatDemande = CONFIRMÉE;
                 break;
-            case "encours":
-                etatDemande = ENCOURS;
+            case "acceptée":
+                etatDemande = ACCEPTÉE;
                 break;
             case "rejetée":
                 etatDemande = REJETÉE;
+                break;
+            case "traitée":
+                etatDemande = TRAITÉE;
                 break;
 
         }

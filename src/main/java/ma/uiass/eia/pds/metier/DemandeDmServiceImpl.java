@@ -9,9 +9,12 @@ import java.util.List;
 public class DemandeDmServiceImpl implements DemandeDmService{
     DemandeDmRepository demandeDmRepository = new DemandeDmRepositoryImpl();
     @Override
-    public void ajouterDemandeDm(String typeDm, String nomDm, String nomDepartement, int qte) {
-        demandeDmRepository.ajouterDemandeDM(typeDm, nomDm, nomDepartement, qte);
+    public int ajouterDemandeDm(String nomDepartement) {
+        return demandeDmRepository.ajouterDemandeDm(nomDepartement);
     }
+    public void ajouterDetailDemandeDm(String nomDM, int qte, int idDemandeDm){
+        demandeDmRepository.ajouterDetailDemandeDM(nomDM, qte, idDemandeDm);
+    };
 
     @Override
     public void updateEtatDemande(int id, String etatDemande) {
@@ -19,12 +22,17 @@ public class DemandeDmServiceImpl implements DemandeDmService{
     }
 
     @Override
-    public List<DemandeDm> getAllDemandes() {
+    public List<String> getAllDemandes() {
         return demandeDmRepository.getAllDemandes();
     }
 
     @Override
-    public List<DemandeDm> getDemandesByDepartement(String nomDepartement) {
+    public List<String> getDemandesByDepartement(String nomDepartement) {
         return demandeDmRepository.getDemandesByDepartement(nomDepartement);
+    }
+
+    @Override
+    public void updateEtatDetail(int idDetail, String etatDetail) {
+        demandeDmRepository.updateEtatDetail(idDetail, etatDetail);
     }
 }

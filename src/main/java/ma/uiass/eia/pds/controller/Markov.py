@@ -115,49 +115,49 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def StepsInFuture(yourCurrentState, nbreOfSteps):
-    P = np.array([[0.94, 0.03, 0.02, 0.01],
-                  [0, 0.93, 0.04, 0.03],
-                  [0, 0, 0.92, 0.08],
-                  [0, 0, 0, 1]])
-
-    for i in range(yourCurrentState):
-        print(sum(P[i]))
-
-    pi_0 = np.zeros(4)
-    pi_0[yourCurrentState] = 1
-
-    P_power = np.linalg.matrix_power(P, nbreOfSteps)
-
-    print(pi_0)
-
-    print(P_power)
-
-    pi = pi_0@P_power
-    print(pi)
-    states = ['Brand New','Good Condition', 'Poor Condition', 'Defective Condition']
-    print(sum(pi))
-
-    # Create an array to store the distribution at each step
-    dist = np.zeros((nbreOfSteps+1, 4))
-    dist[0] = pi_0
-
-    # Compute the distribution at each step
-    for i in range(1, nbreOfSteps+1):
-        pi = dist[i-1] @ P
-        dist[i] = pi
-
-    # Plot the evolution of the distribution
-    plt.plot(dist)
-    plt.legend(states)
-    plt.title('Evolution of Distribution')
-    plt.xlabel('Step')
-    plt.ylabel('Probability')
-    plt.show()
-
-
-StepsInFuture(1,10)
-
-
-
-print("rachidohadpoha[oghsonosh")
+# def StepsInFuture(yourCurrentState, nbreOfSteps):
+#     P = np.array([[0.94, 0.03, 0.02, 0.01],
+#                   [0, 0.93, 0.04, 0.03],
+#                   [0, 0, 0.92, 0.08],
+#                   [0, 0, 0, 1]])
+#
+#     for i in range(yourCurrentState):
+#         print(sum(P[i]))
+#
+#     pi_0 = np.zeros(4)
+#     pi_0[yourCurrentState] = 1
+#
+#     P_power = np.linalg.matrix_power(P, nbreOfSteps)
+#
+#     print(pi_0)
+#
+#     print(P_power)
+#
+#     pi = pi_0@P_power
+#     print(pi)
+#     states = ['Brand New','Good Condition', 'Poor Condition', 'Defective Condition']
+#     print(sum(pi))
+#
+#     # Create an array to store the distribution at each step
+#     dist = np.zeros((nbreOfSteps+1, 4))
+#     dist[0] = pi_0
+#
+#     # Compute the distribution at each step
+#     for i in range(1, nbreOfSteps+1):
+#         pi = dist[i-1] @ P
+#         dist[i] = pi
+#
+#     # Plot the evolution of the distribution
+#     plt.plot(dist)
+#     plt.legend(states)
+#     plt.title('Evolution of Distribution')
+#     plt.xlabel('Step')
+#     plt.ylabel('Probability')
+#     plt.show()
+#
+#
+# StepsInFuture(1,10)
+#
+#
+#
+# print("rachidohadpoha[oghsonosh")

@@ -7,6 +7,7 @@ import java.util.List;
 
 
 public interface DMRepository {
+    DM getDmByName(String nomDm);
     void saveDM(String nom, int quantité, TypeDM typeDM);
     void saveTypeDM(String nom);
 

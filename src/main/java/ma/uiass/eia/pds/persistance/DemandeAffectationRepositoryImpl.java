@@ -76,7 +76,7 @@ public class DemandeAffectationRepositoryImpl implements DemandeAffectationRepos
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         DemandeAffectation demandeAffectation = session.find(DemandeAffectation.class, id);
-        if (etatDemande != EtatDemande.NONTRAITÉE ) {
+        if (etatDemande != EtatDemande.INITIALISÉE ) {
             demandeAffectation.setEtatDemande(etatDemande);
             demandeAffectation.setDate_fin(LocalDate.now());
 

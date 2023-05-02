@@ -47,7 +47,7 @@ public class DepartementRepositoryImpl implements DepartementRepository{
         criteria.select(root);
 
         // Where nomDepartement = nomDepartement. Note that "nomDepartement" column is stored as Enum not String
-        criteria.where(builder.equal(root.get("nomDepartement"), NomDepartement.fromString(nomDepartement)));
+        criteria.where(builder.like(root.get("nomDepartement"), nomDepartement));
 
         // Execute query and store the result into departements
         Departement departement = session.createQuery(criteria).getSingleResult();

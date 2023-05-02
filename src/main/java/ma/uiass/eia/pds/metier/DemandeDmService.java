@@ -10,8 +10,11 @@ import java.util.List;
 
 public interface DemandeDmService {
 
-    void ajouterDemandeDm(String typeDm, String nomDm, String nomDepartement, int qte) ;
+    int ajouterDemandeDm(String nomDepartement);
+    void ajouterDetailDemandeDm(String nomDM, int qte, int idDemandeDm);
     void updateEtatDemande(int id, String etatDemande);
-    List<DemandeDm> getAllDemandes();
-    List<DemandeDm> getDemandesByDepartement(String nomDepartement);
+    List<String> getAllDemandes();
+    List<String> getDemandesByDepartement(String nomDepartement);
+
+    void updateEtatDetail(int idDetail, String etatDetail);
 }

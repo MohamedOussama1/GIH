@@ -16,21 +16,30 @@ import java.util.Random;
 public class DMRepositoryImpl implements DMRepository{
     private SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
 
-    public DMRepositoryImpl() {
 
-    }
-
-   /* @Override
-    public void saveDM(String nom, int quantité, TypeDM typeDM) {
+    @Override
+    public DM getDmByName(String nomDm) {
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        DM dm = new DM(nom,quantité,typeDM);
-        session.save(dm);
-        session.getTransaction().commit();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<DM> criteriaQuery = criteriaBuilder.createQuery(DM.class);
+        Root<DM> dmRoot = criteriaQuery.from(DM.class);
+        criteriaQuery.where(criteriaBuilder.like(dmRoot.get("nom"), nomDm));
+        DM dm = session.createQuery(criteriaQuery).getSingleResult();
         session.close();
+        return dm;
     }
 
-    */
+    /* @Override
+        public void saveDM(String nom, int quantité, TypeDM typeDM) {
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
+            DM dm = new DM(nom,quantité,typeDM);
+            session.save(dm);
+            session.getTransaction().commit();
+            session.close();
+        }
+
+        */
    @Override
    public void saveDM(String nom, int quantité, TypeDM typeDM) {
        Session session = sessionFactory.openSession();

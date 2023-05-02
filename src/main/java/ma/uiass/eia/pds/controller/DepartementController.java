@@ -127,9 +127,6 @@ public class DepartementController {
                 .entity(lstEspaces)
                 .build();
     }
-
-    ;
-
     @GET
     @Path("{nomDepartement}/{typeEspace}/lits/{occupied}")
     public Response getAllLitEspaceEtat(

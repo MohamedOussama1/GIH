@@ -6,6 +6,8 @@ import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
 import ma.uiass.eia.pds.model.batiment.Batiment;
 import ma.uiass.eia.pds.model.demande.DemandeAffectation;
 import ma.uiass.eia.pds.model.demande.DemandeDm;
+import ma.uiass.eia.pds.model.demande.DetailDemandeDm;
+import ma.uiass.eia.pds.model.demande.EtatDemande;
 import ma.uiass.eia.pds.model.departement.Departement;
 import ma.uiass.eia.pds.model.dm.DM;
 import ma.uiass.eia.pds.model.dm.DMItem;
@@ -32,6 +34,7 @@ public class GetSessionFactory {
 
             // Create Configuration
             Configuration configuration = new Configuration();
+//            configuration.configure("hibernate.cfg.xml");
             configuration.configure("hibernate.cfg.xml");
             configuration.setProperty("hibernate.connection.autocommit", "true");
             configuration.addAnnotatedClass(Batiment.class);
@@ -50,6 +53,7 @@ public class GetSessionFactory {
             configuration.addAnnotatedClass(Patient.class);
             configuration.addAnnotatedClass(DemandeAffectation.class);
             configuration.addAnnotatedClass(DemandeDm.class);
+            configuration.addAnnotatedClass(DetailDemandeDm.class);
 
             // Create Session Factory
             sessionFactory = configuration.buildSessionFactory();

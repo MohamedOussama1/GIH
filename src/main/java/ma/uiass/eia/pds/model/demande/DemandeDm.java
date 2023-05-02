@@ -2,8 +2,6 @@ package ma.uiass.eia.pds.model.demande;
 
 
 import ma.uiass.eia.pds.model.departement.Departement;
-import ma.uiass.eia.pds.model.dm.TypeDM;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -23,16 +21,6 @@ public class DemandeDm {
 
     @Column(name = "date_fin_demande")
     private LocalDate date_fin;
-    @Column(name = "qte")
-    private int qte;
-
-    @ManyToOne
-    @JoinColumn(name = "type_dm")
-    private TypeDM typeDM;
-
-    @Column(name = "nom_dm")
-    private String nomDm;
-
     @ManyToOne
     @JoinColumn(name = "departement_id")
     private Departement departement;
@@ -40,15 +28,12 @@ public class DemandeDm {
     public DemandeDm() {
     }
 
-    public DemandeDm(int qte, TypeDM typeDM, String nomDm, Departement departement) {
-        this.qte = qte;
-        this.typeDM = typeDM;
-        this.nomDm = nomDm;
-        this.departement = departement;
-        this.etatDemande = EtatDemande.NONTRAITÉE;
+    public DemandeDm(EtatDemande etatDemande, LocalDate date_debut, Departement departement) {
+        this.etatDemande = EtatDemande.INITIALISÉE;
         this.date_debut = LocalDate.now();
-        this.date_fin= LocalDate.now();
+        this.departement = departement;
     }
+
     public int getId() {
         return id;
     }
@@ -81,35 +66,22 @@ public class DemandeDm {
         this.date_fin = date_fin;
     }
 
-    public int getQte() {
-        return qte;
-    }
-
-    public void setQte(int qte) {
-        this.qte = qte;
-    }
-
-    public TypeDM getTypeDM() {
-        return typeDM;
-    }
-
-    public void setTypeDM(TypeDM typeDM) {
-        this.typeDM = typeDM;
-    }
-
-    public String getNomDm() {
-        return nomDm;
-    }
-
-    public void setNomDm(String nomDm) {
-        this.nomDm = nomDm;
-    }
-
     public Departement getDepartement() {
         return departement;
     }
 
     public void setDepartement(Departement departement) {
         this.departement = departement;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id:" + id +
+                ", etatDemande:" + etatDemande +
+                ", dateDebut:" + date_debut +
+                ", dateFin:" + date_fin +
+                ", nomDepartement:" + departement.getNomDepartement() +
+                '}';
     }
 }

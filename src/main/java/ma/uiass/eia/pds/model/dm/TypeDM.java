@@ -1,5 +1,7 @@
 package ma.uiass.eia.pds.model.dm;
 
+import org.json.JSONPropertyIgnore;
+
 import javax.persistence.*;
 
 @Entity(name="t_typedm")
@@ -26,7 +28,7 @@ public class TypeDM {
     public void setId(int id) {
         this.id = id;
     }
-
+    @JSONPropertyIgnore
     public int getId() {
         return id;
     }

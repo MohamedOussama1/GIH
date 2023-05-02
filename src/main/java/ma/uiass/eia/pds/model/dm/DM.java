@@ -51,6 +51,11 @@ public class DM {
         this.nom = nom;
     }
 
+    public TypeDM getTypeDM() {
+        return typeDM;
+    }
 
-
+    public void setTypeDM(TypeDM typeDM) {
+        this.typeDM = typeDM;
+    }
 }

@@ -127,13 +127,13 @@ public class ReservationRepositoryImpl implements ReservationRepository{
         Root<Reservation> root = criteria.from(Reservation.class);
 
         Predicate predicate1 = builder.equal(root.get("lit"), idLit);
-        Predicate predicate2 = builder.isNull(root.get("dateFinPredicted"));
+        Predicate predicate2 = builder.isNull(root.get("dateFinFinal"));
 
         criteria.select(root)
                 .where(builder.and(predicate1, predicate2));
 
         Reservation currentReservation = session.createQuery(criteria).getSingleResult();
-        currentReservation.setDateFin(LocalDateTime.now());
+        currentReservation.setDateFinFinal(LocalDateTime.now());
         session.save(currentReservation);
 
         session.getTransaction().commit();
