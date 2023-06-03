@@ -11,10 +11,7 @@ import org.hibernate.SessionFactory;
 import org.json.JSONObject;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SalleRepositoryImpl implements SalleRepository{
     private SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
@@ -117,6 +114,33 @@ public class SalleRepositoryImpl implements SalleRepository{
         session.close();
 
         return litsSalleJson;
+    }
+
+    @Override
+    public List<Salle> getAll_Salle(String nomDepartement) {
+
+        Session session = sessionFactory.openSession();
+
+        // Criteria Builder to build our queries
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+
+        // Create a query, <LitItem> and LitItem.class indicates that the query is of return type LitItem
+        CriteriaQuery<Salle> criteria = builder.createQuery(Salle.class);
+
+        // This line is equivalent to writing "FROM t_lit" in the query, root contains columns of table t_lit
+        Root<Salle> root = criteria.from(Salle.class);
+
+        Join<Salle,Departement> espaceDep=root.join("departement");
+
+        // Predicate predicate1=builder.equal(root.type(),Chambre.class);
+
+        Predicate predicate2=builder.like(espaceDep.get("nomDepartement"), nomDepartement);
+        criteria.select(root).where(builder.and(predicate2));
+
+        List<Salle> lstespace=session.createQuery(criteria).getResultList();
+
+
+        return lstespace;
     }
 
     @Override

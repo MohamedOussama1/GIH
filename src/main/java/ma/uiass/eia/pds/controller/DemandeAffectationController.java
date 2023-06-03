@@ -15,6 +15,8 @@ import org.json.JSONObject;
 import java.util.List;
 
 @Path("/demandeaffectation")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class DemandeAffectationController {
     DemandeAffectationService DAS = new DemandeAffectationServiceImpl();
 

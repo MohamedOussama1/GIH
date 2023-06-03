@@ -1,6 +1,14 @@
 package ma.uiass.eia.pds;
 
-import jakarta.ws.rs.ext.MessageBodyWriter;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import ma.uiass.eia.pds.model.Ambulance.Ambulance;
+import ma.uiass.eia.pds.model.Ambulance.AmbulanceType;
+import ma.uiass.eia.pds.model.Ambulance.Revision;
+import ma.uiass.eia.pds.model.Ambulance.TypeRevision;
 import ma.uiass.eia.pds.model.Lit.Dimensions;
 import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.Lit.LitItem;
@@ -21,20 +29,22 @@ import ma.uiass.eia.pds.model.etage.Etage;
 import ma.uiass.eia.pds.model.patient.Patient;
 import ma.uiass.eia.pds.model.reservation.Reservation;
 import ma.uiass.eia.pds.persistance.GetSessionFactory;
+import net.bytebuddy.asm.Advice;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.hibernate.Session;
 
 import java.io.IOException;
 import java.net.URI;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Main {
@@ -48,7 +58,7 @@ public class Main {
     public static HttpServer startServer() {
         // create a resource config that scans for JAX-RS resources and providers
         // in ma.uiass.eia.pds package
-        ResourceConfig rc = new ResourceConfig().packages("ma.uiass.eia.pds.controller", "com.fasterxml.jackson.jaxrs.json.provider").register(JacksonFeature.class);
+        ResourceConfig rc = new ResourceConfig().packages("ma.uiass.eia.pds.controller", "com.fasterxml.jackson.jaxrs.json.provider", "org.glassfish.jersey.examples.multipart").register(JacksonFeature.class).register(MultiPartFeature.class);
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
@@ -267,8 +277,8 @@ public class Main {
         session.save(litItem35);
         session.save(patient);
         session.save(reservation);
-        TypeDM typeDm = new TypeDM("fournitures");
-        DM dm = new DM("ciseaux", 20, typeDm);
+        TypeDM typeDm = new TypeDM("fournitures", "Consumable");
+        DM dm = new DM("ciseaux", 20, typeDm, null);
         DMItem ciseaux1 = new DMItem("ciseaux 1", dm);
         DMItem ciseaux2 = new DMItem("ciseaux 2", dm);
         DMItem ciseaux3 = new DMItem("ciseaux 3", dm);
@@ -281,6 +291,19 @@ public class Main {
         session.save(ciseaux3);
         session.save(ciseaux4);
         session.save(ciseaux5);
+//        EtatAmbulance etatAmbulance = new F();
+//        Ambulance ambulance = new Ambulance("ALIF15", etatAmbulance);
+//        session.save(etatAmbulance);
+//        session.save(ambulance);
+        Ambulance ambulance = new Ambulance("ALIF", LocalDate.now(), 1200, AmbulanceType.SECOURS_URGENCE, "Ford");
+        Revision revision =  new Revision(LocalDate.now(), ambulance, TypeRevision.S, "F");
+        revision.setEndDate(LocalDate.of(2023, 6, 2));
+        ambulance.setEtatAmbulance("F");
+        session.save(ambulance);
+        session.save(revision);
+
+
+
         session.getTransaction().commit();
         session.close();
 

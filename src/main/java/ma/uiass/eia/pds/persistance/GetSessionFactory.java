@@ -1,5 +1,6 @@
 package ma.uiass.eia.pds.persistance;
 
+import ma.uiass.eia.pds.model.Ambulance.*;
 import ma.uiass.eia.pds.model.Lit.Lit;
 import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.Lit.enums.FonctionLit;
@@ -16,6 +17,9 @@ import ma.uiass.eia.pds.model.espace.Espace;
 import ma.uiass.eia.pds.model.espace.chambre.Chambre;
 import ma.uiass.eia.pds.model.espace.salle.Salle;
 import ma.uiass.eia.pds.model.etage.Etage;
+import ma.uiass.eia.pds.model.fournisseur.Fournisseur;
+import ma.uiass.eia.pds.model.livraison.DetailLivraison;
+import ma.uiass.eia.pds.model.livraison.LivraisonDM;
 import ma.uiass.eia.pds.model.patient.Patient;
 import ma.uiass.eia.pds.model.reservation.Reservation;
 import org.hibernate.SessionFactory;
@@ -54,6 +58,15 @@ public class GetSessionFactory {
             configuration.addAnnotatedClass(DemandeAffectation.class);
             configuration.addAnnotatedClass(DemandeDm.class);
             configuration.addAnnotatedClass(DetailDemandeDm.class);
+            configuration.addAnnotatedClass(Fournisseur.class);
+            configuration.addAnnotatedClass(DetailLivraison.class);
+            configuration.addAnnotatedClass(LivraisonDM.class);
+            configuration.addAnnotatedClass(EtatAmbulance.class);
+            configuration.addAnnotatedClass(Ambulance.class);
+            configuration.addAnnotatedClass(Revision.class);
+            configuration.addAnnotatedClass(F.class);
+            configuration.addAnnotatedClass(NFCD.class);
+            configuration.addAnnotatedClass(NFLD.class);
 
             // Create Session Factory
             sessionFactory = configuration.buildSessionFactory();

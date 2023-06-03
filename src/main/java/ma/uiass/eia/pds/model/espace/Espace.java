@@ -2,6 +2,7 @@ package ma.uiass.eia.pds.model.espace;
 
 import ma.uiass.eia.pds.model.Lit.LitItem;
 import ma.uiass.eia.pds.model.departement.Departement;
+import org.json.JSONObject;
 import org.json.JSONPropertyIgnore;
 
 import javax.persistence.*;
@@ -87,6 +88,15 @@ public abstract class Espace {
         this.departement = departement;
     }
 
+    public JSONObject toJsonn(){
+        JSONObject jo=new JSONObject();
+        jo.put("idEspace",id);
+        jo.put("nomEspace",nomEspace);
+        jo.put("numero",numero);
+        jo.put("superficie",superficie);
+        jo.put("type",getClass().getSimpleName());
+        return jo;
+    }
     @Override
     public String toString() {
         return "{" +

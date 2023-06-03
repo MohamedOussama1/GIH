@@ -190,7 +190,6 @@ public class LitController {
     @RolesAllowed({"admin","normal"})
     public Response OccuperLit(
             @QueryParam(value = "id") int lit_id
-
     ){
 
         litService.reserverLit(lit_id);

@@ -85,7 +85,7 @@ public class DemandeDmRepositoryImpl implements DemandeDmRepository{
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
-        DM dm = dmRepository.getDmByName(nomDm);
+        DM dm = dmRepository.getDMByName(nomDm);
         DemandeDm demandeDm = session.find(DemandeDm.class, idDemande);
         DetailDemandeDm detailDemandeDm = new DetailDemandeDm(dm, qte, demandeDm);
         session.save(detailDemandeDm);
