@@ -11,8 +11,8 @@ public class RevisionServiceImpl implements RevisionService{
     RevisionRepository revisionRepository = new RevisionRepositoryImpl();
 
     @Override
-    public void createRevision(String immatriculation, LocalDate dateDebut, String typeRevision) {
-        revisionRepository.createRevision(immatriculation, dateDebut, typeRevision);
+    public int createRevision(String immatriculation, LocalDate dateDebut, String typeRevision) {
+        return revisionRepository.createRevision(immatriculation, dateDebut, typeRevision);
     }
 
     @Override

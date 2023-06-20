@@ -25,9 +25,10 @@ public class RevisionController {
             @QueryParam(value = "immatriculation") String immatriculation,
             @QueryParam(value = "dateDebut") String dateDebut,
             @QueryParam(value = "typeRevision") String typeRevision) {
-        revisionService.createRevision(immatriculation, LocalDate.parse(dateDebut), typeRevision);
+        int id = revisionService.createRevision(immatriculation, LocalDate.parse(dateDebut), typeRevision);
         return Response
                 .ok()
+                .entity(id)
                 .build();
     }
     @GET
@@ -96,10 +97,10 @@ public class RevisionController {
                 .build();
     }
     @PUT
-    @Path("update/etat/{etat}")
+    @Path("update")
     public Response update_etat_ambu(
             @QueryParam("id_ambulance") int id_dmItem,
-            @PathParam("etat") String etat_ambulance
+            @QueryParam("etat_ambulance") String etat_ambulance
     ) {
 
         AmbulanceRepositoryImpl dd=new AmbulanceRepositoryImpl();

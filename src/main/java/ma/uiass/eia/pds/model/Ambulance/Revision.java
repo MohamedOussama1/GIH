@@ -2,6 +2,7 @@ package ma.uiass.eia.pds.model.Ambulance;
 
 
 import ma.uiass.eia.pds.controller.LocalDateAdapter;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
@@ -140,4 +141,25 @@ public class Revision {
     public void setTypeRevision(TypeRevision typeRevision) {
         this.typeRevision = typeRevision;
     }
+
+    @Override
+    public String toString() {
+        return "Revision{" +
+                "id=" + id +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", description='" + description + '\'' +
+                ", ambulance=" + ambulance +
+                ", etatAmbulance_0='" + etatAmbulance_0 + '\'' +
+                ", etatAmbulance_1='" + etatAmbulance_1 + '\'' +
+                ", typeRevision=" + typeRevision +
+                '}';
+    }
 }
+
+
+
+
+
+
+

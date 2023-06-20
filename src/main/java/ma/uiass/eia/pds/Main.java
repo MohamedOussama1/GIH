@@ -296,14 +296,40 @@ public class Main {
 //        session.save(etatAmbulance);
 //        session.save(ambulance);
         Ambulance ambulance = new Ambulance("ALIF1291", LocalDate.now(), 1200, AmbulanceType.SECOURS_URGENCE, "Ford");
-//        Revision revision =  new Revision(LocalDate.now(), ambulance, TypeRevision.S, "F");
-//        revision.setEndDate(LocalDate.of(2023, 6, 2));
-        ambulance.setEtatAmbulance("F");
+        Ambulance ambulance1 = new Ambulance("BA21291", LocalDate.now(), 1200, AmbulanceType.SOINS_DE_BASE, "Ford");
+        Ambulance ambulance2 = new Ambulance("JIM1291", LocalDate.now(), 1200, AmbulanceType.SOINS_INTENSIFS, "Ford");
+        Revision revision =  new Revision(LocalDate.of(2022,10,22), ambulance, TypeRevision.S, "F");
+        revision.setEndDate(LocalDate.of(2022, 10, 30));
+        Revision revision1 =  new Revision(LocalDate.of(2022,12,1), ambulance, TypeRevision.CD, "NFCD");
+        Revision revision2 =  new Revision(LocalDate.of(2023,1,11), ambulance, TypeRevision.LD, "NFLD");
+        revision1.setEndDate(LocalDate.of(2023, 1, 2));
+        revision2.setEndDate(LocalDate.of(2023, 3, 20));
+        Revision revision3 =  new Revision(LocalDate.of(2022,10,22), ambulance1, TypeRevision.S, "F");
+        revision3.setEndDate(LocalDate.of(2022, 10, 27));
+        Revision revision4 =  new Revision(LocalDate.of(2022,12,1), ambulance1, TypeRevision.CD, "NFCD");
+        Revision revision5 =  new Revision(LocalDate.of(2023,1,11), ambulance1, TypeRevision.LD, "NFLD");
+        revision4.setEndDate(LocalDate.of(2023, 1, 2));
+        revision5.setEndDate(LocalDate.of(2023, 3, 20));
+        Revision revision6 =  new Revision(LocalDate.of(2022,10,22), ambulance2, TypeRevision.S, "F");
+        revision6.setEndDate(LocalDate.of(2022, 10, 27));
+        Revision revision7 =  new Revision(LocalDate.of(2022,12,1), ambulance2, TypeRevision.CD, "NFCD");
+        Revision revision8 =  new Revision(LocalDate.of(2023,1,11), ambulance2, TypeRevision.LD, "NFLD");
+        revision7.setEndDate(LocalDate.of(2023, 1, 2));
+        revision8.setEndDate(LocalDate.of(2023, 3, 20));
+        ambulance.setEtatAmbulance("NFCD");
+        ambulance1.setEtatAmbulance("NFLD");
         session.save(ambulance);
-//        session.save(revision);
-
-
-
+        session.save(ambulance2);
+        session.save(ambulance1);
+        session.save(revision);
+        session.save(revision1);
+        session.save(revision2);
+        session.save(revision3);
+        session.save(revision4);
+        session.save(revision5);
+        session.save(revision6);
+        session.save(revision7);
+        session.save(revision8);
         session.getTransaction().commit();
         session.close();
 

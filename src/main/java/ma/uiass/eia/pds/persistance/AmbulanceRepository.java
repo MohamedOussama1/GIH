@@ -16,6 +16,7 @@ public interface AmbulanceRepository {
      List<Ambulance> getAllAmbulances();
      void deleteAmbulance(int id);
 
+
 //     EtatAmbulance createEtatAmbulance(String nom);
 
 //     String getEtatAmbulanceById(int id);

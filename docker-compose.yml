@@ -6,8 +6,6 @@ services:
                   build : .
                   ports:
                     - "8081:8081"
-                  depends_on:
-                    - db
 #                environment:
 #                  MYSQL_HOST: mysql
 #                  MYSQL_USER: root
@@ -16,32 +14,70 @@ services:
 
                 db:
                   image: mysql:5.7
-                  container_name: db
                   restart: always
-                  command: "--default-time-zone=+00:00  --max-allowed-packet=1073741824
-                  --symbolic-links=0
-                  --explicit_defaults_for_timestamp=1
---character-set-server=utf8
---collation-server=utf8_bin
-
---max_allowed_packet=2048M
---innodb_log_buffer_size=32M
---innodb_log_file_size=2GB
-
---query-cache-size=8M
---query-cache-type=1
---query_cache_limit=8M
-
---join-buffer-size=8M
---table-definition-cache=1024
-
---open-files-limit=4096
-
-
---connect_timeout=120000
---net_read_timeout=120000
---net_write_timeout=120000"
-
+                  command: "--default-time-zone=+00:00"
+#                  --max-allowed-packet=1073741824
+#                  --symbolic-links=0
+#                  --explicit_defaults_for_timestamp=1
+#--character-set-server=utf8
+#--collation-server=utf8_bin
+#--max_connections=151
+#--long_query_time=10
+#--max_allowed_packet=2048M
+#
+#--tmp_table_size=10M
+#--thread_cache_size=10
+#--myisam_max_sort_file_size=100G
+#--myisam_sort_buffer_size=12M
+#--key_buffer_size=8M
+#--read_buffer_size=24K
+#--read_rnd_buffer_size=256K
+#--innodb_flush_log_at_trx_commit=1
+#--innodb_log_buffer_size=16M
+#--innodb_buffer_pool_size=128M
+#--innodb_log_file_size=48M
+#--innodb_thread_concurrency=17
+#--innodb_autoextend_increment=64
+#
+#--innodb_concurrency_tickets=5000
+#
+#--innodb_old_blocks_time=1000
+#
+#--innodb_stats_on_metadata=0
+#
+#--innodb_file_per_table=1
+#
+#--innodb_checksum_algorithm=0
+#--back_log=80
+#--flush_time=0
+#--join_buffer_size=256K
+#--max_allowed_packet=64M
+#--max_connect_errors=100
+#--open_files_limit=8161
+#
+#--sort_buffer_size=256K
+#
+#--table_definition_cache=2000
+#
+#--binlog_row_event_max_size=8K
+#
+#--innodb_log_buffer_size=32M
+#--innodb_log_file_size=2GB
+#
+#--query-cache-size=8M
+#--query-cache-type=1
+#--query_cache_limit=8M
+#
+#--join-buffer-size=8M
+#--table-definition-cache=1024
+#
+#--open-files-limit=4096
+#
+#
+#--connect_timeout=120000
+#--net_read_timeout=120000
+#--net_write_timeout=120000"
+#
                   environment:
                     MYSQL_DATABASE: 'gih'
                     MYSQL_USER: 'root'
@@ -50,9 +86,9 @@ services:
                   ports:
                     # <Port exposed> : <MySQL Port running inside container>
                     - '3306:3306'
-#                  expose:
+                  expose:
 #                    # Opens port 3306 on the container
-#                    - '3306'
+                    - '3306'
 #                    # Where our data will be persisted
                   volumes:
                     - my-db:/var/lib/mysql

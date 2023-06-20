@@ -1,9 +1,6 @@
 package ma.uiass.eia.pds.model.Ambulance;
 
-import ma.uiass.eia.pds.controller.LocalDateAdapter;
-
 import javax.persistence.*;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 
 @Entity(name = "t_ambulance")
@@ -16,19 +13,17 @@ public class Ambulance {
     private String immatriculation;
 
     @Column(name="date_mise_service")
-    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate date_mise_service;
 
     @Column(name = "etat_ambulance")
     private String etatAmbulance = "F";
 
     @Column(name = "estimated_date_revision")
-    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate estimatedRevisionDate;
     @Column(name = "model")
     private String model;
     @Column(name="kilometrage")
-    private int km;
+    private Integer  km;
     @Enumerated(EnumType.STRING)
     @Column(name = "type_ambulance")
     private AmbulanceType ambulanceType;
@@ -36,7 +31,7 @@ public class Ambulance {
     @JoinColumn(name = "id_revision")
     private Revision revision;
 
-    public Ambulance(String immatriculation, LocalDate date_mise_service, int km,AmbulanceType ambulanceType, String model ) {
+    public Ambulance(String immatriculation, LocalDate date_mise_service, Integer km,AmbulanceType ambulanceType, String model ) {
         this.model=model;
         this.immatriculation = immatriculation;
         this.ambulanceType=ambulanceType;
@@ -144,11 +139,12 @@ public class Ambulance {
         this.model = model;
     }
 
-    public int getKm() {
+
+    public Integer getKm() {
         return km;
     }
 
-    public void setKm(int km) {
+    public void setKm(Integer km) {
         this.km = km;
     }
 
@@ -158,6 +154,20 @@ public class Ambulance {
 
     public void setAmbulanceType(AmbulanceType ambulanceType) {
         this.ambulanceType = ambulanceType;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Ambulance{" +
+                "id=" + id +
+                ", immatriculation='" + immatriculation + '\'' +
+
+                ", etatAmbulance='" + etatAmbulance + '\'' +
+
+                ", km=" + km +
+
+                '}';
     }
 }
 

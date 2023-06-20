@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface RevisionRepository {
     void updateAmbulanceRevision(String immatriculation);
-    void createRevision(String immatriculation, LocalDate dateDebut, String description);
+    int createRevision(String immatriculation, LocalDate dateDebut, String description);
     List<String> getRevisionsByAmbulance(String immatriculation);
     void deleteRevision(int idRevision);
     List<String> getTypesRevision();

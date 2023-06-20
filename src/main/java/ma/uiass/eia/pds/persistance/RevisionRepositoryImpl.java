@@ -41,14 +41,16 @@ public class RevisionRepositoryImpl implements RevisionRepository{
     }
 
     @Override
-    public void createRevision(String immatriculation, LocalDate dateDebut, String typeRevision) {
+    public int createRevision(String immatriculation, LocalDate dateDebut, String typeRevision) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         Ambulance ambulance = ambulanceRepository.getAmbulanceByImmatriculation(immatriculation);
         Revision revision = new Revision(dateDebut, ambulance, TypeRevision.valueOf(typeRevision), ambulance.getEtatAmbulance());
         session.save(revision);
+        int id = revision.getId();
         session.getTransaction().commit();
         session.close();
+        return id;
     }
 
     @Override

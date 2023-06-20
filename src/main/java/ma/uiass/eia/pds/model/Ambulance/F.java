@@ -81,9 +81,11 @@ public class F extends EtatAmbulance{
         RealVector bVector = MatrixUtils.createRealVector(b);
         RealVector X = MatrixUtils.inverse(AMatrix).operate(bVector);
 
-        System.out.println("m01: " + X.getEntry(0));
-        System.out.println("m02: " + X.getEntry(1));
-        System.out.println("m12: " + X.getEntry(2));
+//        System.out.println("m01: " + X.getEntry(0));
+//        System.out.println("m02: " + X.getEntry(1));
+//        System.out.println("m12: " + X.getEntry(2));
+
+        System.out.println("FFFFFFOnctionnel");
 
         return 0;
     }

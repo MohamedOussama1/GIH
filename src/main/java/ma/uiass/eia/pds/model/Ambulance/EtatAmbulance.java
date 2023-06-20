@@ -4,11 +4,8 @@ package ma.uiass.eia.pds.model.Ambulance;
 import ma.uiass.eia.pds.persistance.RevisionRepository;
 import ma.uiass.eia.pds.persistance.RevisionRepositoryImpl;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.temporal.ChronoUnit;
 
 
 public abstract class EtatAmbulance {
@@ -19,16 +16,19 @@ public abstract class EtatAmbulance {
     double x,y;
 
 
-    public void setAmbulance(Ambulance ambulance){
-        this.ambulance=ambulance;
-    }
+
     public EtatAmbulance(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
+
     public EtatAmbulance() {
 
+    }
+
+    public void setAmbulance(Ambulance ambulance){
+        this.ambulance=ambulance;
     }
 
     public abstract void upDate_A_B();
@@ -36,24 +36,17 @@ public abstract class EtatAmbulance {
     public LocalDate last_Revision(){
         RevisionRepository dd=new RevisionRepositoryImpl();
 
-        return dd.get_last_revision_by_ambulance(this.ambulance).getEndDate();
+        return dd.get_last_revision_by_ambulance(this.ambulance).getStartDate();
 
     }
 
     public void calcul_X(){
 
-        Duration duration = Duration.between(LocalDate.now(), this.last_Revision());
+        double duration = ChronoUnit.DAYS.between(LocalDate.now(), this.last_Revision());
 
-        double days = duration.toDays();
-        double hours = duration.toHours() % 24;
-        this.x=hours;
-        double minutes = duration.toMinutes() % 60;
 
-        List<Double> timeDifference = new ArrayList<>();
-        timeDifference.add(days);
-        this.x=timeDifference.get(1);
-        timeDifference.add(hours);
-        timeDifference.add(minutes);
+        this.x=duration;
+
     }
 
 

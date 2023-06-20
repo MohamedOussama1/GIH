@@ -17,14 +17,29 @@ public class AmbulanceRepositoryImpl implements AmbulanceRepository{
     public AmbulanceRepositoryImpl() {
     }
 
+//    @Override
+//    public void update_ambulance_etat(int id_ambulance, String etat) {
+//
+//        SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
+//
+//        Session session = sessionFactory.openSession();
+//        session.beginTransaction();
+//        Ambulance ambu=session.find(Ambulance.class, id_ambulance);
+//        ambu.setEtatAmbulance(etat);
+//        session.update(ambu);
+//        session.getTransaction().commit();
+//        session.close();
+//
+//    }
+
     @Override
     public void update_ambulance_etat(int id_ambulance, String etat) {
+        Ambulance ambu=this.getAmbulanceById(id_ambulance);
 
         SessionFactory sessionFactory = GetSessionFactory.getSessionFactory();
 
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Ambulance ambu=session.find(Ambulance.class, id_ambulance);
         ambu.setEtatAmbulance(etat);
         session.update(ambu);
         session.getTransaction().commit();
