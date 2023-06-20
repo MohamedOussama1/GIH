@@ -295,12 +295,12 @@ public class Main {
 //        Ambulance ambulance = new Ambulance("ALIF15", etatAmbulance);
 //        session.save(etatAmbulance);
 //        session.save(ambulance);
-        Ambulance ambulance = new Ambulance("ALIF", LocalDate.now(), 1200, AmbulanceType.SECOURS_URGENCE, "Ford");
-        Revision revision =  new Revision(LocalDate.now(), ambulance, TypeRevision.S, "F");
-        revision.setEndDate(LocalDate.of(2023, 6, 2));
+        Ambulance ambulance = new Ambulance("ALIF1291", LocalDate.now(), 1200, AmbulanceType.SECOURS_URGENCE, "Ford");
+//        Revision revision =  new Revision(LocalDate.now(), ambulance, TypeRevision.S, "F");
+//        revision.setEndDate(LocalDate.of(2023, 6, 2));
         ambulance.setEtatAmbulance("F");
         session.save(ambulance);
-        session.save(revision);
+//        session.save(revision);
 
 
 

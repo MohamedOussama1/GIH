@@ -64,7 +64,9 @@ public class RevisionRepositoryImpl implements RevisionRepository{
         List<String> revisionsJson = new ArrayList<>();
         revisions.forEach(revision -> {
             JSONObject jsonRevision = new JSONObject(revision);
-            jsonRevision.put("nomEtat", revision.getEtatAmbulance_0());
+            jsonRevision.put("ancienEtat", revision.getEtatAmbulance_0());
+            jsonRevision.put("nouvelEtat", revision.getEtatAmbulance_1());
+            jsonRevision.put("description", revision.getDescription());
             revisionsJson.add(jsonRevision.toString());
         });
         System.out.println(immatriculation);

@@ -6,6 +6,7 @@
     <session-factory>
 
         <!-- Set URL -->
+<!--        <property name = "hibernate.connection.url">jdbc:mysql://172.18.0.2:3306/gih?createDatabaseIfNotExist=true</property>-->
         <property name = "hibernate.connection.url">jdbc:mysql://localhost:3306/gih?createDatabaseIfNotExist=true</property>
 
         <!-- Set Username -->
@@ -18,11 +19,11 @@
         <property name = "hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
 
 <!--        Connection pool size -->
-        <property name = "hibernate.connection.pool_size">100</property>
+        <property name = "hibernate.connection.pool_size">400</property>
 
         <property name = "hibernate.show_sql">true</property>
 
         <property name="hibernate.hbm2ddl.auto">update</property>
-
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL57Dialect</property>
     </session-factory>
 </hibernate-configuration>
